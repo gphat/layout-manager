@@ -1,4 +1,6 @@
-use Test::More tests => 7;
+use lib 'lib';
+
+use Test::More tests => 11;
 
 use Geometry::Primitive::Point;
 use LM::Test::Component;
@@ -18,7 +20,7 @@ my $foo2 = new LM::Test::Component(
 );
 
 my $cont = new LM::Test::Component(
-    width => 100, height => 40
+    width => 100, height => 20
 );
 
 $lm->add_component($foo, 'EaSt');
@@ -36,5 +38,5 @@ cmp_ok($foo->origin->y, '==', 0, 'left component origin y');
 
 cmp_ok($foo2->height, '==', 20, 'right component height');
 cmp_ok($foo2->width, '==', 50, 'right component width');
-cmp_ok($foo2->origin->x, '==', 50, 'right component origin x');
+cmp_ok($foo2->origin->x, '==', 0, 'right component origin x');
 cmp_ok($foo2->origin->y, '==', 0, 'right component origin y');

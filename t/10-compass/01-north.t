@@ -1,3 +1,5 @@
+use lib 'lib';
+
 use Test::More tests => 11;
 
 use Geometry::Primitive::Point;

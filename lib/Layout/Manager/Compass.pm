@@ -29,25 +29,25 @@ sub do_layout {
         my $comp = $c->{component};
         my $args = $c->{args};
 
-        if(lc($args) =~ /c/) {
+        if(lc($args) =~ /^c/) {
 
             push(@{ $edges{center}->{components} }, $comp);
-        } elsif(lc($args) =~ /n/) {
+        } elsif(lc($args) =~ /^n/) {
 
             push(@{ $edges{north}->{components} }, $comp);
             $edges{north}->{height} += $comp->minimum_height;
             $edges{north}->{width} += $comp->minimum_width;
-        } elsif(lc($args) =~ /s/) {
+        } elsif(lc($args) =~ /^s/) {
 
             push(@{ $edges{south}->{components} }, $comp);
             $edges{south}->{height} += $comp->minimum_height;
             $edges{south}->{width} += $comp->minimum_width;
-        } elsif(lc($args) =~ /e/) {
+        } elsif(lc($args) =~ /^e/) {
 
             push(@{ $edges{east}->{components} }, $comp);
             $edges{east}->{height} += $comp->minimum_height;
             $edges{east}->{width} += $comp->minimum_width;
-        } elsif(lc($args) =~ /w/) {
+        } elsif(lc($args) =~ /^w/) {
 
             push(@{ $edges{west}->{components} }, $comp);
             $edges{west}->{height} += $comp->minimum_height;
@@ -59,23 +59,23 @@ sub do_layout {
         $count++;
     }
 
-    my $xaccum  = 0;
+    my $xaccum  = $container->width;
     foreach my $comp (@{ $edges{east}->{components} }) {
 
-        $comp->height($container->height - $edges{north}->{height} - $edges{south}->{height});
-        $comp->width($comp->minimum_width);
-        $comp->origin->x($xaccum);
-        $comp->origin->y($edges{north}->{height});
-        $xaccum += $comp->width;
-    }
-
-    $xaccum = $container->width;
-    foreach my $comp (@{ $edges{west}->{components} }) {
         $comp->height($container->height - $edges{north}->{height} - $edges{south}->{height});
         $comp->width($comp->minimum_width);
         $comp->origin->x($xaccum - $comp->width);
         $comp->origin->y($edges{north}->{height});
         $xaccum -= $comp->width;
+    }
+
+    $xaccum = 0;
+    foreach my $comp (@{ $edges{west}->{components} }) {
+        $comp->height($container->height - $edges{north}->{height} - $edges{south}->{height});
+        $comp->width($comp->minimum_width);
+        $comp->origin->x($xaccum);
+        $comp->origin->y($edges{north}->{height});
+        $xaccum += $comp->width;
     }
 
     my $yaccum = 0;

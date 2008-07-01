@@ -1,3 +1,5 @@
+use lib 'lib';
+
 use Test::More tests => 11;
 
 use Geometry::Primitive::Point;
@@ -33,7 +35,6 @@ cmp_ok($foo2->height, '==', 20, 'top component height');
 cmp_ok($foo2->width, '==', 100, 'top component width');
 cmp_ok($foo2->origin->x, '==', 0, 'top component origin x');
 cmp_ok($foo2->origin->y, '==', 0, 'top component origin y');
-
 
 cmp_ok($foo->height, '==', 20, 'bottom component height');
 cmp_ok($foo->width, '==', 100, 'bottom component width');
