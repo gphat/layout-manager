@@ -105,7 +105,7 @@ Layout::Manager::Compass
 
 =head1 DESCRIPTION
 
-Layout::Manager::Border is a layout manager that takes hints based on the
+Layout::Manager::Compass is a layout manager that takes hints based on the
 four cardinal directions (north, east, south and west) plus a center area that
 takes up all possible space.
 
@@ -118,7 +118,19 @@ second.
 
 =head1 SYNOPSIS
 
-  Layout::Manager::Compass;
+  my $lm = Layout::Manager::Compass->new();
+  
+  $lm->add_component($comp1, 'north');
+  $lm->add_component($comp2, 'east');
+
+  $lm->do_layout($container);
+
+
+=head1 POSITIONING
+
+When you add a component with I<add_component> the second argument should be
+one of: north, south, east, west or center.  Case doesn't matter.  You can
+also just provide the first letter of the word and it will do the same thing.
 
 =head1 METHODS
 
