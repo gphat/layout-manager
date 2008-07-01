@@ -5,7 +5,7 @@ our $VERSION = '0.01';
 
 use MooseX::AttributeHelpers;
 
-requires 'layout';
+requires 'do_layout';
 
 has 'components' => (
     metaclass => 'Collection::Array',
@@ -15,6 +15,7 @@ has 'components' => (
     provides => {
         'clear'=> 'clear_components',
         'count'=> 'component_count',
+        'get' => 'get_component'
     }
 );
 
@@ -84,6 +85,27 @@ to serve as a base for outside implementations.
     my $foo = Layout::Manager->new();
     ...
 
+=head1 USING A LAYOUT MANAGER
+
+Various implementations of Layout::Manager will require you do add components
+with slightly different second arguments, but the general case will be:
+
+  $lm->add_component($comp, $constraints);
+
+The contents of B<$constraints> must be discerned by reading the documentation
+for the layout manager you are using.
+
+The B<$comp> argument must be a class that implements the
+L<Layout::Manager::Component> role.  For more information on Roles please read
+the L<Moose::Role> documentation on the CPAN.
+
+When you are ready to lay out your container, you'll need to call the
+L<do_layout> method with a single argument: the component in which you are
+laying things out.  This object is also expected to implement aforementioned
+L<Layout::Manager::Component> role.  When I<do_layout> returns all of the
+components should be resized and repositioned according to the rules of the
+Layout::Manager implementation.
+
 =head1 WRITING A LAYOUT MANAGER
 
 Layout::Manager provides all the methods necessary for your implementation,
@@ -124,6 +146,10 @@ Remove all components from the layout manager.
 =item count_components
 
 Returns the number of components in this layout manager.
+
+=item get_component
+
+Get the component at the specified index.
 
 =item remove_component
 

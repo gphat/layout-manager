@@ -9,7 +9,9 @@ build_requires 'Test::More';
 test_requires 'Pod::Coverage::Moose';
 
 requires 'Moose';
-requires 'MooseX::AttributeHelpers';
+requires 'MooseX::AttributeHelpers' => '0.12';
+requires 'Geoemetry::Primitive';
+
 
 auto_install;
 

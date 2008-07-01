@@ -1,0 +1,101 @@
+package Layout::Manager::Component;
+use Moose::Role;
+
+has 'height' => ( is => 'rw', isa => 'Num', required => 1 );
+has 'name' => ( is => 'rw', isa => 'Str' );
+has 'origin' => (
+    is => 'rw',
+    isa => 'Geometry::Primitive::Point',
+    default =>  sub { Geometry::Primitive::Point->new( x => 0, y => 0 ) },
+);
+has 'width' => ( is => 'rw', isa => 'Num', required => 1 );
+
+has 'preferred_height' => ( is => 'rw', isa => 'Num', default => sub { 0 });
+has 'preferred_width' => ( is => 'rw', isa => 'Num', default => sub { 0 });
+has 'minimum_height' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
+has 'minimum_width' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
+
+1;
+__END__
+=head1 NAME
+
+Layout::Manager::Component - Component Role
+
+=head1 SYNOPSIS
+
+Layout::Manager resizes and repositions components.  This role provides the
+blueprint for your objects to be moveable by Layout::Manager.  Simply add this
+role to your class and implement the required methods.
+
+    package My::Widget;
+    use Moose;
+    
+    with 'Layout::Manager::Component';
+
+    has 'width' ...
+    has 'height' ...
+    has 'origin' ...
+
+This role does not provide an implementation of these methods.  This might be
+surprising because it _could_.  I originally intended to implement the
+attributes here and use the role in L<Geoemtry::Primitive> or
+L<Graphics::Primitive> but it would've created a circular dependency, so I
+opted to leave this bit of yak shaving up to you.  This may change in the
+future as the APIs of these modules solidifies.
+
+=head1 METHODS
+
+=over 4
+
+=item name
+
+Name of this component.  Used to find specific components after they've been
+added to this layout manager.
+
+=item height
+
+Set/get the height of the component.
+
+=item width
+
+Remove all components from the layout manager.
+
+=item origin
+
+Set/get the origin point of this component.  This is expected to be a
+L<Geometry::Primitive::Point> object.
+
+=item minimum_height
+
+Set/get the minimum height for this component. Defaults to 0.
+
+=item minimum_width
+
+Set/get the minimum width for this component.  Defaults to 0.
+
+=item preferred_height
+
+Set/get the preferred height for this component. Defaults to 0.
+
+=item preferred_height
+
+Set/get the minimum height for this component. Defaults to 0.
+
+=back
+
+=head1 AUTHOR
+
+Cory Watson, C<< <cory.watson at iinteractive.com> >>
+
+=head1 SEE ALSO
+
+perl(1), L<Wikipedia|http://en.wikipedia.org/wiki/HSL_color_space>
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2008 by Infinity Interactive, Inc.
+
+L<http://www.iinteractive.com>
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.

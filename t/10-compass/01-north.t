@@ -1,4 +1,4 @@
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 use Geometry::Primitive::Point;
 use LM::Test::Component;
@@ -11,7 +11,7 @@ my $lm = Layout::Manager::Compass->new();
 
 # TODO Normalize rectangle origin
 my $foo = new LM::Test::Component(
-    width => 100, height => 20, minimum_height => 20, name => 'one'
+    width => 100, height => 20, name => 'one'
 );
 
 my $foo2 = new LM::Test::Component(
@@ -30,4 +30,7 @@ cmp_ok($lm->component_count, '==', 2, 'component_count');
 
 $lm->do_layout($cont);
 
-cmp_ok($lm->_north_size(), '==', 40, '_north_size');
+cmp_ok($lm->_north_size, '==', 40, '_north_size');
+cmp_ok($lm->_total_height, '==', 40, '_total_height');
+cmp_ok($foo->height, '==', 20, 'top component height');
+cmp_ok($foo2->height, '==', 20, 'bottom component height');
