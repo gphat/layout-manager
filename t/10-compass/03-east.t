@@ -31,12 +31,12 @@ cmp_ok($lm->component_count, '==', 2, 'component_count');
 
 $lm->do_layout($cont);
 
-cmp_ok($foo->height, '==', 20, 'left bottom component height');
-cmp_ok($foo->width, '==', 50, 'left component width');
-cmp_ok($foo->origin->x, '==', 50, 'left component origin x');
-cmp_ok($foo->origin->y, '==', 0, 'left component origin y');
+cmp_ok($foo->height, '==', 20, 'right bottom component height');
+cmp_ok($foo->width, '==', 50, 'right component width');
+cmp_ok($foo->origin->x, '==', 50, 'right component origin x');
+cmp_ok($foo->origin->y, '==', 0, 'right component origin y');
 
-cmp_ok($foo2->height, '==', 20, 'right component height');
-cmp_ok($foo2->width, '==', 50, 'right component width');
-cmp_ok($foo2->origin->x, '==', 0, 'right component origin x');
-cmp_ok($foo2->origin->y, '==', 0, 'right component origin y');
+cmp_ok($foo2->height, '==', 20, 'left component height');
+cmp_ok($foo2->width, '==', 50, 'left component width');
+cmp_ok($foo2->origin->x, '==', 0, 'left component origin x');
+cmp_ok($foo2->origin->y, '==', 0, 'left component origin y');
