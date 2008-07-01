@@ -5,8 +5,6 @@ use MooseX::AttributeHelpers;
 
 with 'Layout::Manager';
 
-
-
 sub do_layout {
     my ($self, $container) = @_;
 

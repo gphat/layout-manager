@@ -38,5 +38,5 @@ cmp_ok($foo2->origin->y, '==', 0, 'top component origin y');
 
 cmp_ok($foo->height, '==', 20, 'bottom component height');
 cmp_ok($foo->width, '==', 100, 'bottom component width');
-cmp_ok($foo->origin->x, '==', 0, 'top component origin x');
-cmp_ok($foo->origin->y, '==', 20, 'top component origin y');
+cmp_ok($foo->origin->x, '==', 0, 'bottom component origin x');
+cmp_ok($foo->origin->y, '==', 20, 'bottom component origin y');
