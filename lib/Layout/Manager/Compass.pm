@@ -5,193 +5,96 @@ use MooseX::AttributeHelpers;
 
 with 'Layout::Manager';
 
-has '_north' => (
-    metaclass => 'Collection::Array',
-    is => 'rw',
-    isa => 'ArrayRef',
-    default => sub { [] },
-    provides => {
-        push => '_add_north',
-        count => '_north_count',
-    }
-);
-
-has '_south' => (
-    metaclass => 'Collection::Array',
-    is => 'rw',
-    isa => 'ArrayRef',
-    default => sub { [] },
-    provides => {
-        push => '_add_south',
-        count => '_south_count',
-    }
-);
-
-
-has '_north_size' => (
-    metaclass => 'Counter',
-    is => 'rw',
-    isa => 'Num',
-    default => sub { 0 },
-    provides => {
-        inc => '_increase_north',
-        dec => '_decrease_north',
-    }
-);
-
-has '_south_size' => (
-    metaclass => 'Counter',
-    is => 'rw',
-    isa => 'Num',
-    default => sub { 0 },
-    provides => {
-        inc => '_increase_south',
-        dec => '_decrease_south',
-    }
-);
 
 
 sub do_layout {
     my ($self, $container) = @_;
 
     die("Need a container") unless defined($container);
+    return unless $self->component_count;
 
-    # First pass, divvy things up into their respective buckets...
-    my $ccount = $self->component_count;
-    for(my $i = 0; $i <= $ccount; $i++) {
-        my $c = $self->get_component($i);
-        next unless(defined($c));
+    my $cheight = $container->height;
+    my $cwidth = $container->width;
+
+    my %edges = (
+        north => { components => [], width => 0, height => 0 },
+        south => { components => [], width => 0, height => 0 },
+        east => { components => [], width => 0, height => 0 },
+        west => { components => [], width => 0, height => 0 },
+    );
+
+    my $count = 0;
+    foreach my $c (@{ $self->components }) {
 
         my $comp = $c->{component};
         my $args = $c->{args};
 
-        # Set the component to it's preferred size, if it's got one
-        if($comp->preferred_width != 0) {
-            $comp->width = $comp->preferred_width;
-        }
-        if($comp->preferred_height != 0) {
-            $comp->height($comp->preferred_height);
-        }
+        if(lc($args) =~ /c/) {
 
-        if(lc($args) =~ /^n/) {
-            $self->_add_north($i);
-            $self->_increase_north($comp->height);
+            push(@{ $edges{center}->{components} }, $comp);
+        } elsif(lc($args) =~ /n/) {
 
-        } elsif(lc($args) =~ /^s/) {
-            $self->_add_south($i);
-            $self->_increase_south($comp->height);
+            push(@{ $edges{north}->{components} }, $comp);
+            $edges{north}->{height} += $comp->minimum_height;
+            $edges{north}->{width} += $comp->minimum_width;
+        } elsif(lc($args) =~ /s/) {
 
-        } elsif(lc($args) =~ /^e/) {
+            push(@{ $edges{south}->{components} }, $comp);
+            $edges{south}->{height} += $comp->minimum_height;
+            $edges{south}->{width} += $comp->minimum_width;
+        } elsif(lc($args) =~ /e/) {
 
-        } elsif(lc($args) =~ /^w/) {
+            push(@{ $edges{east}->{components} }, $comp);
+            $edges{east}->{height} += $comp->minimum_height;
+            $edges{east}->{width} += $comp->minimum_width;
+        } elsif(lc($args) =~ /w/) {
 
+            push(@{ $edges{west}->{components} }, $comp);
+            $edges{west}->{height} += $comp->minimum_height;
+            $edges{west}->{width} += $comp->minimum_width;
         } else {
-            die("Unknown argument '$args' for component.");
-        }
-    }
-
-    # VERTICAL SECTION
-
-    # Now check if any of the sizes are going to be a problem and
-    # attempt to 'minimize' any components that are willing.
-    while($self->_total_height > $container->height()) {
-
-        # Find northern candidates for minimization
-        foreach my $i (@{ $self->_north }) {
-            my $cand = $self->get_component($i);
-            next unless defined($cand);
-
-            # Try and minimize the candidate
-            my $amt = $self->_minimize_component_height($cand->{component});
-            if($amt) {
-                $self->_decrease_north($amt);
-
-                # If we go too small, add the remainder back to the last sized
-                # component.
-                if($self->_total_height <= $container->height()) {
-                    my $diff = $container->height - $self->_total_height();
-                    $cand->{component}->height($cand->{component}->height + $diff);
-                }
-            }
+            die("Unknown direction '$args' for component $count.");
         }
 
-        # Find southern candidates for minimization
-        foreach my $i (@{ $self->_south }) {
-            my $cand = $self->get_component($i);
-            next unless defined($cand);
-
-            # Try and minimize the candidate
-            my $amt = $self->_minimize_component_height($cand->{component});
-            if($amt) {
-                $self->_decrease_south($amt);
-
-                # If we go too small, add the remainder back to the last sized
-                # component.
-                if($self->_total_height <= $container->height()) {
-                    my $diff = $container->height - $self->_total_height();
-                    $cand->{component}->height($cand->{component}->height + $diff);
-                }
-            }
-        }
+        $count++;
     }
 
-    # Did we use all the available space?
-    if($self->_total_height < $container->height()) {
-        my $diff = $container->height - $self->_total_height;
-        # Calculate the amount of space remaining and split it amongst the
-        # vertical components.
-        my $per = $diff / $self->_vertical_count;
+    my $xaccum  = 0;
+    foreach my $comp (@{ $edges{east}->{components} }) {
 
-        foreach my $c (@{ $self->_north }) {
-            my $comp = $self->get_component($c);
-            $comp->{component}->height($comp->{component}->height + $per);
-            $self->_increase_north($per);
-        }
-
-        foreach my $c (@{ $self->_south }) {
-            my $comp = $self->get_component($c);
-            $comp->{component}->height($comp->{component}->height + $per);
-            $self->_increase_south($per);
-        }
-    }
-}
-
-sub _total_height {
-    my ($self) = @_;
-
-    return $self->_north_size + $self->_south_size;
-}
-
-sub _vertical_count {
-    my ($self) = @_;
-
-    return $self->_north_count + $self->_south_count;
-}
-
-# Set the component's size to the smallest we can and return the difference.
-sub _minimize_component_height {
-    my ($self, $comp) = @_;
-
-    # Sanity check, not really necessary
-    if($comp->preferred_height && ($comp->height > $comp->preferred_height)) {
-        print STDERR "Resized ".$comp->name." via preferred.\n";
-        my $diff = $comp->height - $comp->preferred_height;
-        $comp->height($comp->preferred_height);
-        return $diff;
+        $comp->height($container->height - $edges{north}->{height} - $edges{south}->{height});
+        $comp->width($comp->minimum_width);
+        $comp->origin->x($xaccum);
+        $comp->origin->y($edges{north}->{height});
+        $xaccum += $comp->width;
     }
 
-    # With that out of the way, try to find a minimum size;
-    my $min = $comp->minimum_height;
-    if($min && $min > $comp->height()) {
-        print STDERR "Resized ".$comp->name." via minimum.\n";
-        my $diff = $comp->height - $min;
-        $comp->height($min);
-        return $diff;
+    $xaccum = $container->width;
+    foreach my $comp (@{ $edges{west}->{components} }) {
+        $comp->height($container->height - $edges{north}->{height} - $edges{south}->{height});
+        $comp->width($comp->minimum_width);
+        $comp->origin->x($xaccum - $comp->width);
+        $comp->origin->y($edges{north}->{height});
+        $xaccum -= $comp->width;
     }
 
-    print STDERR "Got nothing for ".$comp->name."\n";
+    my $yaccum = 0;
+    foreach my $comp (@{ $edges{north}->{components} }) {
+        $comp->height($comp->minimum_height);
+        $comp->width($container->width - $edges{east}->{width} - $edges{west}->{width});
+        $comp->origin->x($edges{east}->{width});
+        $comp->origin->y($yaccum);
+        $yaccum += $comp->height;
+    }
 
-    return 0;
+    $yaccum = $container->height;
+    foreach my $comp (@{ $edges{south}->{components} }) {
+        $comp->height($comp->minimum_height);
+        $comp->width($container->width - $edges{east}->{width} - $edges{west}->{width});
+        $comp->origin->x($edges{east}->{width});
+        $comp->origin->y($yaccum - $comp->height);
+        $yaccum -= $comp->height;
+    }
 }
 
 1;

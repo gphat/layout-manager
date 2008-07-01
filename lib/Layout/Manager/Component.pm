@@ -1,19 +1,34 @@
 package Layout::Manager::Component;
 use Moose::Role;
 
-has 'height' => ( is => 'rw', isa => 'Num', required => 1 );
+has 'height' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
 has 'name' => ( is => 'rw', isa => 'Str' );
 has 'origin' => (
     is => 'rw',
     isa => 'Geometry::Primitive::Point',
     default =>  sub { Geometry::Primitive::Point->new( x => 0, y => 0 ) },
 );
-has 'width' => ( is => 'rw', isa => 'Num', required => 1 );
+has 'width' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
 
 has 'preferred_height' => ( is => 'rw', isa => 'Num', default => sub { 0 });
 has 'preferred_width' => ( is => 'rw', isa => 'Num', default => sub { 0 });
 has 'minimum_height' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
 has 'minimum_width' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
+has 'maximum_height' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
+has 'maximum_width' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
+
+
+sub compute_height {
+    my ($self, $type) = @_;
+
+    if($type eq 'preferred') {
+        return $self->preferred_height;
+    } elsif($type eq 'minimum') {
+        return $self->minumum_height;
+    }
+    # else
+    return $self->maximum_height;
+}
 
 1;
 __END__
