@@ -146,6 +146,10 @@ Creates a new Layout::Manager::Compass.
 
 =over 4
 
+=item do_layout
+
+Size and position the components in this layout.
+
 =back
 
 =head1 AUTHOR
