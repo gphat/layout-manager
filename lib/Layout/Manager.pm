@@ -1,11 +1,12 @@
 package Layout::Manager;
-use Moose::Role;
+# use Moose::Role;
+use Moose;
 
 our $VERSION = '0.01';
 
 use MooseX::AttributeHelpers;
 
-requires 'do_layout';
+# requires 'do_layout';
 
 has 'components' => (
     metaclass => 'Collection::Array',
@@ -32,6 +33,14 @@ sub add_component {
 
     # TODO Document Me
     return 1;
+}
+
+sub do_prepare {
+    my ($self) = @_;
+
+    foreach my $c (@{ $self->components }) {
+        $c->{component}->prepare();
+    }
 }
 
 sub remove_component {
