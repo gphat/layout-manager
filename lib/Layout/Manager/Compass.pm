@@ -107,7 +107,7 @@ sub do_layout {
     my $ccount = scalar(@{ $edges{center}->{components}});
     if($ccount) {
         my $per_height = $cen_height / $ccount;
-        my $per_width = $cen_height / $ccount;
+        my $per_width = $cen_width / $ccount;
 
         my $i = 1;
         foreach my $comp (@{ $edges{center}->{components}}) {

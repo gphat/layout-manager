@@ -36,7 +36,7 @@ $lm->add_component($west, 'w');
 $lm->add_component($center, 'c');
 
 my $cont = new LM::Test::Component(
-    width => 100, height => 100
+    width => 120, height => 100
 );
 
 cmp_ok($lm->component_count, '==', 5, 'component_count');
@@ -45,15 +45,15 @@ $lm->do_layout($cont);
 
 cmp_ok($north->origin->x, '==', 10, 'north origin x');
 cmp_ok($north->origin->y, '==', 0, 'north origin y');
-cmp_ok($north->width, '==', 80, 'north width');
+cmp_ok($north->width, '==', 100, 'north width');
 cmp_ok($north->height, '==', 10, 'north height');
 
 cmp_ok($south->origin->x, '==', 10, 'south origin x');
 cmp_ok($south->origin->y, '==', 90, 'south origin y');
-cmp_ok($south->width, '==', 80, 'south width');
+cmp_ok($south->width, '==', 100, 'south width');
 cmp_ok($south->height, '==', 10, 'south height');
 
-cmp_ok($east->origin->x, '==', 90, 'east origin x');
+cmp_ok($east->origin->x, '==', 110, 'east origin x');
 cmp_ok($east->origin->y, '==', 10, 'east origin y');
 cmp_ok($east->width, '==', 10, 'east width');
 cmp_ok($east->height, '==', 80, 'east height');
@@ -65,5 +65,5 @@ cmp_ok($west->height, '==', 80, 'west height');
 
 cmp_ok($center->origin->x, '==', 10, 'center origin x');
 cmp_ok($center->origin->y, '==', 10, 'center origin y');
-cmp_ok($center->width, '==', 80, 'center width');
+cmp_ok($center->width, '==', 100, 'center width');
 cmp_ok($center->height, '==', 80, 'center height');
