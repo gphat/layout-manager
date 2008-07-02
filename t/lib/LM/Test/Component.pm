@@ -3,6 +3,8 @@ use Moose;
 
 with 'Layout::Manager::Component';
 
-# sub prepare { }
+sub prepare { }
+
+sub draw { }
 
 1;

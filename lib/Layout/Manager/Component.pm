@@ -2,6 +2,7 @@ package Layout::Manager::Component;
 use Moose::Role;
 
 requires 'prepare';
+requires 'draw';
 
 has 'height' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
 has 'name' => ( is => 'rw', isa => 'Str' );
@@ -19,7 +20,6 @@ has 'minimum_height' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
 has 'minimum_width' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
 has 'maximum_height' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
 has 'maximum_width' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
-
 
 sub compute_height {
     my ($self, $type) = @_;
