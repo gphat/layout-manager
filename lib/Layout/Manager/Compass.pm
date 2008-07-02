@@ -19,37 +19,43 @@ sub do_layout {
         south => { components => [], width => 0, height => 0 },
         east => { components => [], width => 0, height => 0 },
         west => { components => [], width => 0, height => 0 },
+        center => { components => [], width => 0, height => 0}
     );
 
     my $count = 0;
     foreach my $c (@{ $self->components }) {
 
         my $comp = $c->{component};
-        my $args = $c->{args};
+        my $args = lc(substr($c->{args}, 0, 1));
 
-        if(lc($args) =~ /^c/) {
+        if(lc($args) eq 'c') {
 
             push(@{ $edges{center}->{components} }, $comp);
-        } elsif(lc($args) =~ /^n/) {
+        } elsif($args =~ /^n/) {
 
             push(@{ $edges{north}->{components} }, $comp);
             $edges{north}->{height} += $comp->minimum_height;
             $edges{north}->{width} += $comp->minimum_width;
-        } elsif(lc($args) =~ /^s/) {
+        } elsif($args eq 's') {
 
             push(@{ $edges{south}->{components} }, $comp);
             $edges{south}->{height} += $comp->minimum_height;
             $edges{south}->{width} += $comp->minimum_width;
-        } elsif(lc($args) =~ /^e/) {
+        } elsif($args eq 'e') {
 
             push(@{ $edges{east}->{components} }, $comp);
             $edges{east}->{height} += $comp->minimum_height;
             $edges{east}->{width} += $comp->minimum_width;
-        } elsif(lc($args) =~ /^w/) {
+        } elsif($args eq 'w') {
 
             push(@{ $edges{west}->{components} }, $comp);
             $edges{west}->{height} += $comp->minimum_height;
             $edges{west}->{width} += $comp->minimum_width;
+        } elsif($args eq 'c') {
+
+            push(@{ $edges{center}->{components} }, $comp);
+            $edges{center}->{height} += $comp->minimum_height;
+            $edges{center}->{width} += $comp->minimum_width;
         } else {
             die("Unknown direction '$args' for component $count.");
         }
@@ -57,9 +63,10 @@ sub do_layout {
         $count++;
     }
 
-    my $xaccum  = $container->width;
+    my $xaccum  = $cwidth;
     foreach my $comp (@{ $edges{east}->{components} }) {
 
+        # TODO Are paddings / margings being honored here and below?
         $comp->height($container->height - $edges{north}->{height} - $edges{south}->{height});
         $comp->width($comp->minimum_width);
         $comp->origin->x($xaccum - $comp->width);
@@ -85,13 +92,33 @@ sub do_layout {
         $yaccum += $comp->height;
     }
 
-    $yaccum = $container->height;
+    $yaccum = $cheight;
     foreach my $comp (@{ $edges{south}->{components} }) {
         $comp->height($comp->minimum_height);
         $comp->width($container->width - $edges{east}->{width} - $edges{west}->{width});
         $comp->origin->x($edges{east}->{width});
         $comp->origin->y($yaccum - $comp->height);
         $yaccum -= $comp->height;
+    }
+
+    my $cen_height = $cheight - $edges{north}->{height} - $edges{south}->{height};
+    my $cen_width = $cwidth - $edges{east}->{height} - $edges{east}->{height};
+
+    my $ccount = scalar(@{ $edges{center}->{components}});
+    if($ccount) {
+        my $per_height = $cen_height / $ccount;
+        my $per_width = $cen_height / $ccount;
+
+        my $i = 1;
+        foreach my $comp (@{ $edges{center}->{components}}) {
+            $comp->height($per_height * $i);
+            $comp->width($per_width * $i);
+
+            $comp->origin->x($edges{west}->{width} + ($per_width * ($i - 1)));
+            $comp->origin->y($edges{north}->{height} + ($per_height * ($i - 1)));
+
+            $i++;
+        }
     }
 }
 
