@@ -120,6 +120,14 @@ sub do_layout {
             $i++;
         }
     }
+
+    foreach my $c (@{ $self->components }) {
+
+        my $comp = $c->{component};
+        if($comp->can('do_layout')) {
+            $comp->do_layout($comp);
+        }
+    }
 }
 
 1;

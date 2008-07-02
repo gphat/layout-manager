@@ -20,6 +20,10 @@ sub do_layout {
         $comp->height($cheight);
         $comp->origin->x($comp->padding->left + $comp->margins->left + $comp->border->width);
         $comp->origin->x($comp->padding->top + $comp->margins->top + $comp->border->width);
+
+        if($comp->can('do_layout')) {
+            $comp->do_layout($comp);
+        }
     }
 }
 
