@@ -96,7 +96,7 @@ sub do_layout {
     foreach my $comp (@{ $edges{south}->{components} }) {
         $comp->height($comp->minimum_height);
         $comp->width($container->width - $edges{east}->{width} - $edges{west}->{width});
-        $comp->origin->x($edges{east}->{width});
+        $comp->origin->x($edges{west}->{width});
         $comp->origin->y($yaccum - $comp->height);
         $yaccum -= $comp->height;
     }
