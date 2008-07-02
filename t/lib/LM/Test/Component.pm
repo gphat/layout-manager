@@ -3,4 +3,6 @@ use Moose;
 
 with 'Layout::Manager::Component';
 
+sub prepare { }
+
 1;
