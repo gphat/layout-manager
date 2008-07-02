@@ -167,7 +167,7 @@ Cory Watson, C<< <cory.watson at iinteractive.com> >>
 
 =head1 SEE ALSO
 
-perl(1), L<Wikipedia|http://en.wikipedia.org/wiki/HSL_color_space>
+perl(1)
 
 =head1 COPYRIGHT & LICENSE
 
