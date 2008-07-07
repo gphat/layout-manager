@@ -6,7 +6,6 @@ requires 'draw';
 
 has 'height' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
 has 'name' => ( is => 'rw', isa => 'Str' );
-has 'orientation' => ( is => 'rw', isa => 'Layout::Manager::Type::Orientation' );
 has 'origin' => (
     is => 'rw',
     isa => 'Geometry::Primitive::Point',
@@ -69,10 +68,6 @@ future as the APIs of these modules solidifies.
 
 Name of this component.  Used to find specific components after they've been
 added to this layout manager.
-
-=item orientation
-
-Which way the component is oriented.  TODO.
 
 =item height
 
