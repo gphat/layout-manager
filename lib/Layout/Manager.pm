@@ -1,12 +1,9 @@
 package Layout::Manager;
-# use Moose::Role;
 use Moose;
 
 our $VERSION = '0.01';
 
 use MooseX::AttributeHelpers;
-
-# requires 'do_layout';
 
 has 'components' => (
     metaclass => 'Collection::Array',
@@ -139,32 +136,42 @@ The component to be laid out.
 
 The argument provided to I<add_component>.
 
+=back
+
 =head1 METHODS
 
 =over 4
 
-=item add_component
+=item I<add_component>
 
 Add a component to the layout manager.  A second argument may be required,
 please consult the POD for your specific layout manager implementation.
 
-=item clear_components
+=item I<clear_components>
 
 Remove all components from the layout manager.
 
-=item count_components
+=item I<count_components>
 
 Returns the number of components in this layout manager.
 
-=item get_component
+=item I<do_layout>
+
+Lays out this managers components in the specified container.
+
+=item I<do_prepare>
+
+Calls prepare on all this layout manager's child components.
+
+=item I<get_component>
 
 Get the component at the specified index.
 
-=item remove_component
+=item I<remove_component>
 
 Removes a component.  B<component must have names to be removed.>
 
-=item validate_component.
+=item I<validate_component>
 
 Optionally overriden by an implementation, allows it to deem 
 

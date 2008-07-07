@@ -6,7 +6,7 @@ requires 'draw';
 
 has 'height' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
 has 'name' => ( is => 'rw', isa => 'Str' );
-has 'orientation' => ( is => 'rw', isa => 'Str' );
+has 'orientation' => ( is => 'rw', isa => 'Layout::Manager::Type::Orientation' );
 has 'origin' => (
     is => 'rw',
     isa => 'Geometry::Primitive::Point',

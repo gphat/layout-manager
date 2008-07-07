@@ -33,7 +33,7 @@ $lm->do_layout($cont);
 
 cmp_ok($foo->height, '==', 20, 'top component height');
 cmp_ok($foo->width, '==', 80, 'top component width');
-cmp_ok($foo->origin->x, '==', 20, 'top component origin x');
+cmp_ok($foo->origin->x, '==', 0, 'top component origin x');
 cmp_ok($foo->origin->y, '==', 0, 'top component origin y');
 
 cmp_ok($foo2->height, '==', 20, 'right component height');
