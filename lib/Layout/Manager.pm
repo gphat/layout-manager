@@ -1,6 +1,7 @@
 package Layout::Manager;
 use Moose;
 
+our $AUTHORITY = 'cpan:GPHAT';
 our $VERSION = '0.01';
 
 use MooseX::AttributeHelpers;
