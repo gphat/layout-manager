@@ -74,6 +74,8 @@ Size and position the components in this layout.
 
 Cory Watson, C<< <gphat@cpan.org> >>
 
+Infinity Interactive, L<http://www.iinteractive.com>
+
 =head1 COPYRIGHT & LICENSE
 
 Copyright 2008 by Infinity Interactive, Inc.

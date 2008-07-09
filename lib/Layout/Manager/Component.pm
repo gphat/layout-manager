@@ -112,6 +112,8 @@ Set/get the width of the component.
 
 Cory Watson, C<< <gphat@cpan.org> >>
 
+Infinity Interactive, L<http://www.iinteractive.com>
+
 =head1 SEE ALSO
 
 =head1 COPYRIGHT & LICENSE

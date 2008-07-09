@@ -188,6 +188,8 @@ Optionally overriden by an implementation, allows it to deem
 
 Cory Watson, C<< <gphat@cpan.org> >>
 
+Infinity Interactive, L<http://www.iinteractive.com>
+
 =head1 SEE ALSO
 
 perl(1)
