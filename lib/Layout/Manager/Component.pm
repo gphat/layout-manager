@@ -55,7 +55,7 @@ role to your class and implement the required methods.
 
 This role does not provide an implementation of these methods.  This might be
 surprising because it _could_.  I originally intended to implement the
-attributes here and use the role in L<Geoemtry::Primitive> or
+attributes here and use the role in L<Geomtry::Primitive> or
 L<Graphics::Primitive> but it would've created a circular dependency, so I
 opted to leave this bit of yak shaving up to you.  This may change in the
 future as the APIs of these modules solidifies.
@@ -64,49 +64,55 @@ future as the APIs of these modules solidifies.
 
 =over 4
 
-=item name
+=item I<name>
 
 Name of this component.  Used to find specific components after they've been
 added to this layout manager.
 
-=item height
+=item I<height>
 
 Set/get the height of the component.
 
-=item width
+=item I<maximum_height>
 
-Remove all components from the layout manager.
+Set/get the maximum height for this component. Defaults to 0.
 
-=item origin
+=item I<maximum_width>
+
+Set/get the maximum width for this component. Defaults to 0.
+
+=item I<minimum_height>
+
+Set/get the minimum height for this component. Defaults to 0.
+
+=item I<minimum_width>
+
+Set/get the minimum width for this component.  Defaults to 0.
+
+=item I<origin>
 
 Set/get the origin point of this component.  This is expected to be a
 L<Geometry::Primitive::Point> object.
 
-=item minimum_height
-
-Set/get the minimum height for this component. Defaults to 0.
-
-=item minimum_width
-
-Set/get the minimum width for this component.  Defaults to 0.
-
-=item preferred_height
+=item I<preferred_height>
 
 Set/get the preferred height for this component. Defaults to 0.
 
-=item preferred_height
+=item I<preferred_height>
 
 Set/get the minimum height for this component. Defaults to 0.
+
+=item I<width>
+
+Set/get the width of the component.
 
 =back
 
 =head1 AUTHOR
 
-Cory Watson, C<< <cory.watson at iinteractive.com> >>
+Cory Watson, C<< <gphat@cpan.org> >>
 
 =head1 SEE ALSO
-
-perl(1), L<Wikipedia|http://en.wikipedia.org/wiki/HSL_color_space>
 
 =head1 COPYRIGHT & LICENSE
 

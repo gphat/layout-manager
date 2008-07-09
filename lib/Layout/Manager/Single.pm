@@ -54,17 +54,17 @@ basically stacks them all vertically.
 
 =over 4
 
-=item new
+=item I<new>
 
 Creates a new Layout::Manager::Single.
 
 =back
 
-=head2 Methods
+=head2 Instance Methods
 
 =over 4
 
-=item do_layout
+=item I<do_layout>
 
 Size and position the components in this layout.
 
@@ -72,7 +72,7 @@ Size and position the components in this layout.
 
 =head1 AUTHOR
 
-Cory Watson, C<< <cory.watson at iinteractive.com> >>
+Cory Watson, C<< <gphat@cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 

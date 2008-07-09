@@ -115,7 +115,7 @@ Layout::Manager implementation.
 =head1 WRITING A LAYOUT MANAGER
 
 Layout::Manager provides all the methods necessary for your implementation,
-save the I<layout> method.  This method will be called when it is time to
+save the I<do_layout> method.  This method will be called when it is time to
 layout the components.
 
 The I<add_component> method takes two arguments: the component and a second,
@@ -130,6 +130,7 @@ hashrefs have two keys:
 =over 
 
 =item B<component>
+
 The component to be laid out.
 
 =item B<args>
@@ -144,8 +145,13 @@ The argument provided to I<add_component>.
 
 =item I<add_component>
 
-Add a component to the layout manager.  A second argument may be required,
-please consult the POD for your specific layout manager implementation.
+Add a component to the layout manager.  Returns a true value if the component
+was added successfully. A second argument may be required, please consult the
+POD for your specific layout manager implementation.
+
+Before the component is added, it is passed to the validate_component method.
+If validate_component does not return a true value, then the component is not
+added.
 
 =item I<clear_components>
 
@@ -179,7 +185,7 @@ Optionally overriden by an implementation, allows it to deem
 
 =head1 AUTHOR
 
-Cory Watson, C<< <cory.watson at iinteractive.com> >>
+Cory Watson, C<< <gphat@cpan.org> >>
 
 =head1 SEE ALSO
 

@@ -1,4 +1,4 @@
-use lib 'lib';
+use lib 't/lib', 'lib';
 
 use Test::More tests => 22;
 
