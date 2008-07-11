@@ -1,4 +1,5 @@
-package LM::Test::Component;
+package # Hide from CPAN
+    LM::Test::Component;
 use Moose;
 
 with 'Layout::Manager::Component';

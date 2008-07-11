@@ -102,7 +102,7 @@ sub do_layout {
     }
 
     my $cen_height = $cheight - $edges{north}->{height} - $edges{south}->{height};
-    my $cen_width = $cwidth - $edges{east}->{height} - $edges{east}->{height};
+    my $cen_width = $cwidth - $edges{east}->{width} - $edges{west}->{width};
 
     my $ccount = scalar(@{ $edges{center}->{components}});
     if($ccount) {
