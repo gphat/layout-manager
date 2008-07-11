@@ -1,4 +1,4 @@
-use inc::Module::Install;
+use inc::Module::Install 0.75;
 
 name     'Layout-Manager';
 all_from 'lib/Layout/Manager.pm';

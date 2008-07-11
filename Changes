@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.03
+  - Add MI version because Yuval yelled at me
+
 0.02
   - Fix bug in center width calculations for Compass
   - Hide test package from CPAN
