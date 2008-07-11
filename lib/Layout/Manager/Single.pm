@@ -31,7 +31,7 @@ sub do_layout {
 __END__
 =head1 NAME
 
-Layout::Manager::Single
+Layout::Manager::Single - One-size veritcal layout manager
 
 =head1 DESCRIPTION
 

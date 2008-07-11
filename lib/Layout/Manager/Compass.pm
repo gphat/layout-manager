@@ -134,7 +134,7 @@ sub do_layout {
 __END__
 =head1 NAME
 
-Layout::Manager::Compass
+Layout::Manager::Compass - Compass based layout
 
 =head1 DESCRIPTION
 
