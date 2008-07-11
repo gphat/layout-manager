@@ -52,9 +52,17 @@ role to your class and implement the required methods.
     has 'width' ...
     has 'height' ...
     has 'origin' ...
+    
+    sub prepare {
+        # ... prepare!
+    }
+    
+    sub draw {
+        # ... draw!
+    }
 
 This role does not provide an implementation of these methods.  This might be
-surprising because it _could_.  I originally intended to implement the
+surprising because it I<could>.  I originally intended to implement the
 attributes here and use the role in L<Geomtry::Primitive> or
 L<Graphics::Primitive> but it would've created a circular dependency, so I
 opted to leave this bit of yak shaving up to you.  This may change in the
