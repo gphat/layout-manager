@@ -176,7 +176,7 @@ Get the component at the specified index.
 
 =item I<remove_component>
 
-Removes a component.  B<component must have names to be removed.>
+Removes a component.  B<Components must have names to be removed.>
 
 =item I<validate_component>
 
