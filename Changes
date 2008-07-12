@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.04
+  - Fix y positioning in Single
+
 0.03
   - Add MI version because Yuval yelled at me
   - More pod fixes
