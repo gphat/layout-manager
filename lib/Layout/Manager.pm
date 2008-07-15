@@ -2,7 +2,7 @@ package Layout::Manager;
 use Moose;
 
 our $AUTHORITY = 'cpan:GPHAT';
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 use MooseX::AttributeHelpers;
 
@@ -21,7 +21,6 @@ has 'components' => (
 sub add_component {
     my ($self, $component, $args) = @_;
 
-    # TODO Document me
     return 0 unless $self->validate_component($component, $args);
 
     push(@{ $self->components }, {
@@ -29,7 +28,6 @@ sub add_component {
         args      => $args
     });
 
-    # TODO Document Me
     return 1;
 }
 
@@ -72,6 +70,9 @@ sub validate_component {
     return 1;
 }
 
+__PACKAGE__->meta->make_immutable;
+
+no Moose;
 
 1;
 __END__
@@ -139,6 +140,11 @@ The component to be laid out.
 The argument provided to I<add_component>.
 
 =back
+
+=head1 TIPS
+
+Layout manager implementations should honor the I<visible> attribute of a
+component, as those components need to be ignored.
 
 =head1 METHODS
 

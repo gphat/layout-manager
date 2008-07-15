@@ -11,6 +11,7 @@ has 'origin' => (
     isa => 'Geometry::Primitive::Point',
     default =>  sub { Geometry::Primitive::Point->new( x => 0, y => 0 ) },
 );
+has 'visible' => ( is => 'rw', isa => 'Bool', default => sub { 1 } );
 has 'width' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
 
 has 'preferred_height' => ( is => 'rw', isa => 'Num', default => sub { 0 });
@@ -28,9 +29,11 @@ sub compute_height {
     } elsif($type eq 'minimum') {
         return $self->minumum_height;
     }
-    # else
+
     return $self->maximum_height;
 }
+
+no Moose;
 
 1;
 __END__

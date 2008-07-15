@@ -16,6 +16,9 @@ sub do_layout {
     foreach my $c (@{ $self->components }) {
 
         my $comp = $c->{component};
+
+        next unless $comp->visible;
+
         $comp->width($cwidth);
         $comp->height($cheight);
         $comp->origin->x($comp->padding->left + $comp->margins->left + $comp->border->width);
@@ -26,6 +29,10 @@ sub do_layout {
         }
     }
 }
+
+__PACKAGE__->meta->make_immutable;
+
+no Moose;
 
 1;
 __END__

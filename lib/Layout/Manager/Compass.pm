@@ -26,6 +26,9 @@ sub do_layout {
     foreach my $c (@{ $self->components }) {
 
         my $comp = $c->{component};
+
+        next unless $comp->visible;
+
         my $args = lc(substr($c->{args}, 0, 1));
 
         if(lc($args) eq 'c') {
@@ -124,11 +127,18 @@ sub do_layout {
     foreach my $c (@{ $self->components }) {
 
         my $comp = $c->{component};
+
+        next unless $comp->visible;
+
         if($comp->can('do_layout')) {
             $comp->do_layout($comp);
         }
     }
 }
+
+__PACKAGE__->meta->make_immutable;
+
+no Moose;
 
 1;
 __END__

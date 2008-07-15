@@ -1,5 +1,9 @@
 Revision history for Layout-Manager
 
+0.05
+  - Honor Component's visible attribute.
+  - Add make_immutable for moose
+
 0.04
   - Fix y positioning in Single
 
