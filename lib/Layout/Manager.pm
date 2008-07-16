@@ -57,8 +57,10 @@ sub remove_component {
 
     my $count = 0;
     my $del;
-    foreach my $comp (@{ $self->components }) {
-        if(defined($comp) && $comp->name eq $name) {
+    foreach my $c (@{ $self->components }) {
+        my $comp = $c->{component};
+
+        if(defined($comp) && defined($comp->name) && $comp->name eq $name) {
 
             delete($self->components->[$count]);
             $del++;

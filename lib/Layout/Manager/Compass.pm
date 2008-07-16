@@ -27,7 +27,7 @@ sub do_layout {
 
         my $comp = $c->{component};
 
-        next unless $comp->visible;
+        next unless defined($comp) && $comp->visible;
 
         my $args = lc(substr($c->{args}, 0, 1));
 
@@ -128,7 +128,7 @@ sub do_layout {
 
         my $comp = $c->{component};
 
-        next unless $comp->visible;
+        next unless defined($comp) && $comp->visible;
 
         if($comp->can('do_layout')) {
             $comp->do_layout($comp);

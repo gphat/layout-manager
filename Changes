@@ -2,7 +2,9 @@ Revision history for Layout-Manager
 
 0.06
   - Test visibility
-  - Return number of components removed by remove_component.
+  - Return number of components removed by remove_component
+  - Watch for empty component slots in implementations
+  - Fix warning by not checking components with no name in remove_component
 
 0.05
   - Honor Component's visible attribute.

@@ -17,7 +17,7 @@ sub do_layout {
 
         my $comp = $c->{component};
 
-        next unless $comp->visible;
+        next unless defined($comp) && $comp->visible;
 
         $comp->width($cwidth);
         $comp->height($cheight);
