@@ -2,6 +2,7 @@ Revision history for Layout-Manager
 
 0.06
   - Test visibility
+  - Return number of components removed by remove_component.
 
 0.05
   - Honor Component's visible attribute.
