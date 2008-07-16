@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.06
+  - Test visibility
+
 0.05
   - Honor Component's visible attribute.
   - Add make_immutable for moose
