@@ -2,7 +2,7 @@ package Layout::Manager;
 use Moose;
 
 our $AUTHORITY = 'cpan:GPHAT';
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use MooseX::AttributeHelpers;
 
@@ -35,6 +35,7 @@ sub do_prepare {
     my ($self) = @_;
 
     foreach my $c (@{ $self->components }) {
+        next unless defined($c->{component}) && $c->{component}->visible;
         $c->{component}->prepare();
     }
 }
