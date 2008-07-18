@@ -10,16 +10,16 @@ inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
-Layout-Manager-0.05.tar.gz
 lib/Layout/Manager.pm
 lib/Layout/Manager/Compass.pm
 lib/Layout/Manager/Component.pm
 lib/Layout/Manager/Single.pm
 Makefile.PL
-MANIFEST
+MANIFEST			This list of files
 META.yml
 README
 t/00-load.t
+t/10-accessors.t
 t/10-compass/01-north.t
 t/10-compass/02-south.t
 t/10-compass/03-east.t
