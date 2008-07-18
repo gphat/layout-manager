@@ -10,6 +10,7 @@ inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
+Layout-Manager-0.05.tar.gz
 lib/Layout/Manager.pm
 lib/Layout/Manager/Compass.pm
 lib/Layout/Manager/Component.pm
@@ -28,6 +29,8 @@ t/10-compass/06-north-east.t
 t/10-compass/06-north-west.t
 t/10-compass/06-south-east.t
 t/10-compass/07-clickeresque.t
+t/10-compass/08-click-invis.t
+t/10-compass/09-remove.t
 t/lib/LM/Test/Component.pm
 t/pod-coverage.t
 t/pod.t

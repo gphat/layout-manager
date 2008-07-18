@@ -5,6 +5,7 @@ Revision history for Layout-Manager
   - Return number of components removed by remove_component
   - Watch for empty component slots in implementations
   - Fix warning by not checking components with no name in remove_component
+  - Add find_component to Manager
 
 0.05
   - Honor Component's visible attribute.
