@@ -10,7 +10,7 @@ test_requires 'Pod::Coverage::Moose';
 
 requires 'Moose';
 requires 'MooseX::AttributeHelpers' => '0.12';
-requires 'Geometry::Primitive';
+requires 'Geometry::Primitive' => '0.04';
 
 tests_recursive;
 
