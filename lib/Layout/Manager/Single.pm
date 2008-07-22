@@ -9,8 +9,11 @@ override('do_layout', sub {
     die("Need a container") unless defined($container);
     return unless $self->component_count;
 
-    my $cheight = $container->inside_height;
-    my $cwidth = $container->inside_width;
+    my $bbox = $container->inside_bounding_box;
+    my $cwidth = $bbox->width;
+    my $cheight = $bbox->height;
+    my $x = $bbox->origin->x;
+    my $y = $bbox->origin->y;
 
     my $count = 0;
     foreach my $c (@{ $self->components }) {
@@ -21,8 +24,8 @@ override('do_layout', sub {
 
         $comp->width($cwidth);
         $comp->height($cheight);
-        $comp->origin->x($comp->padding->left + $comp->margins->left + $comp->border->width);
-        $comp->origin->y($comp->padding->top + $comp->margins->top + $comp->border->width);
+        $comp->origin->x($x);
+        $comp->origin->y($y);
 
         if($comp->can('do_layout')) {
             $comp->do_layout($comp);
