@@ -3,7 +3,7 @@ use Moose;
 
 extends 'Layout::Manager';
 
-sub do_layout {
+override('do_layout', sub {
     my ($self, $container) = @_;
 
     die("Need a container") unless defined($container);
@@ -28,7 +28,7 @@ sub do_layout {
             $comp->do_layout($comp);
         }
     }
-}
+});
 
 __PACKAGE__->meta->make_immutable;
 

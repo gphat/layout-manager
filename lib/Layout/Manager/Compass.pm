@@ -5,25 +5,47 @@ use MooseX::AttributeHelpers;
 
 extends 'Layout::Manager';
 
-sub do_layout {
+override('do_layout', sub {
     my ($self, $container) = @_;
 
     die("Need a container") unless defined($container);
-    return unless $self->component_count;
+    return unless $container->component_count;
 
-    my $cheight = $container->height;
-    my $cwidth = $container->width;
+    my $bbox = $container->inside_bounding_box;
+
+    my $cwidth = $bbox->width;
+    my $cheight = $bbox->height;
 
     my %edges = (
-        north => { components => [], width => 0, height => 0 },
-        south => { components => [], width => 0, height => 0 },
-        east => { components => [], width => 0, height => 0 },
-        west => { components => [], width => 0, height => 0 },
+        north => {
+            components => [],
+            # Honor the container's edges
+            width => 0,
+            height => $bbox->origin->y
+        },
+        south => {
+            components => [],
+            width => 0,
+            # Honor the container's edges
+            height => $cheight - ($bbox->origin->y + $bbox->height)
+        },
+        east => {
+            components => [],
+            # Honor the container's edges
+            width => $cwidth - ($bbox->origin->x + $bbox->width),
+            height => 0
+        },
+        west => {
+            components => [],
+            # Honor the container's edges
+            width => $bbox->origin->x,
+            height => 0
+        },
         center => { components => [], width => 0, height => 0}
     );
 
     my $count = 0;
-    foreach my $c (@{ $self->components }) {
+    foreach my $c (@{ $container->components }) {
 
         my $comp = $c->{component};
 
@@ -77,7 +99,7 @@ sub do_layout {
         $xaccum -= $comp->width;
     }
 
-    $xaccum = 0;
+    $xaccum = $bbox->origin->x;
     foreach my $comp (@{ $edges{west}->{components} }) {
         $comp->height($container->height - $edges{north}->{height} - $edges{south}->{height});
         $comp->width($comp->minimum_width);
@@ -86,7 +108,7 @@ sub do_layout {
         $xaccum += $comp->width;
     }
 
-    my $yaccum = 0;
+    my $yaccum = $bbox->origin->y;
     foreach my $comp (@{ $edges{north}->{components} }) {
         $comp->height($comp->minimum_height);
         $comp->width($container->width - $edges{east}->{width} - $edges{west}->{width});
@@ -124,7 +146,7 @@ sub do_layout {
         }
     }
 
-    foreach my $c (@{ $self->components }) {
+    foreach my $c (@{ $container->components }) {
 
         my $comp = $c->{component};
 
@@ -134,7 +156,7 @@ sub do_layout {
             $comp->do_layout($comp);
         }
     }
-}
+});
 
 __PACKAGE__->meta->make_immutable;
 

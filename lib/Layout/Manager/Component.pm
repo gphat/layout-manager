@@ -1,18 +1,6 @@
 package Layout::Manager::Component;
 use Moose::Role;
 
-requires 'prepare';
-
-has 'height' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
-has 'name' => ( is => 'rw', isa => 'Str' );
-has 'origin' => (
-    is => 'rw',
-    isa => 'Geometry::Primitive::Point',
-    default =>  sub { Geometry::Primitive::Point->new( x => 0, y => 0 ) },
-);
-has 'visible' => ( is => 'rw', isa => 'Bool', default => sub { 1 } );
-has 'width' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
-
 has 'preferred_height' => ( is => 'rw', isa => 'Num', default => sub { 0 });
 has 'preferred_width' => ( is => 'rw', isa => 'Num', default => sub { 0 });
 has 'minimum_height' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
