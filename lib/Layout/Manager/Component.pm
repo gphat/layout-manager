@@ -2,7 +2,6 @@ package Layout::Manager::Component;
 use Moose::Role;
 
 requires 'prepare';
-requires 'draw';
 
 has 'height' => ( is => 'rw', isa => 'Num', default => sub { 0 } );
 has 'name' => ( is => 'rw', isa => 'Str' );
