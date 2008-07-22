@@ -132,14 +132,13 @@ override('do_layout', sub {
     my $ccount = scalar(@{ $edges{center}->{components}});
     if($ccount) {
         my $per_height = $cen_height / $ccount;
-        my $per_width = $cen_width / $ccount;
 
         my $i = 1;
         foreach my $comp (@{ $edges{center}->{components}}) {
-            $comp->height($per_height * $i);
-            $comp->width($per_width * $i);
+            $comp->height($per_height);
+            $comp->width($cen_width);
 
-            $comp->origin->x($edges{west}->{width} + ($per_width * ($i - 1)));
+            $comp->origin->x($edges{west}->{width});
             $comp->origin->y($edges{north}->{height} + ($per_height * ($i - 1)));
 
             $i++;
@@ -180,6 +179,10 @@ used by components placed at the edges.
 Components are placed in the order they are added.  If two items are added
 to the 'north' position then the first item will be rendered on top of the
 second.
+
+Items in the center split the available space, heightwise.  Two center
+components will each take up 50% of the available height and 100% of the
+available width.
 
 =head1 SYNOPSIS
 
