@@ -89,24 +89,6 @@ component, as those components need to be ignored.
 
 =over 4
 
-=item I<add_component>
-
-Add a component to the layout manager.  Returns a true value if the component
-was added successfully. A second argument may be required, please consult the
-POD for your specific layout manager implementation.
-
-Before the component is added, it is passed to the validate_component method.
-If validate_component does not return a true value, then the component is not
-added.
-
-=item I<clear_components>
-
-Remove all components from the layout manager.
-
-=item I<count_components>
-
-Returns the number of components in this layout manager.
-
 =item I<do_layout>
 
 Lays out this managers components in the specified container.
@@ -114,23 +96,6 @@ Lays out this managers components in the specified container.
 =item I<do_prepare>
 
 Calls prepare on all this layout manager's child components.
-
-=item I<find_component>
-
-Find a component with the given name.
-
-=item I<get_component>
-
-Get the component at the specified index.
-
-=item I<remove_component>
-
-Removes a component.  B<Components must have names to be removed.>  Returns 
-the number of components removed.
-
-=item I<validate_component>
-
-Optionally overriden by an implementation, allows it to deem 
 
 =back
 

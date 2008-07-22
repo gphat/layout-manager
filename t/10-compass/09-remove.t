@@ -9,8 +9,6 @@ BEGIN {
     use_ok('Layout::Manager::Compass');
 }
 
-my $lm = Layout::Manager::Compass->new();
-
 my $north = new LM::Test::Component(
     minimum_height => 10, minimum_width => 10, name => 'north'
 );
@@ -27,21 +25,22 @@ my $center = new LM::Test::Component(
     minimum_height => 10, minimum_width => 10
 );
 
-$lm->add_component($north, 'n');
-$lm->add_component($south, 's');
-$lm->add_component($east, 'e');
-$lm->add_component($west, 'w');
-$lm->add_component($center, 'c');
-
 my $cont = new LM::Test::Component(
     width => 120, height => 100
 );
 
-my $count = $lm->remove_component('north');
+$cont->add_component($north, 'n');
+$cont->add_component($south, 's');
+$cont->add_component($east, 'e');
+$cont->add_component($west, 'w');
+$cont->add_component($center, 'c');
+
+my $count = $cont->remove_component('north');
 cmp_ok($count, '==', 1, 'removed north');
 
-cmp_ok($lm->component_count, '==', 5, 'component_count');
+cmp_ok($cont->component_count, '==', 5, 'component_count');
 
+my $lm = Layout::Manager::Compass->new();
 $lm->do_layout($cont);
 
 cmp_ok($south->origin->x, '==', 10, 'south origin x');

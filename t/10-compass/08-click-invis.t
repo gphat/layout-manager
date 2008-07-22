@@ -9,8 +9,6 @@ BEGIN {
     use_ok('Layout::Manager::Compass');
 }
 
-my $lm = Layout::Manager::Compass->new();
-
 my $legend = new LM::Test::Component(
     minimum_height => 10, minimum_width => 10
 );
@@ -24,17 +22,18 @@ my $plot = new LM::Test::Component(
     minimum_height => 10, minimum_width => 10
 );
 
-$lm->add_component($legend, 's');
-$lm->add_component($xaxis, 's');
-$lm->add_component($yaxis, 'w');
-$lm->add_component($plot, 'c');
-
 my $cont = new LM::Test::Component(
     width => 500, height => 300
 );
 
-cmp_ok($lm->component_count, '==', 4, 'component_count');
+$cont->add_component($legend, 's');
+$cont->add_component($xaxis, 's');
+$cont->add_component($yaxis, 'w');
+$cont->add_component($plot, 'c');
 
+cmp_ok($cont->component_count, '==', 4, 'component_count');
+
+my $lm = Layout::Manager::Compass->new();
 $lm->do_layout($cont);
 
 cmp_ok($legend->origin->x, '==', 0, 'legend origin x');

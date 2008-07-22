@@ -4,6 +4,7 @@ Revision history for Layout-Manager
   - Remove draw method from Component role
   - Remove component management from Manager, leave that to
     Graphics::Primitive container
+  - Remove component role
   - Respect container's insets and borders in Single and Compass
 
 0.07

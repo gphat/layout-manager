@@ -2,10 +2,8 @@ package # Hide from CPAN
     LM::Test::Component;
 use Moose;
 
-with 'Layout::Manager::Component';
+extends 'Graphics::Primitive::Container';
 
 sub prepare { }
-
-sub draw { }
 
 1;

@@ -9,8 +9,6 @@ BEGIN {
     use_ok('Layout::Manager::Compass');
 }
 
-my $lm = Layout::Manager::Compass->new();
-
 my $foo = new LM::Test::Component(
     name => 'one', minimum_height => 20, minimum_width => 50
 );
@@ -23,12 +21,13 @@ my $cont = new LM::Test::Component(
     width => 100, height => 40
 );
 
-$lm->add_component($foo, 'WeSt');
-cmp_ok($lm->component_count, '==', 1, 'component_count');
+$cont->add_component($foo, 'WeSt');
+cmp_ok($cont->component_count, '==', 1, 'component_count');
 
-$lm->add_component($foo2, 'W');
-cmp_ok($lm->component_count, '==', 2, 'component_count');
+$cont->add_component($foo2, 'W');
+cmp_ok($cont->component_count, '==', 2, 'component_count');
 
+my $lm = Layout::Manager::Compass->new();
 $lm->do_layout($cont);
 
 cmp_ok($foo->height, '==', 40, 'left component height');
