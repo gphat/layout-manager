@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.09
+  - Bugfixes in Compass wrt padded containers
+
 0.08
   - Remove draw method from Component role
   - Remove component management from Manager, leave that to

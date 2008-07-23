@@ -19,30 +19,29 @@ override('do_layout', sub {
     my %edges = (
         north => {
             components => [],
-            # Honor the container's edges
             width => 0,
-            height => $bbox->origin->y
+            height => 0
         },
         south => {
             components => [],
             width => 0,
-            # Honor the container's edges
-            height => $cheight - ($bbox->origin->y + $bbox->height)
+            height => 0
         },
         east => {
             components => [],
-            # Honor the container's edges
-            width => $cwidth - ($bbox->origin->x + $bbox->width),
+            width => 0,
             height => 0
         },
         west => {
             components => [],
-            # Honor the container's edges
-            width => $bbox->origin->x,
+            width => 0,
             height => 0
         },
         center => { components => [], width => 0, height => 0}
     );
+
+    # use Data::Dumper;
+    # print Dumper(\%edges);
 
     my $count = 0;
     foreach my $c (@{ $container->components }) {
@@ -88,40 +87,38 @@ override('do_layout', sub {
         $count++;
     }
 
-    my $xaccum  = $cwidth;
+    my $xaccum  = $bbox->origin->x + $bbox->width;
     foreach my $comp (@{ $edges{east}->{components} }) {
-
-        # TODO Are paddings / margings being honored here and below?
-        $comp->height($container->height - $edges{north}->{height} - $edges{south}->{height});
+        $comp->height($cheight - $edges{north}->{height} - $edges{south}->{height});
         $comp->width($comp->minimum_width);
         $comp->origin->x($xaccum - $comp->width);
-        $comp->origin->y($edges{north}->{height});
+        $comp->origin->y($bbox->origin->x, $edges{north}->{height});
         $xaccum -= $comp->width;
     }
 
     $xaccum = $bbox->origin->x;
     foreach my $comp (@{ $edges{west}->{components} }) {
-        $comp->height($container->height - $edges{north}->{height} - $edges{south}->{height});
+        $comp->height($cheight - $edges{north}->{height} - $edges{south}->{height});
         $comp->width($comp->minimum_width);
         $comp->origin->x($xaccum);
-        $comp->origin->y($edges{north}->{height});
+        $comp->origin->y($bbox->origin->y + $edges{north}->{height});
         $xaccum += $comp->width;
     }
 
     my $yaccum = $bbox->origin->y;
     foreach my $comp (@{ $edges{north}->{components} }) {
         $comp->height($comp->minimum_height);
-        $comp->width($container->width - $edges{east}->{width} - $edges{west}->{width});
-        $comp->origin->x($edges{west}->{width});
+        $comp->width($cwidth - $edges{east}->{width} - $edges{west}->{width});
+        $comp->origin->x($bbox->origin->x + $edges{west}->{width});
         $comp->origin->y($yaccum);
         $yaccum += $comp->height;
     }
 
-    $yaccum = $cheight;
+    $yaccum = $bbox->origin->y + $bbox->height;
     foreach my $comp (@{ $edges{south}->{components} }) {
         $comp->height($comp->minimum_height);
-        $comp->width($container->width - $edges{east}->{width} - $edges{west}->{width});
-        $comp->origin->x($edges{west}->{width});
+        $comp->width($cwidth - $edges{east}->{width} - $edges{west}->{width});
+        $comp->origin->x($bbox->origin->x + $edges{west}->{width});
         $comp->origin->y($yaccum - $comp->height);
         $yaccum -= $comp->height;
     }
@@ -138,8 +135,8 @@ override('do_layout', sub {
             $comp->height($per_height);
             $comp->width($cen_width);
 
-            $comp->origin->x($edges{west}->{width});
-            $comp->origin->y($edges{north}->{height} + ($per_height * ($i - 1)));
+            $comp->origin->x($bbox->origin->x + $edges{west}->{width});
+            $comp->origin->y($bbox->origin->y + $edges{north}->{height} + ($per_height * ($i - 1)));
 
             $i++;
         }
