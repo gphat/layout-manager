@@ -1,8 +1,11 @@
 use lib 't/lib', 'lib';
 
-use Test::More tests => 18;
+use Test::More tests => 22;
 
 use Geometry::Primitive::Point;
+use Layout::Manager::Compass;
+use Layout::Manager::Single;
+use LM::Test::Container;
 use LM::Test::Component;
 
 BEGIN {
@@ -18,11 +21,16 @@ my $yaxis = new LM::Test::Component(
 my $xaxis = new LM::Test::Component(
     minimum_height => 20, minimum_width => 10
 );
-my $plot = new LM::Test::Component(
-    minimum_height => 10, minimum_width => 10
+my $plot = new LM::Test::Container(
+    minimum_height => 10, minimum_width => 10,
+    layout_manager => Layout::Manager::Single->new
 );
+my $renderer = new LM::Test::Component(
+    minimum_height => 10, minimum_width => 10,
+);
+$plot->add_component($renderer);
 
-my $cont = new LM::Test::Component(
+my $cont = new LM::Test::Container(
     width => 500, height => 300
 );
 
@@ -33,7 +41,7 @@ $cont->add_component($plot, 'c');
 
 cmp_ok($cont->component_count, '==', 4, 'component_count');
 
-my $lm = Layout::Manager::Compass->new();
+my $lm = Layout::Manager::Compass->new;
 $lm->do_layout($cont);
 
 cmp_ok($legend->origin->x, '==', 20, 'legend origin x');
@@ -55,3 +63,8 @@ cmp_ok($plot->origin->x, '==', 20, 'plot origin x');
 cmp_ok($plot->origin->y, '==', 0, 'plot origin y');
 cmp_ok($plot->width, '==', 480, 'plot width');
 cmp_ok($plot->height, '==', 270, 'plot height');
+
+cmp_ok($renderer->origin->x, '==', 0, 'renderer origin x');
+cmp_ok($renderer->origin->y, '==', 0, 'renderer origin y');
+cmp_ok($renderer->width, '==', $plot->width, 'renderer width');
+cmp_ok($renderer->height, '==', $plot->height, 'renderer width');

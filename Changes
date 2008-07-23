@@ -3,6 +3,8 @@ Revision history for Layout-Manager
 0.09
   - Bugfixes in Compass wrt padded containers
   - Add Absolute layout manager
+  - Fix broken Single manager
+  - Add a test container and make component actually be a component
 
 0.08
   - Remove draw method from Component role
