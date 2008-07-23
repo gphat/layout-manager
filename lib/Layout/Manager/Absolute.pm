@@ -1,4 +1,4 @@
-package Layout::Manager::Single;
+package Layout::Manager::Absolute;
 use Moose;
 
 extends 'Layout::Manager';
@@ -9,23 +9,11 @@ override('do_layout', sub {
     die("Need a container") unless defined($container);
     return unless $self->component_count;
 
-    my $bbox = $container->inside_bounding_box;
-    my $cwidth = $bbox->width;
-    my $cheight = $bbox->height;
-    my $x = $bbox->origin->x;
-    my $y = $bbox->origin->y;
-
-    my $count = 0;
     foreach my $c (@{ $self->components }) {
 
         my $comp = $c->{component};
 
         next unless defined($comp) && $comp->visible;
-
-        $comp->width($cwidth);
-        $comp->height($cheight);
-        $comp->origin->x($x);
-        $comp->origin->y($y);
 
         if($comp->can('do_layout')) {
             $comp->do_layout($comp);
@@ -41,17 +29,15 @@ no Moose;
 __END__
 =head1 NAME
 
-Layout::Manager::Single - One-size vertical layout manager
+Layout::Manager::Absolute - No frills layout manager
 
 =head1 DESCRIPTION
 
-Lays out all components in a single position.  All components are set to the
-height and width of the container and positioned at the offsets.  This
-basically stacks them all vertically.
+Does nothing.  Expects that all components will be positioned already.
 
 =head1 SYNOPSIS
 
-  my $lm = Layout::Manager::Single->new();
+  my $lm = Layout::Manager::Absolute->new;
   
   $lm->add_component($comp1);
   $lm->add_component($comp2);
@@ -66,7 +52,7 @@ basically stacks them all vertically.
 
 =item I<new>
 
-Creates a new Layout::Manager::Single.
+Creates a new Layout::Manager::Absolute.
 
 =back
 

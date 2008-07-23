@@ -40,9 +40,6 @@ override('do_layout', sub {
         center => { components => [], width => 0, height => 0}
     );
 
-    # use Data::Dumper;
-    # print Dumper(\%edges);
-
     my $count = 0;
     foreach my $c (@{ $container->components }) {
 
