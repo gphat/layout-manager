@@ -4,20 +4,21 @@ use Test::More tests => 11;
 
 use Geometry::Primitive::Point;
 use LM::Test::Component;
+use LM::Test::Container;
 
 BEGIN {
     use_ok('Layout::Manager::Compass');
 }
 
-my $foo = new LM::Test::Component(
+my $foo = LM::Test::Component->new(
     name => 'one', minimum_height => 20, minimum_width => 100
 );
 
-my $foo2 = new LM::Test::Component(
+my $foo2 = LM::Test::Component->new(
     name => 'two', minimum_height => 20, minimum_width => 100
 );
 
-my $cont = new LM::Test::Component(
+my $cont = LM::Test::Container->new(
     width => 100, height => 40
 );
 
@@ -27,7 +28,7 @@ cmp_ok($cont->component_count, '==', 1, 'component_count');
 $cont->add_component($foo2, 'north');
 cmp_ok($cont->component_count, '==', 2, 'component_count');
 
-my $lm = Layout::Manager::Compass->new();
+my $lm = Layout::Manager::Compass->new;
 $lm->do_layout($cont);
 
 cmp_ok($foo->height, '==', 20, 'top component height');

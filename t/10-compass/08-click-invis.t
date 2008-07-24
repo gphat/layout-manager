@@ -4,25 +4,26 @@ use Test::More tests => 18;
 
 use Geometry::Primitive::Point;
 use LM::Test::Component;
+use LM::Test::Container;
 
 BEGIN {
     use_ok('Layout::Manager::Compass');
 }
 
-my $legend = new LM::Test::Component(
+my $legend = LM::Test::Component->new(
     minimum_height => 10, minimum_width => 10
 );
-my $yaxis = new LM::Test::Component(
+my $yaxis = LM::Test::Component->new(
     minimum_height => 10, minimum_width => 20, visible => 0
 );
-my $xaxis = new LM::Test::Component(
+my $xaxis = LM::Test::Component->new(
     minimum_height => 20, minimum_width => 10
 );
-my $plot = new LM::Test::Component(
+my $plot = LM::Test::Component->new(
     minimum_height => 10, minimum_width => 10
 );
 
-my $cont = new LM::Test::Component(
+my $cont = new LM::Test::Container(
     width => 500, height => 300
 );
 
@@ -33,7 +34,7 @@ $cont->add_component($plot, 'c');
 
 cmp_ok($cont->component_count, '==', 4, 'component_count');
 
-my $lm = Layout::Manager::Compass->new();
+my $lm = Layout::Manager::Compass->new;
 $lm->do_layout($cont);
 
 cmp_ok($legend->origin->x, '==', 0, 'legend origin x');

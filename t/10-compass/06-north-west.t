@@ -4,20 +4,21 @@ use Test::More tests => 11;
 
 use Geometry::Primitive::Point;
 use LM::Test::Component;
+use LM::Test::Container;
 
 BEGIN {
     use_ok('Layout::Manager::Compass');
 }
 
-my $foo = new LM::Test::Component(
+my $foo = LM::Test::Component->new(
     name => 'one', minimum_height => 20, minimum_width => 20
 );
 
-my $foo2 = new LM::Test::Component(
+my $foo2 = LM::Test::Component->new(
     name => 'two', minimum_height => 20, minimum_width => 20
 );
 
-my $cont = new LM::Test::Component(
+my $cont = LM::Test::Container->new(
     width => 100, height => 40
 );
 

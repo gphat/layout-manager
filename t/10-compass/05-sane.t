@@ -4,28 +4,29 @@ use Test::More tests => 22;
 
 use Geometry::Primitive::Point;
 use LM::Test::Component;
+use LM::Test::Container;
 
 BEGIN {
     use_ok('Layout::Manager::Compass');
 }
 
-my $north = new LM::Test::Component(
+my $north = LM::Test::Component->new(
     minimum_height => 10, minimum_width => 10
 );
-my $south = new LM::Test::Component(
+my $south = LM::Test::Component->new(
     minimum_height => 10, minimum_width => 10
 );
-my $east = new LM::Test::Component(
+my $east = LM::Test::Component->new(
     minimum_height => 10, minimum_width => 10
 );
-my $west = new LM::Test::Component(
+my $west = LM::Test::Component->new(
     minimum_height => 10, minimum_width => 10
 );
-my $center = new LM::Test::Component(
+my $center = LM::Test::Component->new(
     minimum_height => 10, minimum_width => 10
 );
 
-my $cont = new LM::Test::Component(
+my $cont = LM::Test::Container->new(
     width => 120, height => 100
 );
 
@@ -37,7 +38,7 @@ $cont->add_component($center, 'c');
 
 cmp_ok($cont->component_count, '==', 5, 'component_count');
 
-my $lm = Layout::Manager::Compass->new();
+my $lm = Layout::Manager::Compass->new;
 $lm->do_layout($cont);
 
 cmp_ok($north->origin->x, '==', 10, 'north origin x');
