@@ -5,6 +5,14 @@ Revision history for Layout-Manager
   - Add Absolute layout manager
   - Fix broken Single manager
   - Add a test container and make component actually be a component
+  - pass the parent container to do_layout
+  - (do_layout) Implement common logic in Manager.pm, implementations
+    call super at top of their override.
+  - (do_layout) if this container has no size, use the parent's
+    inside_bounding_box, this is likely going to change
+  - Comment Compass
+  - Compass: Don't blindly set widths and heights for edges where we don't
+    know the sizes yet, set them to 0 and set the values in the loops
 
 0.08
   - Remove draw method from Component role

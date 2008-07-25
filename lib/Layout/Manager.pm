@@ -7,6 +7,38 @@ our $VERSION = '0.09';
 use MooseX::AttributeHelpers;
 
 sub do_layout {
+    my ($self, $container, $parent) = @_;
+
+    die("Need a container") unless defined($container);
+    return unless $container->component_count;
+
+    # If a parent container is passed in...
+    # if(defined($parent)) {
+    #     my $bbox = $parent->inside_bounding_box;
+    #     # And either of our minimum dimensions are unset then set them
+    #     # to the size of our parent, as we have no better guidance...
+    #     # TODO This will likely cause problems...
+    #     unless($container->width) {
+    #         $container->width($bbox->width);
+    #     }
+    #     unless($container->height) {
+    #         $container->height($bbox->height);
+    #     }
+    # }
+
+    # Layout child containers first, since we can't fit them into this one
+    # without knowing the sizes.
+    foreach my $c (@{ $container->components }) {
+
+        my $comp = $c->{component};
+
+        next unless defined($comp) && $comp->visible;
+
+        if($comp->can('do_layout')) {
+            $comp->do_layout($comp, $container, $self);
+        }
+    }
+
 }
 
 __PACKAGE__->meta->make_immutable;

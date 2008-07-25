@@ -3,24 +3,6 @@ use Moose;
 
 extends 'Layout::Manager';
 
-override('do_layout', sub {
-    my ($self, $container) = @_;
-
-    die("Need a container") unless defined($container);
-    return unless $self->component_count;
-
-    foreach my $c (@{ $self->components }) {
-
-        my $comp = $c->{component};
-
-        next unless defined($comp) && $comp->visible;
-
-        if($comp->can('do_layout')) {
-            $comp->do_layout($comp);
-        }
-    }
-});
-
 __PACKAGE__->meta->make_immutable;
 
 no Moose;

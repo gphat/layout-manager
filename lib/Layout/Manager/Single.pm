@@ -6,9 +6,6 @@ extends 'Layout::Manager';
 override('do_layout', sub {
     my ($self, $container) = @_;
 
-    die("Need a container") unless defined($container);
-    return unless $container->component_count;
-
     my $bbox = $container->inside_bounding_box;
     my $cwidth = $bbox->width;
     my $cheight = $bbox->height;
