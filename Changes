@@ -13,6 +13,7 @@ Revision history for Layout-Manager
   - Comment Compass
   - Compass: Don't blindly set widths and heights for edges where we don't
     know the sizes yet, set them to 0 and set the values in the loops
+  - Compass: North and South now run full width, screw that other way
 
 0.08
   - Remove draw method from Component role

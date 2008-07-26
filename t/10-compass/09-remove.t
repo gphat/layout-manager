@@ -44,9 +44,9 @@ cmp_ok($cont->component_count, '==', 5, 'component_count');
 my $lm = Layout::Manager::Compass->new();
 $lm->do_layout($cont);
 
-cmp_ok($south->origin->x, '==', 10, 'south origin x');
+cmp_ok($south->origin->x, '==', 0, 'south origin x');
 cmp_ok($south->origin->y, '==', 90, 'south origin y');
-cmp_ok($south->width, '==', 100, 'south width');
+cmp_ok($south->width, '==', 120, 'south width');
 cmp_ok($south->height, '==', 10, 'south height');
 
 cmp_ok($east->origin->x, '==', 110, 'east origin x');

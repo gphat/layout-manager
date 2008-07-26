@@ -44,19 +44,19 @@ cmp_ok($cont->component_count, '==', 4, 'component_count');
 my $lm = Layout::Manager::Compass->new;
 $lm->do_layout($cont);
 
-cmp_ok($legend->origin->x, '==', 20, 'legend origin x');
+cmp_ok($legend->origin->x, '==', 0, 'legend origin x');
 cmp_ok($legend->origin->y, '==', 290, 'legend origin y');
-cmp_ok($legend->width, '==', 480, 'legend width');
+cmp_ok($legend->width, '==', 500, 'legend width');
 cmp_ok($legend->height, '==', 10, 'north height');
 
 cmp_ok($yaxis->origin->x, '==', 0, 'yaxis origin x');
-cmp_ok($yaxis->origin->y, '==', 0, 'yaxys origin y');
+cmp_ok($yaxis->origin->y, '==', 0, 'yaxis origin y');
 cmp_ok($yaxis->width, '==', 20, 'yaxis width');
 cmp_ok($yaxis->height, '==', 270, 'yaxis height');
 
-cmp_ok($xaxis->origin->x, '==', 20, 'xaxis origin x');
+cmp_ok($xaxis->origin->x, '==', 0, 'xaxis origin x');
 cmp_ok($xaxis->origin->y, '==', 270, 'xaxis origin y');
-cmp_ok($xaxis->width, '==', 480, 'xaxis width');
+cmp_ok($xaxis->width, '==', 500, 'xaxis width');
 cmp_ok($xaxis->height, '==', 20, 'xaxis height');
 
 cmp_ok($plot->origin->x, '==', 20, 'plot origin x');

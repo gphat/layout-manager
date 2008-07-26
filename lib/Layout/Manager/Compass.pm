@@ -81,17 +81,74 @@ override('do_layout', sub {
     # that container will be laid out.  After that adjustments will be made
     # to the container (if necessary) and the component will be positioned.
 
+    ### NORTH ####
+    my $yaccum = $bbox->origin->y;
+    my $north_width = $cwidth;
+    $edges{north}->{height} = 0;
+    foreach my $comp (@{ $edges{north}->{components} }) {
+        if($north_width > $comp->minimum_width) {
+            $comp->width($north_width);
+        }
+        $comp->origin->x($bbox->origin->x);
+
+        # Give a sub-container a chance to size itself since we've given
+        # it all the information we can.
+        # TODO Check::ISA
+        if($comp->can('do_layout')) {
+            $self->_layout_container($comp);
+        }
+
+        $self->_geassign($cheight, $comp->height);
+        $self->_geassign($cwidth, $comp->width);
+
+        $edges{north}->{height} = $comp->height;
+        $self->_geassign($edges{north}->{width}, $comp->width);
+        $comp->origin->y($yaccum);
+        $yaccum += $comp->height;
+    }
+
+    ### SOUTH ####
+    $yaccum = $bbox->origin->y + $cheight;
+    my $south_width = $cwidth;
+    $edges{south}->{height} = 0;
+    foreach my $comp (@{ $edges{south}->{components} }) {
+        if($south_width > $comp->minimum_width) {
+            $comp->width($south_width);
+        }
+        $comp->origin->x($bbox->origin->x);
+
+        # Give a sub-container a chance to size itself since we've given
+        # it all the information we can.
+        # TODO Check::ISA
+        if($comp->can('do_layout')) {
+            $self->_layout_container($comp);
+        }
+
+        $self->_geassign($cheight, $comp->height);
+        $self->_geassign($cwidth, $comp->width);
+
+        $edges{south}->{height} += $comp->height;
+        $self->_geassign($edges{south}->{width}, $comp->width);
+        $comp->origin->y($yaccum - $comp->height);
+        $yaccum -= $comp->height;
+    }
+
+    # Compass layout uses a minimum of height and width for the 4 edges and
+    # then allocates all leftover space equally to items in the center.
+    my $cen_height = $cheight - $edges{north}->{height} - $edges{south}->{height};
+    my $cen_width = $cwidth - $edges{east}->{width} - $edges{west}->{width};
+
+
     ### EAST ###
     # Prime our x position
     my $xaccum  = $bbox->origin->x + $cwidth;
-    my $east_height = $cheight - $edges{north}->{height} - $edges{south}->{height};
     # Reset the east width, since we're about to do it for reals
     $edges{east}->{width} = 0;
     foreach my $comp (@{ $edges{east}->{components} }) {
         # If the size we have available in the east slot is greater than the
         # minimum height of the component then we'll resize.
-        if($east_height > $comp->minimum_height) {
-            $comp->height($east_height);
+        if($cen_height > $comp->minimum_height) {
+            $comp->height($cen_height);
         }
 
         if($comp->can('do_layout')) {
@@ -110,11 +167,10 @@ override('do_layout', sub {
 
     ### WEST ###
     $xaccum = $bbox->origin->x;
-    my $west_height = $cheight - $edges{north}->{height} - $edges{south}->{height};
     $edges{west}->{width} = 0;
     foreach my $comp (@{ $edges{west}->{components} }) {
-        if($west_height > $comp->minimum_height) {
-            $comp->height($west_height);
+        if($cen_height > $comp->minimum_height) {
+            $comp->height($cen_height);
         }
         $comp->origin->y($bbox->origin->y + $edges{north}->{height});
 
@@ -137,63 +193,7 @@ override('do_layout', sub {
         $xaccum += $comp->width;
     }
 
-    ### NORTH ####
-    my $yaccum = $bbox->origin->y;
-    my $north_width = $cwidth - $edges{east}->{width} - $edges{west}->{width};
-    $edges{north}->{height} = 0;
-    foreach my $comp (@{ $edges{north}->{components} }) {
-        if($north_width > $comp->minimum_width) {
-            $comp->width($north_width);
-        }
-        $comp->origin->x($bbox->origin->x + $edges{west}->{width});
 
-        # Give a sub-container a chance to size itself since we've given
-        # it all the information we can.
-        # TODO Check::ISA
-        if($comp->can('do_layout')) {
-            $self->_layout_container($comp);
-        }
-
-        $self->_geassign($cheight, $comp->height);
-        $self->_geassign($cwidth, $comp->width);
-
-        $edges{north}->{height} = $comp->height;
-        $self->_geassign($edges{north}->{width}, $comp->width);
-        $comp->origin->y($yaccum);
-        $yaccum += $comp->height;
-    }
-
-    $yaccum = $bbox->origin->y + $cheight;
-    my $south_width = $cwidth - $edges{east}->{width} - $edges{west}->{width};
-    $edges{south}->{height} = 0;
-    foreach my $comp (@{ $edges{south}->{components} }) {
-        if($south_width > $comp->minimum_width) {
-            $comp->width($south_width);
-        }
-        $comp->origin->x($bbox->origin->x + $edges{west}->{width});
-
-        # Give a sub-container a chance to size itself since we've given
-        # it all the information we can.
-        # TODO Check::ISA
-        if($comp->can('do_layout')) {
-            $self->_layout_container($comp);
-        }
-
-        $self->_geassign($cheight, $comp->height);
-        $self->_geassign($cwidth, $comp->width);
-
-        $edges{south}->{height} = $comp->height;
-        $self->_geassign($edges{south}->{width}, $comp->width);
-        $comp->origin->y($yaccum - $comp->height);
-        $yaccum -= $comp->height;
-    }
-
-    # Compass layout uses a minimum of height and width for the 4 edges and
-    # then allocates all leftover space equally to items in the center.  This
-    # section does the center fitting.
-
-    my $cen_height = $cheight - $edges{north}->{height} - $edges{south}->{height};
-    my $cen_width = $cwidth - $edges{east}->{width} - $edges{west}->{width};
 
     my $ccount = scalar(@{ $edges{center}->{components} });
     if($ccount) {
@@ -282,18 +282,35 @@ Layout::Manager::Compass - Compass based layout
 
 Layout::Manager::Compass is a layout manager that takes hints based on the
 four cardinal directions (north, east, south and west) plus a center area that
-takes up all possible space.
+takes up all remaining space.
 
 In other words, the center area will expand to take up all space that is NOT
-used by components placed at the edges.
+used by components placed at the edges.  Components at the north and south
+edges will take up the full width of the container.
+
+  +--------------------------------+
+  |              north             |
+  +-----+--------------------+-----+
+  |     |                    |     |
+  |  w  |                    |  e  |
+  |  e  |       center       |  a  |
+  |  s  |                    |  s  |
+  |  t  |                    |  t  |
+  +-----+--------------------+-----+
+  |              south             |
+  +--------------------------------+
 
 Components are placed in the order they are added.  If two items are added
-to the 'north' position then the first item will be rendered on top of the
-second.
+to the 'north' position then the first item will be rendered above the
+second.  The height of the north edge will equal the height of both components
+combined.
 
 Items in the center split the available space, heightwise.  Two center
 components will each take up 50% of the available height and 100% of the
 available width.
+
+Compass is basically an implementation of Java's
+L<BorderLayout|http://java.sun.com/docs/books/tutorial/uiswing/layout/border.html>
 
 =head1 SYNOPSIS
 

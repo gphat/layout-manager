@@ -32,7 +32,7 @@ my $lm = Layout::Manager::Compass->new;
 $lm->do_layout($cont);
 
 cmp_ok($foo->height, '==', 20, 'bottom component height');
-cmp_ok($foo->width, '==', 80, 'bottom component width');
+cmp_ok($foo->width, '==', 100, 'bottom component width');
 cmp_ok($foo->origin->x, '==', 0, 'bottom component origin x');
 cmp_ok($foo->origin->y, '==', 20, 'bottom component origin y');
 

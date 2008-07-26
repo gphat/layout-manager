@@ -33,7 +33,7 @@ cmp_ok($cont->component_count, '==', 3, 'component count');
 my $lm = Layout::Manager::Compass->new;
 $lm->do_layout($cont);
 
-cmp_ok($foo->width, '==', 80, 'top component width');
+cmp_ok($foo->width, '==', 100, 'top component width');
 cmp_ok($foo->height, '==', 20, 'top component height');
 cmp_ok($foo->origin->x, '==', 0, 'top component origin x');
 cmp_ok($foo->origin->y, '==', 0, 'top component origin y');
