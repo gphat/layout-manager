@@ -14,27 +14,11 @@ override('do_layout', sub {
     my $cheight = $bbox->height;
 
     my %edges = (
-        north => {
-            components => [],
-            width => 0,
-            height => 0
-        },
-        south => {
-            components => [],
-            width => 0,
-            height => 0
-        },
-        east => {
-            components => [],
-            width => 0,
-            height => 0
-        },
-        west => {
-            components => [],
-            width => 0,
-            height => 0
-        },
-        center => { components => [], width => 0, height => 0}
+        north => { components => [], width => 0, height => 0 },
+        south => { components => [], width => 0, height => 0 },
+        east => { components => [], width => 0, height => 0 },
+        west => { components => [], width => 0, height => 0 },
+        center => { components => [], width => 0, height => 0 }
     );
 
     # This loop takes each component and adds it's width and height to the
@@ -52,9 +36,11 @@ override('do_layout', sub {
 
         my $args = lc(substr($c->{args}, 0, 1));
 
-        if(lc($args) eq 'c') {
+        if(($args) eq 'c') {
 
             push(@{ $edges{center}->{components} }, $comp);
+            $edges{center}->{height} += $comp->minimum_height;
+            $edges{center}->{width} += $comp->minimum_width;
         } elsif($args eq 'n') {
 
             push(@{ $edges{north}->{components} }, $comp);
@@ -73,25 +59,34 @@ override('do_layout', sub {
         } elsif($args eq 'w') {
 
             push(@{ $edges{west}->{components} }, $comp);
-            $edges{west}->{height} = 0;;
+            $edges{west}->{height} = 0;
             $edges{west}->{width} += $comp->minimum_width;
-        } elsif($args eq 'c') {
-
-            push(@{ $edges{center}->{components} }, $comp);
-            $edges{center}->{height} += $comp->minimum_height;
-            $edges{center}->{width} = 0;
         } else {
 
             die("Unknown direction '$args' for component $comp.");
         }
     }
 
-    # Each of these loops iterate over their respective edge and 'fit' each
-    # component in the order they were added.
+    # Resize the container to the bare minimum that we expect to need, if
+    # it's not already that big...
+    $self->_geassign($cheight, $edges{north}->{height}
+        + $edges{south}->{height} + $edges{center}->{height}
+    );
+    $self->_geassign($cwidth, $edges{east}->{width} + $edges{west}->{width}
+        + $edges{center}->{width});
 
-    my $xaccum  = $bbox->origin->x + $bbox->width;
+    # Each of these loops iterate over their respective edge and 'fit' each
+    # component in the order they were added.  First they set either a height
+    # or width (whatever they can).  If the component is a container, then
+    # that container will be laid out.  After that adjustments will be made
+    # to the container (if necessary) and the component will be positioned.
+
+    ### EAST ###
+    # Prime our x position
+    my $xaccum  = $bbox->origin->x + $cwidth;
     my $east_height = $cheight - $edges{north}->{height} - $edges{south}->{height};
-    # my $east_width = 0;
+    # Reset the east width, since we're about to do it for reals
+    $edges{east}->{width} = 0;
     foreach my $comp (@{ $edges{east}->{components} }) {
         # If the size we have available in the east slot is greater than the
         # minimum height of the component then we'll resize.
@@ -99,15 +94,24 @@ override('do_layout', sub {
             $comp->height($east_height);
         }
 
+        if($comp->can('do_layout')) {
+            $self->_layout_container($comp);
+        }
+
+        $self->_geassign($cheight, $comp->height);
+        $self->_geassign($cwidth, $comp->width);
         $self->_geassign($edges{east}->{height}, $comp->height);
+        $edges{east}->{width} += $comp->width;
         $xaccum -= $comp->width;
+
         $comp->origin->x($xaccum);
         $comp->origin->y($bbox->origin->y + $edges{north}->{height});
     }
 
+    ### WEST ###
     $xaccum = $bbox->origin->x;
     my $west_height = $cheight - $edges{north}->{height} - $edges{south}->{height};
-    my $west_width = 0;
+    $edges{west}->{width} = 0;
     foreach my $comp (@{ $edges{west}->{components} }) {
         if($west_height > $comp->minimum_height) {
             $comp->height($west_height);
@@ -121,13 +125,22 @@ override('do_layout', sub {
             $self->_layout_container($comp);
         }
 
+        if($comp->minimum_width > $comp->width) {
+            $comp->width = $comp->minimum_width;
+        }
+        $self->_geassign($cheight, $comp->height);
+        $self->_geassign($cwidth, $comp->width);
+
+        $edges{west}->{width} += $comp->width;
         $self->_geassign($edges{west}->{height}, $comp->height);
-        $comp->origin->x($xaccum + $west_width);
-        $west_width += $comp->width;
+        $comp->origin->x($xaccum);
+        $xaccum += $comp->width;
     }
 
+    ### NORTH ####
     my $yaccum = $bbox->origin->y;
     my $north_width = $cwidth - $edges{east}->{width} - $edges{west}->{width};
+    $edges{north}->{height} = 0;
     foreach my $comp (@{ $edges{north}->{components} }) {
         if($north_width > $comp->minimum_width) {
             $comp->width($north_width);
@@ -141,12 +154,18 @@ override('do_layout', sub {
             $self->_layout_container($comp);
         }
 
+        $self->_geassign($cheight, $comp->height);
+        $self->_geassign($cwidth, $comp->width);
+
+        $edges{north}->{height} = $comp->height;
+        $self->_geassign($edges{north}->{width}, $comp->width);
         $comp->origin->y($yaccum);
         $yaccum += $comp->height;
     }
 
-    $yaccum = $bbox->origin->y + $bbox->height;
+    $yaccum = $bbox->origin->y + $cheight;
     my $south_width = $cwidth - $edges{east}->{width} - $edges{west}->{width};
+    $edges{south}->{height} = 0;
     foreach my $comp (@{ $edges{south}->{components} }) {
         if($south_width > $comp->minimum_width) {
             $comp->width($south_width);
@@ -160,6 +179,11 @@ override('do_layout', sub {
             $self->_layout_container($comp);
         }
 
+        $self->_geassign($cheight, $comp->height);
+        $self->_geassign($cwidth, $comp->width);
+
+        $edges{south}->{height} = $comp->height;
+        $self->_geassign($edges{south}->{width}, $comp->width);
         $comp->origin->y($yaccum - $comp->height);
         $yaccum -= $comp->height;
     }
@@ -178,7 +202,7 @@ override('do_layout', sub {
         my $i = 1;
         foreach my $comp (@{ $edges{center}->{components}}) {
             $comp->height($per_height);
-            $comp->width($cen_width);
+            $comp->width($cen_width) if $cen_width;
 
             $comp->origin->x($bbox->origin->x + $edges{west}->{width});
             $comp->origin->y($bbox->origin->y + $edges{north}->{height} + ($per_height * ($i - 1)));
@@ -188,20 +212,30 @@ override('do_layout', sub {
                 $self->_layout_container($comp);
             }
 
+            $self->_geassign($cheight, $comp->height);
+            $self->_geassign($cwidth, $comp->width);
+
             $i++;
         }
     }
 
-    # use Data::Dumper;
-    # print Dumper(\%used);
+    # Our 'side' height is the bigger of the east/west (they will be equal if
+    # they both exist...)
+    my $side_height = $edges{east}->{height};
+    $self->_geassign($side_height, $edges{west}->{height});
+    $self->_geassign($side_height, $edges{center}->{height});
+
+    # Our 'side' width is the bigger of the south/north (they will be equal if
+    # they both exist...)
+    my $side_width = $edges{north}->{width};
+    $self->_geassign($side_width, $edges{south}->{width});
+    $self->_geassign($side_width, $edges{center}->{width});
 
     # Determine what our minimum height and width is
     my $min_height = $edges{north}->{height} + $edges{south}->{height}
-        + $edges{east}->{height} + $edges{west}->{height}
-        + $edges{center}->{height};
-    my $min_width = $edges{north}->{width} + $edges{south}->{width}
-        + $edges{east}->{width} + $edges{west}->{width}
-        + $edges{center}->{width};
+        + $side_height;
+    my $min_width = $side_width +
+        + $edges{east}->{width} + $edges{west}->{width};
 
     # Increase the minimum height and width of the container to accomodate
     # the laid out components.
@@ -216,8 +250,6 @@ override('do_layout', sub {
     if($container->height < $container->minimum_height) {
         $container->height($container->minimum_height);
     }
-
-    #super;
 });
 
 sub _layout_container {
