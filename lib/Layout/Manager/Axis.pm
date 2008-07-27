@@ -43,13 +43,10 @@ override('do_layout', sub {
         if(($args) eq 'c') {
 
             push(@{ $edges{center}->{components} }, $comp);
-            # $edges{center}->{height} += $comp->minimum_height;
-            # $edges{center}->{width} = 0;
         } elsif($args eq 'n') {
 
             push(@{ $edges{north}->{components} }, $comp);
             $edges{north}->{height} += $comp->minimum_height;
-            # $edges{north}->{width} = 0;
             $edges{east}->{height} -= $comp->minimum_height;
             $edges{west}->{height} -= $comp->minimum_height;
             $edges{center}->{height} -= $comp->minimum_height;
@@ -61,12 +58,9 @@ override('do_layout', sub {
             $edges{east}->{height} -= $comp->minimum_height;
             $edges{west}->{height} -= $comp->minimum_height;
             $edges{center}->{height} -= $comp->minimum_height;
-            print STDERR "### $comp\n";
-            # $edges{south}->{width} = 0;
         } elsif($args eq 'e') {
 
             push(@{ $edges{east}->{components} }, $comp);
-            # $edges{east}->{height} = 0;
             $edges{east}->{width} += $comp->minimum_width;
             $edges{north}->{width} -= $comp->minimum_width;
             $edges{south}->{width} -= $comp->minimum_width;
@@ -74,7 +68,6 @@ override('do_layout', sub {
         } elsif($args eq 'w') {
 
             push(@{ $edges{west}->{components} }, $comp);
-            # $edges{west}->{height} = 0;
             $edges{west}->{width} += $comp->minimum_width;
             $edges{north}->{width} -= $comp->minimum_width;
             $edges{south}->{width} -= $comp->minimum_width;
@@ -126,7 +119,6 @@ override('do_layout', sub {
         if($comp->can('do_layout')) {
             $comp->do_layout($comp);
         }
-        print STDERR "### $comp\n";
     }
 
     # Relayout the north
