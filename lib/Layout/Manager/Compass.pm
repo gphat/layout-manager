@@ -71,7 +71,7 @@ override('do_layout', sub {
     # it's not already that big...
     if(!$cheight) {
         $self->_geassign($cheight, $edges{north}->{height}
-            + $edges{south}->{height}
+            + $edges{south}->{height} + $container->outside_height
         );
 
         my $sheight = $edges{east}->{height};
