@@ -58,12 +58,12 @@ my $lm = Layout::Manager::Compass->new;
 $cont->layout_manager($lm);
 $cont->do_layout($cont);
 
-cmp_ok($legend->origin->x, '==', 29, 'legend origin x');
+cmp_ok($legend->origin->x, '==', 4, 'legend origin x');
 cmp_ok($legend->origin->y, '==', 83, 'legend origin y');
-cmp_ok($legend->width, '==', 88, 'legend width');
+cmp_ok($legend->width, '==', 113, 'legend width');
 cmp_ok($legend->height, '==', 15, 'legend height');
 
-cmp_ok($text1->origin->x, '==', 78, 'text1 origin x');
+cmp_ok($text1->origin->x, '==', 107, 'text1 origin x');
 cmp_ok($text1->origin->y, '==', 0, 'text1 origin y');
 cmp_ok($text1->width, '==', 10, 'text1 width');
 cmp_ok($text1->height, '==', 15, 'text1 height');
@@ -73,14 +73,14 @@ cmp_ok($text2->origin->y, '==', 0, 'text2 origin y');
 cmp_ok($text2->width, '==', 15, 'text2 width');
 cmp_ok($text2->height, '==', 15, 'text2 height');
 
-cmp_ok($legend2->origin->x, '==', 29, 'legend2 origin x');
+cmp_ok($legend2->origin->x, '==', 4, 'legend2 origin x');
 cmp_ok($legend2->origin->y, '==', 5, 'legend2 origin y');
-cmp_ok($legend2->width, '==', 88, 'legend2 width');
+cmp_ok($legend2->width, '==', 113, 'legend2 width');
 cmp_ok($legend2->height, '==', 25, 'legend2 height');
 
-cmp_ok($text3->origin->x, '==', 10, 'text3 origin x');
+cmp_ok($text3->origin->x, '==', 0, 'text3 origin x');
 cmp_ok($text3->origin->y, '==', 0, 'text3 origin y');
-cmp_ok($text3->width, '==', 78, 'text3 width');
+cmp_ok($text3->width, '==', 113, 'text3 width');
 cmp_ok($text3->height, '==', 15, 'text3 height');
 
 cmp_ok($text4->origin->x, '==', 0, 'text4 origin x');
@@ -89,8 +89,9 @@ cmp_ok($text4->width, '==', 10, 'text4 width');
 cmp_ok($text4->height, '==', 10, 'text4 height');
 
 cmp_ok($legend3->origin->x, '==', 4, 'legend 3 origin x');
-cmp_ok($legend3->origin->y, '==', 20, 'legend 3 origin y');
+cmp_ok($legend3->origin->y, '==', 30, 'legend 3 origin y');
 cmp_ok($legend3->width, '==', 25, 'legend 3 width');
+cmp_ok($legend3->height, '==', 25, 'legend 3 height');
 
 cmp_ok($text5->origin->x, '==', 0, 'text5 origin x');
 cmp_ok($text5->origin->y, '==', 5, 'text5 origin y');
@@ -104,5 +105,5 @@ cmp_ok($text6->height, '==', 48, 'text6 height');
 
 cmp_ok($text7->origin->x, '==', 0, 'text7 origin x');
 cmp_ok($text7->origin->y, '==', 0, 'text7 origin y');
-cmp_ok($text7->width, '==', 10, 'text7 width');
+cmp_ok($text7->width, '==', 25, 'text7 width');
 cmp_ok($text7->height, '==', 5, 'text7 height');
