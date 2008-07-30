@@ -179,17 +179,16 @@ no Moose;
 __END__
 =head1 NAME
 
-Layout::Manager::Compass - Compass based layout
+Layout::Manager::Axis - Compass-like resizing managers
 
 =head1 DESCRIPTION
 
-Layout::Manager::Compass is a layout manager that takes hints based on the
-four cardinal directions (north, east, south and west) plus a center area that
-takes up all remaining space.
+Axis is I<very> similar to L<Compass|Layout::Manager::Compass> with one
+exception:  Components added to the east and west consume space on the
+sides of of the north and south.  
 
-In other words, the center area will expand to take up all space that is NOT
-used by components placed at the edges.  Components at the north and south
-edges will take up the full width of the container.
+Components at the north and south are resized when east and west components
+are added.
 
   +--------------------------------+
   |  x  |        north       |  x  |
@@ -203,21 +202,18 @@ edges will take up the full width of the container.
   |  x  |      south         |  x  |
   +--------------------------------+
 
-Components are placed in the order they are added.  If two items are added
-to the 'north' position then the first item will be rendered above the
-second.  The height of the north edge will equal the height of both components
-combined.
+The B<x> boxes above will effectively be dead-space.  No components will
+occupy those areas.
 
-Items in the center split the available space, heightwise.  Two center
-components will each take up 50% of the available height and 100% of the
-available width.
-
-Compass is basically an implementation of Java's
-L<BorderLayout|http://java.sun.com/docs/books/tutorial/uiswing/layout/border.html>
+Why, you ask?  Some components (such as axes on a chart, for which this
+manager is named) need to be the B<exact> same hight or with as the center
+component. If the chart area is represented by the center area and an axis
+is positioned to the west, it needs to know how big the center is to
+accurately draw tick marks.
 
 =head1 SYNOPSIS
 
-  my $lm = Layout::Manager::Compass->new();
+  my $lm = Layout::Manager::Axis->new;
   
   $lm->add_component($comp1, 'north');
   $lm->add_component($comp2, 'east');
@@ -239,7 +235,7 @@ also just provide the first letter of the word and it will do the same thing.
 
 =item I<new>
 
-Creates a new Layout::Manager::Compass.
+Creates a new Layout::Manager::Axis.
 
 =back
 

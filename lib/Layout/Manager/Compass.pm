@@ -258,7 +258,7 @@ Layout::Manager::Compass - Compass based layout
 
 Layout::Manager::Compass is a layout manager that takes hints based on the
 four cardinal directions (north, east, south and west) plus a center area that
-takes up all remaining space.
+takes up all remaining space (vertically).
 
 In other words, the center area will expand to take up all space that is NOT
 used by components placed at the edges.  Components at the north and south
@@ -290,19 +290,19 @@ L<BorderLayout|http://java.sun.com/docs/books/tutorial/uiswing/layout/border.htm
 
 =head1 SYNOPSIS
 
-  my $lm = Layout::Manager::Compass->new();
+  my $lm = Layout::Manager::Compass->new;
   
   $lm->add_component($comp1, 'north');
   $lm->add_component($comp2, 'east');
 
   $lm->do_layout($container);
 
-
 =head1 POSITIONING
 
 When you add a component with I<add_component> the second argument should be
-one of: north, south, east, west or center.  Case doesn't matter.  You can
-also just provide the first letter of the word and it will do the same thing.
+one of: B<north>, B<south>, B<east>, B<west> or B<center>.  Case doesn't
+matter.  You can also just provide the first letter of the word and it will do
+the same thing.
 
 =head1 METHODS
 
