@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.10
+  - POD
+
 0.09
   - Bugfixes in Compass wrt padded containers
   - Add Absolute layout manager

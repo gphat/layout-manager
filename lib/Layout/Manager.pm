@@ -2,29 +2,15 @@ package Layout::Manager;
 use Moose;
 
 our $AUTHORITY = 'cpan:GPHAT';
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 use MooseX::AttributeHelpers;
 
 sub do_layout {
-    my ($self, $container, $parent) = @_;
+    my ($self, $container) = @_;
 
     die("Need a container") unless defined($container);
     return unless $container->component_count;
-
-    # If a parent container is passed in...
-    # if(defined($parent)) {
-    #     my $bbox = $parent->inside_bounding_box;
-    #     # And either of our minimum dimensions are unset then set them
-    #     # to the size of our parent, as we have no better guidance...
-    #     # TODO This will likely cause problems...
-    #     unless($container->width) {
-    #         $container->width($bbox->width);
-    #     }
-    #     unless($container->height) {
-    #         $container->height($bbox->height);
-    #     }
-    # }
 
     # Layout child containers first, since we can't fit them into this one
     # without knowing the sizes.
@@ -35,7 +21,7 @@ sub do_layout {
         next unless defined($comp) && $comp->visible;
 
         if($comp->can('do_layout')) {
-            $comp->do_layout($comp, $container, $self);
+            $comp->do_layout($comp, $container);
         }
     }
 
@@ -133,7 +119,7 @@ component, as those components need to be ignored.
 
 =item I<do_layout>
 
-Lays out this managers components in the specified container.
+Lays out this manager's components in the specified container.
 
 =item I<do_prepare>
 
