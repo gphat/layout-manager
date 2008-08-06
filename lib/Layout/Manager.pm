@@ -21,7 +21,7 @@ sub do_layout {
         next unless defined($comp) && $comp->visible;
 
         if($comp->can('do_layout')) {
-            $comp->do_layout($comp, $container);
+            $comp->do_layout($comp);
         }
     }
 
