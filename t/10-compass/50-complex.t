@@ -1,44 +1,42 @@
-use lib 't/lib', 'lib';
-
 use Test::More tests => 43;
 
 use Graphics::Primitive::Insets;
 use Geometry::Primitive::Point;
 use Layout::Manager::Compass;
-use LM::Test::Container;
-use LM::Test::Component;
+use Graphics::Primitive::Container;
+use Graphics::Primitive::Component;
 
 BEGIN {
     use_ok('Layout::Manager::Compass');
 }
 
-my $legend = LM::Test::Container->new(
+my $legend = Graphics::Primitive::Container->new(
     layout_manager => Layout::Manager::Compass->new, name => 'legend'
 );
-my $text1 = LM::Test::Component->new( minimum_width => 10, minimum_height => 15);
-my $text2 = LM::Test::Component->new( minimum_width => 15, minimum_height => 10);
+my $text1 = Graphics::Primitive::Component->new( minimum_width => 10, minimum_height => 15);
+my $text2 = Graphics::Primitive::Component->new( minimum_width => 15, minimum_height => 10);
 $legend->add_component($text1, 'e');
 $legend->add_component($text2, 'w');
 
-my $legend2 = LM::Test::Container->new(
+my $legend2 = Graphics::Primitive::Container->new(
     layout_manager => Layout::Manager::Compass->new, name => 'legend2'
 );
-my $text3 = LM::Test::Component->new( minimum_width => 10, minimum_height => 15);
-my $text4 = LM::Test::Component->new( minimum_width => 10, minimum_height => 10);
+my $text3 = Graphics::Primitive::Component->new( minimum_width => 10, minimum_height => 15);
+my $text4 = Graphics::Primitive::Component->new( minimum_width => 10, minimum_height => 10);
 $legend2->add_component($text3, 'n');
 $legend2->add_component($text4, 'w');
 
-my $legend3 = LM::Test::Container->new(
+my $legend3 = Graphics::Primitive::Container->new(
     layout_manager => Layout::Manager::Compass->new, name => 'legend3'
 );
-my $text5 = LM::Test::Component->new( minimum_width => 10, minimum_height => 15);
-my $text6 = LM::Test::Component->new( minimum_width => 15, minimum_height => 10);
-my $text7 = LM::Test::Component->new( minimum_width => 10, minimum_height => 5);
+my $text5 = Graphics::Primitive::Component->new( minimum_width => 10, minimum_height => 15);
+my $text6 = Graphics::Primitive::Component->new( minimum_width => 15, minimum_height => 10);
+my $text7 = Graphics::Primitive::Component->new( minimum_width => 10, minimum_height => 5);
 $legend3->add_component($text5, 'c');
 $legend3->add_component($text6, 'e');
 $legend3->add_component($text7, 'n');
 
-my $cont = new LM::Test::Container(
+my $cont = new Graphics::Primitive::Container(
     width => 120, height => 100,
     padding => Graphics::Primitive::Insets->new(
         top => 5, left => 4, right => 3, bottom => 2

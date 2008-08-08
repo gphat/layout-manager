@@ -1,40 +1,36 @@
-use lib 't/lib', 'lib';
-
 use Test::More tests => 29;
 
 use Geometry::Primitive::Point;
-use LM::Test::Component;
-use LM::Test::Container;
+use Graphics::Primitive::Component;
+use Graphics::Primitive::Container;
 
 BEGIN {
     use_ok('Layout::Manager::Axis');
 }
 
-my $foo = LM::Test::Component->new(
+my $foo = Graphics::Primitive::Component->new(
     name => 'one', minimum_height => 20, minimum_width => 20
 );
-my $foo2 = LM::Test::Component->new(
+my $foo2 = Graphics::Primitive::Component->new(
     name => 'two', minimum_height => 20, minimum_width => 20
 );
-my $foo3 = LM::Test::Component->new(
+my $foo3 = Graphics::Primitive::Component->new(
     name => 'three', minimum_height => 10, minimum_width => 20
 );
-my $foo4 = LM::Test::Component->new(
+my $foo4 = Graphics::Primitive::Component->new(
     name => 'four', minimum_height => 10, minimum_width => 30
 );
-my $foo5 = LM::Test::Component->new(
+my $foo5 = Graphics::Primitive::Component->new(
     name => 'five', minimum_height => 10, minimum_width => 10
 );
-my $foo6 = LM::Test::Component->new(
+my $foo6 = Graphics::Primitive::Component->new(
     name => 'six', minimum_height => 10, minimum_width => 10
 );
-my $foo7 = LM::Test::Component->new(
+my $foo7 = Graphics::Primitive::Component->new(
     name => 'seven', minimum_height => 10, minimum_width => 10
 );
 
-
-
-my $cont = LM::Test::Container->new(
+my $cont = Graphics::Primitive::Container->new(
     width => 400, height => 200,
     padding => Graphics::Primitive::Insets->new(
         top => 5, left => 4, right => 3, bottom => 2

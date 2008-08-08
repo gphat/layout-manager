@@ -1,8 +1,6 @@
 package Layout::Manager::Compass;
 use Moose;
 
-use MooseX::AttributeHelpers;
-
 extends 'Layout::Manager';
 
 override('do_layout', sub {
@@ -272,6 +270,7 @@ edges will take up the full width of the container.
   |  e  |       center       |  a  |
   |  s  |                    |  s  |
   |  t  |                    |  t  |
+  |     |                    |     |
   +-----+--------------------+-----+
   |              south             |
   +--------------------------------+

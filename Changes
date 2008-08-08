@@ -1,5 +1,9 @@
 Revision history for Layout-Manager
 
+0.11
+  - Add Flow layout manager
+  - Remove cruft from pre-Graphics::Primitive dependency days
+
 0.10
   - POD
   - Remove some old cruft

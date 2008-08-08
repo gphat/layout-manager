@@ -1,29 +1,27 @@
-use lib 't/lib', 'lib';
-
 use Test::More tests => 18;
 
 use Geometry::Primitive::Point;
-use LM::Test::Component;
-use LM::Test::Container;
+use Graphics::Primitive::Component;
+use Graphics::Primitive::Container;
 
 BEGIN {
     use_ok('Layout::Manager::Compass');
 }
 
-my $legend = LM::Test::Component->new(
+my $legend = Graphics::Primitive::Component->new(
     minimum_height => 10, minimum_width => 10
 );
-my $yaxis = LM::Test::Component->new(
+my $yaxis = Graphics::Primitive::Component->new(
     minimum_height => 10, minimum_width => 20, visible => 0
 );
-my $xaxis = LM::Test::Component->new(
+my $xaxis = Graphics::Primitive::Component->new(
     minimum_height => 20, minimum_width => 10
 );
-my $plot = LM::Test::Component->new(
+my $plot = Graphics::Primitive::Component->new(
     minimum_height => 10, minimum_width => 10
 );
 
-my $cont = new LM::Test::Container(
+my $cont = new Graphics::Primitive::Container(
     width => 500, height => 300
 );
 

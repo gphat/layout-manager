@@ -1,11 +1,11 @@
-use Test::More tests => 11;
+use strict;
+use Test::More tests => 9;
 
-use Geometry::Primitive::Point;
 use Graphics::Primitive::Component;
 use Graphics::Primitive::Container;
 
 BEGIN {
-    use_ok('Layout::Manager::Compass');
+    use_ok('Layout::Manager::Flow');
 }
 
 my $foo = Graphics::Primitive::Component->new(
@@ -20,13 +20,10 @@ my $cont = Graphics::Primitive::Container->new(
     width => 100, height => 40
 );
 
-$cont->add_component($foo, 'NORTH');
-cmp_ok($cont->component_count, '==', 1, 'component_count');
+$cont->add_component($foo);
+$cont->add_component($foo2);
 
-$cont->add_component($foo2, 'north');
-cmp_ok($cont->component_count, '==', 2, 'component_count');
-
-my $lm = Layout::Manager::Compass->new;
+my $lm = Layout::Manager::Flow->new(anchor => 'north');
 $lm->do_layout($cont);
 
 cmp_ok($foo->height, '==', 20, 'top component height');

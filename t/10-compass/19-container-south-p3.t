@@ -1,28 +1,26 @@
-use lib 't/lib', 'lib';
-
 use Test::More tests => 19;
 
 use Graphics::Primitive::Insets;
 use Geometry::Primitive::Point;
 use Layout::Manager::Compass;
-use LM::Test::Container;
-use LM::Test::Component;
+use Graphics::Primitive::Container;
+use Graphics::Primitive::Component;
 
 BEGIN {
     use_ok('Layout::Manager::Compass');
 }
 
-my $legend = LM::Test::Container->new(
+my $legend = Graphics::Primitive::Container->new(
     layout_manager => Layout::Manager::Compass->new, name => 'legend'
 );
-my $text1 = LM::Test::Component->new( name => 'text1', minimum_width => 10, minimum_height => 15);
-my $text2 = LM::Test::Component->new( name => 'text2', minimum_width => 15, minimum_height => 10);
+my $text1 = Graphics::Primitive::Component->new( name => 'text1', minimum_width => 10, minimum_height => 15);
+my $text2 = Graphics::Primitive::Component->new( name => 'text2', minimum_width => 15, minimum_height => 10);
 $legend->add_component($text1, 'n');
 $legend->add_component($text2, 'w');
 
-my $text3 = LM::Test::Component->new( name => 'text3', minimum_width => 20, minimum_height => 10);
+my $text3 = Graphics::Primitive::Component->new( name => 'text3', minimum_width => 20, minimum_height => 10);
 
-my $cont = new LM::Test::Container(
+my $cont = new Graphics::Primitive::Container(
     width => 120, height => 100,
     padding => Graphics::Primitive::Insets->new(
         top => 5, left => 4, right => 3, bottom => 2

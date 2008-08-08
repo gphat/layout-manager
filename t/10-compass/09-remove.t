@@ -1,32 +1,30 @@
-use lib 't/lib', 'lib';
-
 use Test::More tests => 19;
 
 use Geometry::Primitive::Point;
-use LM::Test::Component;
-use LM::Test::Container;
+use Graphics::Primitive::Component;
+use Graphics::Primitive::Container;
 
 BEGIN {
     use_ok('Layout::Manager::Compass');
 }
 
-my $north = LM::Test::Component->new(
+my $north = Graphics::Primitive::Component->new(
     minimum_height => 10, minimum_width => 10, name => 'north'
 );
-my $south = LM::Test::Component->new(
+my $south = Graphics::Primitive::Component->new(
     minimum_height => 10, minimum_width => 10
 );
-my $east = LM::Test::Component->new(
+my $east = Graphics::Primitive::Component->new(
     minimum_height => 10, minimum_width => 10
 );
-my $west = LM::Test::Component->new(
+my $west = Graphics::Primitive::Component->new(
     minimum_height => 10, minimum_width => 10
 );
-my $center = LM::Test::Component->new(
+my $center = Graphics::Primitive::Component->new(
     minimum_height => 10, minimum_width => 10
 );
 
-my $cont = LM::Test::Container->new(
+my $cont = Graphics::Primitive::Container->new(
     width => 120, height => 100
 );
 
