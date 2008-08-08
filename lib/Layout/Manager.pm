@@ -6,6 +6,12 @@ our $VERSION = '0.11';
 
 use MooseX::AttributeHelpers;
 
+has 'overflow' => (
+    is => 'rw',
+    isa => 'Bool',
+    default => sub { 0 }
+);
+
 sub do_layout {
     my ($self, $container) = @_;
 
@@ -47,10 +53,13 @@ to serve as a base for outside implementations.
 
     use Layout::Manager;
 
-    my $foo = Layout::Manager->new();
+    my $foo = Layout::Manager->new;
     $foo->do_layout($component);
 
 =head1 USING A LAYOUT MANAGER
+
+Layout::Manager relies on L<Graphics::Primitive::Container> as a source for
+it's components.
 
 Various implementations of Layout::Manager will require you do add components
 with slightly different second arguments, but the general case will be:
@@ -69,10 +78,10 @@ in L<Graphics::Primitive::Component>.  It will look something like this:
   $cont->add_component($foo, { some => metadata });
   # You'll need a driver from Graphics::Primitive if there are any driver
   # dependent doodads, like textboxes.
-  $cont->prepare($driver);
+  $driver->prepare($cont);
   my $lm = new Layout::Manager::SomeImplementation;
   $lm->do_layout($cont);
-  $cont->pack;
+  $driver->pack($cont);
   $driver->draw($cont);
 
 When you are ready to lay out your container, you'll need to call the
@@ -121,9 +130,10 @@ component, as those components need to be ignored.
 
 Lays out this manager's components in the specified container.
 
-=item I<do_prepare>
+=item I<overflow>
 
-Calls prepare on all this layout manager's child components.
+Indicates that the contents of this layout manager have exceeded it's size.
+If you care, you should check this after performing a do_layout.
 
 =back
 

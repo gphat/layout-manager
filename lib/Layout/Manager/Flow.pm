@@ -13,6 +13,12 @@ has 'anchor' => (
     default => sub { 'north' }
 );
 
+has 'used' => (
+    is => 'rw',
+    isa => 'ArrayRef',
+    default => sub { [0, 0] }
+);
+
 override('do_layout', sub {
     my ($self, $container, $parent) = @_;
 
@@ -59,6 +65,22 @@ override('do_layout', sub {
         }
 
         $edge += $size;
+    }
+
+    if(($anch eq 'north') || ($anch eq 'south')) {
+        $self->used([$cwidth, $edge]);
+        if($edge > $cheight) {
+            $self->overflow(1);
+        } else {
+            $self->overflow(0);
+        }
+    } else {
+        $self->used([$edge, $cheight]);
+        if($edge > $cwidth) {
+            $self->overflow(1);
+        } else {
+            $self->overflow(0);
+        }
     }
 });
 
@@ -128,9 +150,19 @@ Creates a new Layout::Manager::Flow.
 
 =over 4
 
+=item I<anchor>
+
+The direction this manager is anchored.  Valid values are north, south, east
+and west.
+
 =item I<do_layout>
 
 Size and position the components in this layout.
+
+=item I<used>
+
+Returns the amount of space used an arrayref in the form of
+[ $width, $height ].
 
 =back
 

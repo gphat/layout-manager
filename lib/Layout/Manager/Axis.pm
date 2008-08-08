@@ -152,7 +152,6 @@ override('do_layout', sub {
         }
         $i++;
     }
-
 });
 
 sub _layout_container {

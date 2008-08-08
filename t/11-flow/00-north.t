@@ -1,5 +1,5 @@
 use strict;
-use Test::More tests => 9;
+use Test::More tests => 11;
 
 use Graphics::Primitive::Component;
 use Graphics::Primitive::Container;
@@ -17,7 +17,7 @@ my $foo2 = Graphics::Primitive::Component->new(
 );
 
 my $cont = Graphics::Primitive::Container->new(
-    width => 100, height => 40
+    width => 100, height => 80
 );
 
 $cont->add_component($foo);
@@ -35,3 +35,7 @@ cmp_ok($foo2->height, '==', 20, 'bottom component height');
 cmp_ok($foo2->width, '==', 100, 'bottom component width');
 cmp_ok($foo2->origin->x, '==', 0, 'bottom component origin x');
 cmp_ok($foo2->origin->y, '==', 20, 'bottom component origin y');
+
+my $used = $lm->used;
+cmp_ok($used->[0], '==', 100, 'width used');
+cmp_ok($used->[1], '==', 40, 'height used');
