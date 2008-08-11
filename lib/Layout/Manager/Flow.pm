@@ -20,7 +20,7 @@ has 'used' => (
 );
 
 override('do_layout', sub {
-    my ($self, $container, $parent) = @_;
+    my ($self, $container) = @_;
 
     super;
 
