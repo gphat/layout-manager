@@ -5,6 +5,7 @@ Revision history for Layout-Manager
   - Remove cruft from pre-Graphics::Primitive dependency days
   - Add overflow attribute to Manager
   - POD updates
+  - Compass: Fix bug that shrank containers with multiple calls to do_layout
 
 0.10
   - POD

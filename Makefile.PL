@@ -10,8 +10,8 @@ test_requires 'Pod::Coverage::Moose';
 
 requires 'Moose' => '0.54';
 requires 'MooseX::AttributeHelpers' => '0.12';
-requires 'Geometry::Primitive' => '0.08';
-requires 'Graphics::Primitive' => '0.13';
+requires 'Geometry::Primitive' => '0.09';
+requires 'Graphics::Primitive' => '0.14';
 
 tests_recursive;
 
