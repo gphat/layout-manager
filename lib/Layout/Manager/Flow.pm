@@ -69,18 +69,8 @@ override('do_layout', sub {
 
     if(($anch eq 'north') || ($anch eq 'south')) {
         $self->used([$cwidth, $edge]);
-        if($edge > $cheight) {
-            $self->overflow(1);
-        } else {
-            $self->overflow(0);
-        }
     } else {
         $self->used([$edge, $cheight]);
-        if($edge > $cwidth) {
-            $self->overflow(1);
-        } else {
-            $self->overflow(0);
-        }
     }
 });
 

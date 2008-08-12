@@ -4,10 +4,12 @@ use Moose;
 extends 'Layout::Manager';
 
 override('do_layout', sub {
-    my ($self, $container, $parent) = @_;
+    my ($self, $container) = @_;
 
     my $bbox = $container->inside_bounding_box;
 
+    my $coheight = $container->outside_height;
+    my $cowidth = $container->outside_width;
     my $cwidth = $bbox->width;
     my $cheight = $bbox->height;
 
@@ -75,7 +77,6 @@ override('do_layout', sub {
         my $sheight = $edges{east}->{height};
         $self->_geassign($sheight, $edges{west}->{height});
         $self->_geassign($sheight, $edges{center}->{height});
-        # 
         $self->_geassign($cheight, $cheight + $sheight);
     }
     $self->_geassign($cwidth, $edges{east}->{width} + $edges{west}->{width}
@@ -210,6 +211,8 @@ override('do_layout', sub {
     my $side_width = $edges{north}->{width};
     $self->_geassign($side_width, $edges{south}->{width});
     $self->_geassign($side_width, $edges{center}->{width} + $edges{east}->{width} + $edges{west}->{width});
+
+    $cheight += $coheight;
 
     # Increase the minimum height and width of the container to accomodate
     # the laid out components.
