@@ -4,6 +4,7 @@ Revision history for Layout-Manager
   - Check preparedness of a container before laying it out
   - Return zero from do_layout if layout was skipped.  Return 1 if layout was
     executed.
+  - POD
 
 0.11
   - Add Flow layout manager
