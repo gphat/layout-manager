@@ -6,7 +6,12 @@ extends 'Layout::Manager';
 override('do_layout', sub {
     my ($self, $container) = @_;
 
+    return 0 if $container->prepared && $self->_check_container($container);
+
     my $bbox = $container->inside_bounding_box;
+
+    my $bboxoy = $bbox->origin->y;
+    my $bboxox = $bbox->origin->x;
 
     my $coheight = $container->outside_height;
     my $cowidth = $container->outside_width;
@@ -20,6 +25,8 @@ override('do_layout', sub {
         west => { components => [], width => 0, height => 0 },
         center => { components => [], width => 0, height => 0 }
     );
+
+    print "WEEE\n";
 
     # This loop takes each component and adds it's width and height to the
     # 'edge' on which is positioned.  At the end will know how much width and
@@ -89,12 +96,13 @@ override('do_layout', sub {
     # to the container (if necessary) and the component will be positioned.
 
     ### NORTH ####
-    my $yaccum = $bbox->origin->y;
+    my $yaccum = $bboxoy;
     $edges{north}->{height} = 0;
     foreach my $comp (@{ $edges{north}->{components} }) {
         $comp->width($cwidth);
-        $comp->origin->x($bbox->origin->x);
-        $comp->origin->y($yaccum);
+        my $co = $comp->origin;
+        $co->x($bboxox);
+        $co->y($yaccum);
 
         # Give a sub-container a chance to size itself since we've given
         # it all the information we can.
@@ -111,11 +119,11 @@ override('do_layout', sub {
     }
 
     ### SOUTH ####
-    $yaccum = $bbox->origin->y + $cheight;
+    $yaccum = $bboxoy + $cheight;
     $edges{south}->{height} = 0;
     foreach my $comp (@{ $edges{south}->{components} }) {
         $comp->width($cwidth) if $cwidth;
-        $comp->origin->x($bbox->origin->x);
+        $comp->origin->x($bboxox);
 
         # Give a sub-container a chance to size itself since we've given
         # it all the information we can.
@@ -142,14 +150,14 @@ override('do_layout', sub {
 
     ### EAST ###
     # Prime our x position
-    my $xaccum  = $bbox->origin->x + $cwidth;
+    my $xaccum  = $bboxox + $cwidth;
     # Reset the east width, since we're about to do it for reals
     $edges{east}->{width} = 0;
     foreach my $comp (@{ $edges{east}->{components} }) {
         # If the size we have available in the east slot is greater than the
         # minimum height of the component then we'll resize.
         $comp->height($cen_height);# if $cen_height;
-        $comp->origin->y($bbox->origin->y + $edges{north}->{height});
+        $comp->origin->y($bboxoy + $edges{north}->{height});
 
         if($comp->can('do_layout')) {
             $self->_layout_container($comp);
@@ -164,11 +172,11 @@ override('do_layout', sub {
     }
 
     ### WEST ###
-    $xaccum = $bbox->origin->x;
+    $xaccum = $bboxox;
     $edges{west}->{width} = 0;
     foreach my $comp (@{ $edges{west}->{components} }) {
         $comp->height($cen_height);# if $cen_height;
-        $comp->origin->y($bbox->origin->y + $edges{north}->{height});
+        $comp->origin->y($bboxoy + $edges{north}->{height});
 
         # Give a sub-container a chance to size itself since we've given
         # it all the information we can.
@@ -194,8 +202,8 @@ override('do_layout', sub {
             $comp->height($per_height);
             $comp->width($cen_width) if $cen_width;
 
-            $comp->origin->x($bbox->origin->x + $edges{west}->{width});
-            $comp->origin->y($bbox->origin->y + $edges{north}->{height} + ($per_height * ($i - 1)));
+            $comp->origin->x($bboxox + $edges{west}->{width});
+            $comp->origin->y($bboxoy + $edges{north}->{height} + ($per_height * ($i - 1)));
 
             # TODO Check::ISA
             if($comp->can('do_layout')) {
@@ -227,6 +235,15 @@ override('do_layout', sub {
     if($container->height < $container->minimum_height) {
         $container->height($container->minimum_height);
     }
+
+    foreach my $c (@{ $container->components }) {
+
+        my $comp = $c->{component};
+        $comp->prepared(1);
+    }
+
+    $container->prepared(1);
+    return 1;
 });
 
 sub _layout_container {

@@ -36,35 +36,38 @@ override('do_layout', sub {
     foreach my $c (@{ $container->components }) {
         my $comp = $c->{component};
 
+        my $co = $comp->origin;
+
         my $size = 0;
 
         if($anch eq 'north') {
             $size = $comp->minimum_height;
-            $comp->origin->x(0);
-            $comp->origin->y($edge);
+            $co->x(0);
+            $co->y($edge);
             $comp->width($cwidth);
             $comp->height($size);
         } elsif($anch eq 'south') {
             $size = $comp->minimum_height;
-            $comp->origin->x(0);
-            $comp->origin->y($cheight - $edge - $size);
+            $co->x(0);
+            $co->y($cheight - $edge - $size);
             $comp->width($cwidth);
             $comp->height($size);
         } elsif($anch eq 'east') {
             $size = $comp->minimum_width;
-            $comp->origin->x($cwidth - $edge - $size);
-            $comp->origin->y(0);
+            $co->x($cwidth - $edge - $size);
+            $co->y(0);
             $comp->width($size);
             $comp->height($cheight);
         } else {
             $size = $comp->minimum_width;
-            $comp->origin->x($edge);
-            $comp->origin->y(0);
+            $co->x($edge);
+            $co->y(0);
             $comp->width($size);
             $comp->height($cheight);
         }
 
         $edge += $size;
+        $comp->prepared(1);
     }
 
     if(($anch eq 'north') || ($anch eq 'south')) {
@@ -72,6 +75,7 @@ override('do_layout', sub {
     } else {
         $self->used([$edge, $cheight]);
     }
+    return 1;
 });
 
 __PACKAGE__->meta->make_immutable;

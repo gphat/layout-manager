@@ -6,6 +6,8 @@ extends 'Layout::Manager';
 override('do_layout', sub {
     my ($self, $container) = @_;
 
+    return 0 if $container->prepared && $self->_check_container($container);
+
     my $bbox = $container->inside_bounding_box;
     my $cwidth = $bbox->width;
     my $cheight = $bbox->height;
@@ -28,6 +30,9 @@ override('do_layout', sub {
             $comp->do_layout($comp);
         }
     }
+
+    $container->prepared(1);
+    return 1;
 });
 
 __PACKAGE__->meta->make_immutable;

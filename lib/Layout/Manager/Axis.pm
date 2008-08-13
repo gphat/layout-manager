@@ -6,7 +6,9 @@ use MooseX::AttributeHelpers;
 extends 'Layout::Manager';
 
 override('do_layout', sub {
-    my ($self, $container, $parent) = @_;
+    my ($self, $container) = @_;
+
+    return 0 if $container->prepared && $self->_check_container($container);
 
     my $bbox = $container->inside_bounding_box;
 
@@ -150,8 +152,11 @@ override('do_layout', sub {
         if($comp->can('do_layout')) {
             $comp->do_layout($comp);
         }
+        $comp->prepared(1);
         $i++;
     }
+    $container->prepared(1);
+    return 1;
 });
 
 sub _layout_container {

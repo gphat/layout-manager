@@ -16,7 +16,10 @@ sub do_layout {
     my ($self, $container) = @_;
 
     die("Need a container") unless defined($container);
-    return unless $container->component_count;
+
+    return 0 unless $container->component_count;
+
+    return 0 if $container->prepared && $self->_check_container($container);
 
     # Layout child containers first, since we can't fit them into this one
     # without knowing the sizes.
@@ -28,9 +31,33 @@ sub do_layout {
 
         if($comp->can('do_layout')) {
             $comp->do_layout($comp);
+            $comp->prepared(1);
         }
     }
 
+    $self->prepared(1);
+    return 1;
+}
+
+sub _check_container {
+    my ($self, $cont) = @_;
+
+    foreach my $c (@{ $cont->components }) {
+        my $comp = $c->{component};
+
+        unless($comp->prepared) {
+            $cont->prepared(0);
+            return 0;
+        }
+        if($comp->can('do_layout')) {
+            if(!$self->_check_container($comp)) {
+                $comp->prepared(0);
+                return 0;
+            }
+        }
+    }
+
+    return 1;
 }
 
 __PACKAGE__->meta->make_immutable;
