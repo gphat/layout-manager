@@ -237,7 +237,7 @@ override('do_layout', sub {
     foreach my $c (@{ $container->components }) {
 
         my $comp = $c->{component};
-        $comp->prepared(1);
+        $comp->prepared(1) if defined($comp);
     }
 
     $container->prepared(1);

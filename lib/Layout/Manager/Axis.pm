@@ -152,7 +152,7 @@ override('do_layout', sub {
         if($comp->can('do_layout')) {
             $comp->do_layout($comp);
         }
-        $comp->prepared(1);
+
         $i++;
     }
     $container->prepared(1);

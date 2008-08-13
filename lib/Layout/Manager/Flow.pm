@@ -36,6 +36,8 @@ override('do_layout', sub {
     foreach my $c (@{ $container->components }) {
         my $comp = $c->{component};
 
+        next unless defined($comp) && $comp->visible;
+
         my $co = $comp->origin;
 
         my $size = 0;
