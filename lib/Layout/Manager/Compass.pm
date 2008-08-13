@@ -26,8 +26,6 @@ override('do_layout', sub {
         center => { components => [], width => 0, height => 0 }
     );
 
-    print "WEEE\n";
-
     # This loop takes each component and adds it's width and height to the
     # 'edge' on which is positioned.  At the end will know how much width and
     # height we need for each edge.
