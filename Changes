@@ -2,6 +2,7 @@ Revision history for Layout-Manager
 
 0.13
   - Axis: skip center sizing if there are no center components to lay out
+  - Fix container preparedness marking bug
 
 0.12
   - Check preparedness of a container before laying it out
