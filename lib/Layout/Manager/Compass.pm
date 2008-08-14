@@ -216,7 +216,8 @@ override('do_layout', sub {
     # they both exist...)
     my $side_width = $edges{north}->{width};
     $self->_geassign($side_width, $edges{south}->{width});
-    $self->_geassign($side_width, $edges{center}->{width} + $edges{east}->{width} + $edges{west}->{width});
+    $self->_geassign($side_width, $edges{center}->{width}
+        + $edges{east}->{width} + $edges{west}->{width});
 
     $cheight += $coheight;
 

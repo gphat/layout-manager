@@ -41,11 +41,13 @@ t/10-compass/17-container-east-center.t
 t/10-compass/18-container-south.t
 t/10-compass/19-container-south-p2.t
 t/10-compass/19-container-south-p3.t
+t/10-compass/25-validity.t
 t/10-compass/50-complex.t
 t/11-flow/00-north.t
 t/11-flow/01-south.t
 t/11-flow/02-east.t
 t/11-flow/03-west.t
 t/15-axis/01-all.t
+t/lib/DummyDriver.pm
 t/pod-coverage.t
 t/pod.t

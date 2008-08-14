@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.13
+  - Axis: skip center sizing if there are no center components to lay out
+
 0.12
   - Check preparedness of a container before laying it out
   - Return zero from do_layout if layout was skipped.  Return 1 if layout was

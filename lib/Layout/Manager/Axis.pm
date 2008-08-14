@@ -141,19 +141,22 @@ override('do_layout', sub {
     $x = $bbox->origin->x + $edges{west}->{width};
     $y = $bbox->origin->y + $edges{north}->{height};
     my $ccount = scalar(@{ $edges{center}->{components} });
-    my $per = $edges{center}->{height} / $ccount;
-    my $i = 0;
-    foreach my $comp (@{ $edges{center}->{components} }) {
+    # Skip this if there are no center components.
+    if($ccount) {
+        my $per = $edges{center}->{height} / $ccount;
+        my $i = 0;
+        foreach my $comp (@{ $edges{center}->{components} }) {
 
-        $comp->origin->x($x);
-        $comp->origin->y($y + ($i * $per));
-        $comp->width($edges{center}->{width});
-        $comp->height($per);
-        if($comp->can('do_layout')) {
-            $comp->do_layout($comp);
+            $comp->origin->x($x);
+            $comp->origin->y($y + ($i * $per));
+            $comp->width($edges{center}->{width});
+            $comp->height($per);
+            if($comp->can('do_layout')) {
+                $comp->do_layout($comp);
+            }
+
+            $i++;
         }
-
-        $i++;
     }
     $container->prepared(1);
     return 1;

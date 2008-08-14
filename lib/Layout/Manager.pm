@@ -35,7 +35,7 @@ sub do_layout {
         }
     }
 
-    $self->prepared(1);
+    $container->prepared(1);
     return 1;
 }
 
