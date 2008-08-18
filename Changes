@@ -1,5 +1,9 @@
 Revision history for Layout-Manager
 
+0.14
+  - Modify all managers to work with Graphics::Primitive 0.18
+  - Mark components effectively in all managers
+
 0.13
   - Axis: skip center sizing if there are no center components to lay out
   - Fix container preparedness marking bug

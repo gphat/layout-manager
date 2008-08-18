@@ -2,7 +2,7 @@ package Layout::Manager;
 use Moose;
 
 our $AUTHORITY = 'cpan:GPHAT';
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 use MooseX::AttributeHelpers;
 
@@ -23,14 +23,12 @@ sub do_layout {
 
     # Layout child containers first, since we can't fit them into this one
     # without knowing the sizes.
-    foreach my $c (@{ $container->components }) {
-
-        my $comp = $c->{component};
+    foreach my $comp (@{ $container->components }) {
 
         next unless defined($comp) && $comp->visible;
 
         if($comp->can('do_layout')) {
-            $comp->do_layout($comp);
+            $self->do_layout($comp);
             $comp->prepared(1);
         }
     }
@@ -42,10 +40,10 @@ sub do_layout {
 sub _check_container {
     my ($self, $cont) = @_;
 
-    foreach my $c (@{ $cont->components }) {
-        my $comp = $c->{component};
+    foreach my $comp (@{ $cont->components }) {
 
         unless($comp->prepared) {
+            print "ASDASD ",$comp->name."\n";
             $cont->prepared(0);
             return 0;
         }

@@ -33,8 +33,8 @@ override('do_layout', sub {
 
     my $anch = $self->anchor;
 
-    foreach my $c (@{ $container->components }) {
-        my $comp = $c->{component};
+    for(my $i = 0; $i < scalar(@{ $container->components }); $i++) {
+        my $comp = $container->get_component($i);
 
         next unless defined($comp) && $comp->visible;
 

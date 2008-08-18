@@ -15,9 +15,7 @@ override('do_layout', sub {
     my $y = $bbox->origin->y;
 
     my $count = 0;
-    foreach my $c (@{ $container->components }) {
-
-        my $comp = $c->{component};
+    foreach my $comp (@{ $container->components }) {
 
         next unless defined($comp) && $comp->visible;
 
@@ -28,6 +26,8 @@ override('do_layout', sub {
 
         if($comp->can('do_layout')) {
             $comp->do_layout($comp);
+        } else {
+            $comp->prepared(1);
         }
     }
 

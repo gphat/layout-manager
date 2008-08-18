@@ -29,9 +29,9 @@ override('do_layout', sub {
     # This loop takes each component and adds it's width and height to the
     # 'edge' on which is positioned.  At the end will know how much width and
     # height we need for each edge.
-    foreach my $c (@{ $container->components }) {
+    for(my $i = 0; $i < scalar(@{ $container->components }); $i++) {
 
-        my $comp = $c->{component};
+        my $comp = $container->get_component($i);
 
         next unless defined($comp) && $comp->visible;
 
@@ -39,7 +39,7 @@ override('do_layout', sub {
         $comp->width($comp->minimum_width);
         $comp->height($comp->minimum_height);
 
-        my $args = lc(substr($c->{args}, 0, 1));
+        my $args = lc(substr($container->get_constraint($i), 0, 1));
 
         if(($args) eq 'c') {
 
@@ -235,9 +235,7 @@ override('do_layout', sub {
         $container->height($container->minimum_height);
     }
 
-    foreach my $c (@{ $container->components }) {
-
-        my $comp = $c->{component};
+    foreach my $comp (@{ $container->components }) {
         $comp->prepared(1) if defined($comp);
     }
 
