@@ -43,7 +43,6 @@ sub _check_container {
     foreach my $comp (@{ $cont->components }) {
 
         unless($comp->prepared) {
-            print "ASDASD ",$comp->name."\n";
             $cont->prepared(0);
             return 0;
         }
