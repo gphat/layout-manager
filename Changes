@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.15
+  - Fix breakage with nested layout managers
+
 0.14
   - Modify all managers to work with Graphics::Primitive 0.18
   - Mark components effectively in all managers
