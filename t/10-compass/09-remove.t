@@ -35,7 +35,7 @@ $cont->add_component($west, 'w');
 $cont->add_component($center, 'c');
 
 my $count = $cont->remove_component('north');
-cmp_ok($count, '==', 1, 'removed north');
+cmp_ok(scalar(@{ $count }), '==', 1, 'removed north');
 
 cmp_ok($cont->component_count, '==', 5, 'component_count');
 

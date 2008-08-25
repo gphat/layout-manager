@@ -1,5 +1,10 @@
 Revision history for Layout-Manager
 
+0.16
+  - Fix broken tests stemming from changes in Graphics::Primitive's remove
+  - Fix broken center in Compass with multiple center components
+  - Add test for same
+
 0.15
   - Fix breakage with nested layout managers
 

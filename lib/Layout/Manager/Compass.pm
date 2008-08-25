@@ -45,17 +45,17 @@ override('do_layout', sub {
 
             push(@{ $edges{center}->{components} }, $comp);
             $edges{center}->{height} += $comp->minimum_height;
-            $edges{center}->{width} += $comp->minimum_width;
+            $self->_geassign($edges{center}->{width}, $comp->minimum_width);
         } elsif($args eq 'n') {
 
             push(@{ $edges{north}->{components} }, $comp);
             $edges{north}->{height} += $comp->minimum_height;
-            $edges{north}->{width} = 0;
+            $self->_geassign($edges{north}->{width}, $comp->minimum_width);
         } elsif($args eq 's') {
 
             push(@{ $edges{south}->{components} }, $comp);
             $edges{south}->{height} += $comp->minimum_height;
-            $edges{south}->{width} = 0;
+            $self->_geassign($edges{south}->{width}, $comp->minimum_width);
         } elsif($args eq 'e') {
 
             push(@{ $edges{east}->{components} }, $comp);
