@@ -34,6 +34,7 @@ t/10-compass/07-clickeresque.t
 t/10-compass/08-click-invis.t
 t/10-compass/09-remove.t
 t/10-compass/10-nce.t
+t/10-compass/11-center.t
 t/10-compass/14-container-center.t
 t/10-compass/15-container-east.t
 t/10-compass/16-container-west.t
