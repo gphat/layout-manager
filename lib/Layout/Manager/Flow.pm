@@ -29,9 +29,23 @@ override('do_layout', sub {
     my $cwidth = $bbox->width;
     my $cheight = $bbox->height;
 
-    my $edge = 0;
+    my $ox = $bbox->origin->x;
+    my $oy = $bbox->origin->y;
 
     my $anch = $self->anchor;
+
+    my $edge = 0;
+
+    my $bump = 0;
+    if($anch eq 'north') {
+        $bump = $oy;
+    } elsif($anch eq 'south') {
+        $bump = $oy;
+    } elsif($anch eq 'east') {
+        $bump = $ox;
+    } else {
+        $bump = $ox;
+    }
 
     for(my $i = 0; $i < scalar(@{ $container->components }); $i++) {
         my $comp = $container->get_component($i);
@@ -44,26 +58,26 @@ override('do_layout', sub {
 
         if($anch eq 'north') {
             $size = $comp->minimum_height;
-            $co->x(0);
-            $co->y($edge);
+            $co->x($ox);
+            $co->y($edge + $bump);
             $comp->width($cwidth);
             $comp->height($size);
         } elsif($anch eq 'south') {
             $size = $comp->minimum_height;
-            $co->x(0);
-            $co->y($cheight - $edge - $size);
+            $co->x($ox);
+            $co->y($cheight - $edge + $bump - $size);
             $comp->width($cwidth);
             $comp->height($size);
         } elsif($anch eq 'east') {
             $size = $comp->minimum_width;
-            $co->x($cwidth - $edge - $size);
-            $co->y(0);
+            $co->x($cwidth - $edge + $bump - $size);
+            $co->y($oy);
             $comp->width($size);
             $comp->height($cheight);
         } else {
             $size = $comp->minimum_width;
-            $co->x($edge);
-            $co->y(0);
+            $co->x($edge + $bump);
+            $co->y($oy);
             $comp->width($size);
             $comp->height($cheight);
         }
