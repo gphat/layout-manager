@@ -3,6 +3,7 @@ Revision history for Layout-Manager
 0.18
   - Remove overflow attribute
   - Remove Moose Coverage dependency
+  - Keep up with G:P api changes
 
 0.17
   - Dep bumps
