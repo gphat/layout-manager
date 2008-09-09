@@ -2,15 +2,9 @@ package Layout::Manager;
 use Moose;
 
 our $AUTHORITY = 'cpan:GPHAT';
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 use MooseX::AttributeHelpers;
-
-has 'overflow' => (
-    is => 'rw',
-    isa => 'Bool',
-    default => sub { 0 }
-);
 
 sub do_layout {
     my ($self, $container) = @_;
@@ -158,11 +152,6 @@ component, as those components need to be ignored.
 =item I<do_layout>
 
 Lays out this manager's components in the specified container.
-
-=item I<overflow>
-
-Indicates that the contents of this layout manager have exceeded it's size.
-If you care, you should check this after performing a do_layout.
 
 =back
 

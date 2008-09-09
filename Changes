@@ -1,7 +1,12 @@
 Revision history for Layout-Manager
 
+0.18
+  - Remove overflow attribute
+  - Remove Moose Coverage dependency
+
 0.17
   - Dep bumps
+  - Flow: Honor margins/padding/borders
 
 0.16
   - Fix broken tests stemming from changes in Graphics::Primitive's remove
