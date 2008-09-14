@@ -187,7 +187,6 @@ override('do_layout', sub {
         $self->_geassign($cwidth, $comp->width);
         $edges{west}->{width} += $comp->width;
         $comp->origin->x($xaccum);
-        # $comp->height();
         $xaccum += $comp->width;
     }
 

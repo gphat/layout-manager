@@ -48,6 +48,10 @@ t/11-flow/00-north.t
 t/11-flow/01-south.t
 t/11-flow/02-east.t
 t/11-flow/03-west.t
+t/11-flow/04-north-margin.t
+t/11-flow/05-west-margin.t
+t/11-flow/06-east-margin.t
+t/11-flow/07-south-margin.t
 t/15-axis/01-all.t
 t/lib/DummyDriver.pm
 t/pod-coverage.t
