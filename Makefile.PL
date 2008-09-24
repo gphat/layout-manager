@@ -9,7 +9,7 @@ build_requires 'Test::More';
 requires 'Moose' => '0.54';
 requires 'MooseX::AttributeHelpers' => '0.12';
 requires 'Geometry::Primitive' => '0.10';
-requires 'Graphics::Primitive' => '0.25';
+requires 'Graphics::Primitive' => '0.32';
 
 tests_recursive;
 

@@ -16,7 +16,11 @@ sub _do_stroke { }
 
 sub _draw_arc { }
 
+sub _draw_bezier { }
+
 sub _draw_canvas { }
+
+sub _draw_circle { }
 
 sub _draw_component {
     my ($self, $comp) = @_;
@@ -25,6 +29,8 @@ sub _draw_component {
         $self->draw_component_called + 1
     );
 }
+
+sub _draw_ellipse { }
 
 sub _draw_line { }
 
@@ -42,7 +48,7 @@ sub _resize { }
 
 sub data { }
 
-sub get_text_bounding_box { }
+sub get_textbox_layout { }
 
 sub height { }
 

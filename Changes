@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.19
+  - Dependency Bumps
+
 0.18
   - Remove overflow attribute
   - Remove Moose Coverage dependency
