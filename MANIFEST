@@ -53,6 +53,6 @@ t/11-flow/05-west-margin.t
 t/11-flow/06-east-margin.t
 t/11-flow/07-south-margin.t
 t/15-axis/01-all.t
+t/author/pod
+t/author/pod-coverage
 t/lib/DummyDriver.pm
-t/pod-coverage.t
-t/pod.t

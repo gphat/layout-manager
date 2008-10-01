@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.20
+  - Move pod tests to t/author
+
 0.19
   - Dependency Bumps
 
