@@ -49,10 +49,20 @@ override('do_layout', sub {
         my $col = $cons->{column};
         $col = $self->columns if $col > $self->columns;
 
+        my $width = 1;
+        if(exists($cons->{width})) {
+            $width = $cons->{width};
+        }
+
+        my $height = 1;
+        if(exists($cons->{height})) {
+            $height = $cons->{height};
+        }
+
         $co->x($ox + ($cell_width * $col));
         $co->y($oy + ($cell_height * $row));
-        $comp->width($cell_width);
-        $comp->height($cell_height);
+        $comp->width($cell_width * $width);
+        $comp->height($cell_height * $height);
 
         $comp->prepared(1);
     }
@@ -97,6 +107,12 @@ Components are placed by specifying the cell they reside in via the row and
 column number.
 
   $container->add_component($comp, { row => 1, column => 3 });
+
+  $container->add_component($comp, { row => 1, column => 2, height => 2 });
+  
+Optionally, you may choose to override the default C<width> or C<height> of 1.
+Setting it to a something else will cause the component to consume that many
+rows or columns worth of space.
 
 Grid is similar to Java's
 L<GridLayout|http://java.sun.com/docs/books/tutorial/uiswing/layout/grid.html>.
