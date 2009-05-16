@@ -241,6 +241,15 @@ L<GridLayout|http://java.sun.com/docs/books/tutorial/uiswing/layout/grid.html>.
 
   $lm->do_layout($container);
 
+=head2 DYNAMIC SIZING
+
+If the container that the Grid is manging does not have one or both of it's
+dimensions set, Grid will compute the appropriate sizes.  The simple way for
+me to avoid writing a long explanation is to say it works similar to HTML
+tables.  Rows will become as big as their biggest consituent, as will
+columns.  It is common to add a Grid-managed component to a scene with only
+one of it's dimensions set.
+
 =head1 METHODS
 
 =head2 new (rows => $row, columns => $columns)
