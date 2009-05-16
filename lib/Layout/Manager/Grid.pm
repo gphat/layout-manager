@@ -61,7 +61,7 @@ override('do_layout', sub {
             # a height of 2 will check 5 and 6!  THis same method is used for
             # columns below.
             for(0..$cons->{height} - 1) {
-                unless(defined($row_maxes[$cons->{row}])) {
+                unless(defined($row_maxes[$cons->{row} + $_])) {
                     # If it hasn't been defined yet, set it
                     $row_maxes[$cons->{row} + $_] = $mh;
                     next;
@@ -72,7 +72,7 @@ override('do_layout', sub {
             # Check the minumum width for this component against every column
             # in which it appears
             for(0..$cons->{width} - 1) {
-                unless(defined($col_maxes[$cons->{column}])) {
+                unless(defined($col_maxes[$cons->{column} + $_])) {
                     $col_maxes[$cons->{column} + $_] = $mw;
                     next;
                 }
