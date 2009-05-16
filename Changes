@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.22
+  - Teach Grid how to handle dynamic sizing.
+
 0.21
   - A few POD fixes
   - Add Grid layout manager
