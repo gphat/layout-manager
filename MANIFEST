@@ -52,6 +52,8 @@ t/11-flow/06-east-margin.t
 t/11-flow/07-south-margin.t
 t/15-axis/01-all.t
 t/20-grid/00-simple.t
+t/20-grid/01-no_height.t
+t/20-grid/02-no_width.t
 t/author/pod
 t/author/pod-coverage
 t/lib/DummyDriver.pm
