@@ -10,6 +10,7 @@ requires 'Moose' => '0.54';
 requires 'MooseX::AttributeHelpers' => '0.12';
 requires 'Geometry::Primitive' => '0.10';
 requires 'Graphics::Primitive' => '0.32';
+requires 'Scalar::List::Util';
 
 tests_recursive;
 

@@ -4,6 +4,7 @@ use Moose;
 extends 'Layout::Manager';
 
 use Carp qw(croak);
+use List::Util qw(max);
 
 has 'rows' => (
     is => 'rw',
@@ -27,8 +28,90 @@ override('do_layout', sub {
     my $cwidth = $bbox->width;
     my $cheight = $bbox->height;
 
-    my $cell_width = $cwidth / $self->columns;
-    my $cell_height = $cheight / $self->rows;
+    my @row_maxes;
+    my @col_maxes;
+    unless($cwidth && $cheight) {
+        # If either the width or height is undefined, we'll need to compute it.
+        for(my $i = 0; $i < scalar(@{ $container->components }); $i++) {
+            my $comp = $container->get_component($i);
+
+            # Skip invisible shit
+            next unless defined($comp) && $comp->visible;
+
+            my $cons = $container->get_constraint($i);
+
+            # Set defaults for width
+            unless(exists($cons->{width})) {
+                $cons->{width} = 1;
+            }
+
+            # Set defaults for height
+            unless(exists($cons->{height})) {
+                $cons->{height} = 1;
+            }
+
+            # Calculate the minumum width and height this component would
+            # consume in a row & column
+            my $mw = $comp->minimum_width / $cons->{width};
+            my $mh = $comp->minimum_height / $cons->{height};
+
+            # Check the minumum height for this component against every row
+            # in which it appears.  The for uses the height to check the
+            # inital row (0) then each (..) row (height - 1).  So row 5 with
+            # a height of 2 will check 5 and 6!  THis same method is used for
+            # columns below.
+            for(0..$cons->{height} - 1) {
+                unless(defined($row_maxes[$cons->{row}])) {
+                    # If it hasn't been defined yet, set it
+                    $row_maxes[$cons->{row} + $_] = $mh;
+                    next;
+                }
+                $row_maxes[$cons->{row} + $_] = $mh if ($mh > $row_maxes[$cons->{row} + $_]);
+            }
+
+            # Check the minumum width for this component against every column
+            # in which it appears
+            for(0..$cons->{width} - 1) {
+                unless(defined($col_maxes[$cons->{column}])) {
+                    $col_maxes[$cons->{column} + $_] = $mw;
+                    next;
+                }
+                $col_maxes[$cons->{column} + $_] = $mw if ($mw > $col_maxes[$cons->{column} + $_]);
+            }
+        }
+    }
+
+    if($cheight) {
+        # If the height was set, build a sham "max rows" list using the
+        # height of a row
+        my $ch = $cheight / $self->rows;
+        @row_maxes = map({ $ch  } (0..$self->rows));
+    } else {
+        my $ch = 0;
+        foreach my $h (@row_maxes) {
+            $ch += $h if defined($h);
+        }
+        # If the height wasn't set, set the container's height to the total
+        # of all rows
+        $container->height($container->outside_height + $ch);
+        $cheight = $container->height;
+    }
+
+    if($cwidth) {
+        # If the width was already set, build a sham "max cols" list using the
+        # width of a column
+        my $cw = $cwidth / $self->columns;
+        @col_maxes = map({ $cw } (0..$self->columns));
+    } else {
+        my $cw = 0;
+        foreach my $w (@col_maxes) {
+            $cw += $w;
+        }
+        # If the width wasn't set, set the container's width to the total of
+        # all cols
+        $container->width($container->outside_width + $cw);
+        $cwidth = $container->width;
+    }
 
     my $ox = $bbox->origin->x;
     my $oy = $bbox->origin->y;
@@ -49,20 +132,52 @@ override('do_layout', sub {
         my $col = $cons->{column};
         $col = $self->columns if $col > $self->columns;
 
+        # my $cell_width = $col_maxes[$col];
+        # my $cell_height = $row_maxes[$row];
+
+        # print "$col,$row : $cell_width,$cell_height\n";
+
         my $width = 1;
         if(exists($cons->{width})) {
             $width = $cons->{width};
         }
-
         my $height = 1;
         if(exists($cons->{height})) {
             $height = $cons->{height};
         }
 
-        $co->x($ox + ($cell_width * $col));
-        $co->y($oy + ($cell_height * $row));
-        $comp->width($cell_width * $width);
-        $comp->height($cell_height * $height);
+        my $x = $ox;
+        # Find the X location for this component by adding up each column
+        # width from 0 to the current column
+        for(0..$col - 1) {
+            $x += $col_maxes[$_];
+        }
+
+        # Find the Y location for this component by adding up each row height
+        # from 0 to the current row
+        my $y = $oy;
+        for(0..$row - 1) {
+            $y += $row_maxes[$_];
+        }
+
+        # Find the component's width by adding the widths of the all the cells
+        # the component appears in.
+        my $cell_width = 0;
+        for($col..$col + $width - 1) {
+            $cell_width += $col_maxes[$_];
+        }
+
+        # Find the component's height by adding the heights of the all the
+        # cells the component appears in.
+        my $cell_height = 0;
+        for($row..$row + $height - 1) {
+            $cell_height += $row_maxes[$_];
+        }
+
+        $co->x($x);
+        $co->y($y);
+        $comp->width($cell_width);
+        $comp->height($cell_height);
 
         $comp->prepared(1);
     }

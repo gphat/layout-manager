@@ -1,11 +1,8 @@
 Changes
-inc/Module/AutoInstall.pm
 inc/Module/Install.pm
-inc/Module/Install/AutoInstall.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
 inc/Module/Install/Fetch.pm
-inc/Module/Install/Include.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
@@ -15,6 +12,7 @@ lib/Layout/Manager/Absolute.pm
 lib/Layout/Manager/Axis.pm
 lib/Layout/Manager/Compass.pm
 lib/Layout/Manager/Flow.pm
+lib/Layout/Manager/Grid.pm
 lib/Layout/Manager/Single.pm
 Makefile.PL
 MANIFEST			This list of files
@@ -53,6 +51,7 @@ t/11-flow/05-west-margin.t
 t/11-flow/06-east-margin.t
 t/11-flow/07-south-margin.t
 t/15-axis/01-all.t
+t/20-grid/00-simple.t
 t/author/pod
 t/author/pod-coverage
 t/lib/DummyDriver.pm
