@@ -1,5 +1,9 @@
 Revision history for Layout-Manager
 
+0.21
+  - A few POD fixes
+  - Add Grid layout manager
+
 0.20
   - Move pod tests to t/author
 

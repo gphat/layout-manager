@@ -1,22 +1,20 @@
-package Layout::Manager::Flow;
+package Layout::Manager::Grid;
 use Moose;
 
 extends 'Layout::Manager';
 
-use Moose::Util::TypeConstraints;
+use Carp qw(croak);
 
-enum 'Layout::Manager::Flow::Anchors' => qw(north south east west);
-
-has 'anchor' => (
+has 'rows' => (
     is => 'rw',
-    isa => 'Layout::Manager::Flow::Anchors',
-    default => sub { 'north' }
+    isa => 'Int',
+    required => 1
 );
 
-has 'used' => (
+has 'columns' => (
     is => 'rw',
-    isa => 'ArrayRef',
-    default => sub { [0, 0] }
+    isa => 'Int',
+    required => 1
 );
 
 override('do_layout', sub {
@@ -29,68 +27,36 @@ override('do_layout', sub {
     my $cwidth = $bbox->width;
     my $cheight = $bbox->height;
 
+    my $cell_width = $cwidth / $self->columns;
+    my $cell_height = $cheight / $self->rows;
+
     my $ox = $bbox->origin->x;
     my $oy = $bbox->origin->y;
-
-    my $anch = $self->anchor;
-
-    my $edge = 0;
-
-    my $bump = 0;
-    if($anch eq 'north') {
-        $bump = $oy;
-    } elsif($anch eq 'south') {
-        $bump = $oy;
-    } elsif($anch eq 'east') {
-        $bump = $ox;
-    } else {
-        $bump = $ox;
-    }
 
     for(my $i = 0; $i < scalar(@{ $container->components }); $i++) {
         my $comp = $container->get_component($i);
 
         next unless defined($comp) && $comp->visible;
 
+        my $cons = $container->get_constraint($i);
+        croak('Constraint must be a hashref containing row and column.')
+            unless (ref($cons) eq 'HASH' && (exists($cons->{row}) && (exists($cons->{column}))));
+
         my $co = $comp->origin;
 
-        my $size = 0;
+        my $row = $cons->{row};
+        $row = $self->rows if $row > $self->rows;
+        my $col = $cons->{column};
+        $col = $self->columns if $col > $self->columns;
 
-        if($anch eq 'north') {
-            $size = $comp->minimum_height;
-            $co->x($ox);
-            $co->y($edge + $bump);
-            $comp->width($cwidth);
-            $comp->height($size);
-        } elsif($anch eq 'south') {
-            $size = $comp->minimum_height;
-            $co->x($ox);
-            $co->y($cheight - $edge + $bump - $size);
-            $comp->width($cwidth);
-            $comp->height($size);
-        } elsif($anch eq 'east') {
-            $size = $comp->minimum_width;
-            $co->x($cwidth - $edge + $bump - $size);
-            $co->y($oy);
-            $comp->width($size);
-            $comp->height($cheight);
-        } else {
-            $size = $comp->minimum_width;
-            $co->x($edge + $bump);
-            $co->y($oy);
-            $comp->width($size);
-            $comp->height($cheight);
-        }
+        $co->x($ox + ($cell_width * $col));
+        $co->y($oy + ($cell_height * $row));
+        $comp->width($cell_width);
+        $comp->height($cell_height);
 
-        $edge += $size;
         $comp->prepared(1);
     }
 
-    if(($anch eq 'north') || ($anch eq 'south')) {
-        $self->used([$cwidth, $edge]);
-    } else {
-        $self->used([$edge, $cheight]);
-    }
     return 1;
 });
 
@@ -102,7 +68,7 @@ no Moose;
 __END__
 =head1 NAME
 
-Layout::Manager::Flow - Directional layout manager
+Layout::Manager::Grid - Directional layout manager
 
 =head1 DESCRIPTION
 

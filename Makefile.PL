@@ -13,7 +13,5 @@ requires 'Graphics::Primitive' => '0.32';
 
 tests_recursive;
 
-auto_install;
-
 WriteAll;
 

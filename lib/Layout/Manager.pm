@@ -2,14 +2,14 @@ package Layout::Manager;
 use Moose;
 
 our $AUTHORITY = 'cpan:GPHAT';
-our $VERSION = '0.20';
+our $VERSION = '0.21';
 
 use MooseX::AttributeHelpers;
 
 sub do_layout {
     my ($self, $container) = @_;
 
-    die("Need a container") unless defined($container);
+    die('Need a container') unless defined($container);
 
     return 0 unless $container->component_count;
 
