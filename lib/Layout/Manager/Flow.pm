@@ -83,7 +83,7 @@ override('do_layout', sub {
         }
 
         $edge += $size;
-        $comp->prepared(1);
+        # $comp->prepared(1);
     }
 
     if(($anch eq 'north') || ($anch eq 'south')) {

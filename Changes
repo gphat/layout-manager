@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.23
+  - Don't marked laid out components as prepared
+  
 0.22
   - Teach Grid how to handle dynamic sizing.
 

@@ -27,7 +27,7 @@ override('do_layout', sub {
         if($comp->can('do_layout')) {
             $comp->do_layout($comp);
         } else {
-            $comp->prepared(1);
+            #$comp->prepared(1);
         }
     }
 

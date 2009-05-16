@@ -234,9 +234,9 @@ override('do_layout', sub {
         $container->height($container->minimum_height);
     }
 
-    foreach my $comp (@{ $container->components }) {
-        $comp->prepared(1) if defined($comp);
-    }
+    # foreach my $comp (@{ $container->components }) {
+    #     $comp->prepared(1) if defined($comp);
+    # }
 
     $container->prepared(1);
     return 1;

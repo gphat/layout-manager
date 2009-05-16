@@ -132,11 +132,6 @@ override('do_layout', sub {
         my $col = $cons->{column};
         $col = $self->columns if $col > $self->columns;
 
-        # my $cell_width = $col_maxes[$col];
-        # my $cell_height = $row_maxes[$row];
-
-        # print "$col,$row : $cell_width,$cell_height\n";
-
         my $width = 1;
         if(exists($cons->{width})) {
             $width = $cons->{width};
@@ -178,8 +173,6 @@ override('do_layout', sub {
         $co->y($y);
         $comp->width($cell_width);
         $comp->height($cell_height);
-
-        $comp->prepared(1);
     }
 
     return 1;

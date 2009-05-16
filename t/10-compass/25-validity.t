@@ -1,4 +1,4 @@
-use Test::More tests => 8;
+use Test::More tests => 4;
 
 use lib qw(t/lib lib);
 
@@ -38,12 +38,6 @@ $driver->prepare($cont);
 my $lm = Layout::Manager::Compass->new;
 $lm->do_layout($cont);
 
-cmp_ok($cont->prepared, '==', 1, 'container prepared');
-cmp_ok($lm->_check_container($cont), '==', 1, 'all components prepared');
-
-my $ret = $lm->do_layout($cont);
-cmp_ok($ret, '==', 0, 'layout skipped');
-
 my $cont2 = Graphics::Primitive::Container->new(
     width => 100, height => 40,
     layout_manager => Layout::Manager::Compass->new
@@ -56,9 +50,6 @@ $cont->add_component($cont2, 'w');
 
 my $ret2 = $lm->do_layout($cont);
 cmp_ok($ret2, '==', 1, 'layout executed');
-
-my $ret3 = $lm->do_layout($cont);
-cmp_ok($ret3, '==', 0, 'layout skipped');
 
 $foo4->width(21);
 my $ret4 = $lm->do_layout($cont);
