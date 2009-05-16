@@ -68,77 +68,65 @@ no Moose;
 __END__
 =head1 NAME
 
-Layout::Manager::Grid - Directional layout manager
+Layout::Manager::Grid - Simple grid-based layout manager.
 
 =head1 DESCRIPTION
 
-Layout::Manager::Flow is a layout manager that anchors components in one of
-the four cardinal directions.
+Layout::Manager::Grid is a layout manager places components into evenly
+divided cells.
 
-When you instantiate a Flow manager, you may supply it with an anchor value
-which may be one of north, south, east or west.  The example below shows
-how the default anchor value of north works when you add two components.
+When you instantiate a Grid manager, you must supply it with a count of how
+many rows and columns it will have.  For example, a Grid with 1 column and
+2 rows would look like:
 
-                 north
   +--------------------------------+
+  |                                |
   |           component 1          |
+  |                                |
   +--------------------------------+
+  |                                |
   |           component 2          |
-  +--------------------------------+
-  |                                |
-  |                                |
   |                                |
   +--------------------------------+
 
-Components are placed in the order they are added.  If two items are added
-with a 'north' anchor then the first item will be rendered above the
-second.  Components will be expanded to take up all space perpendicular to
-their anchor.  North and south will expand widths while east and west will
-expand heights.
+The container is divided into as many <rows> * <columns> cells, with each
+taking up an equal amount of space.  A grid with 3 columns and 2 rows would
+create 6 cells that consume 33% of the width and 50% of the height.
 
-Flow is similar to Java's
-L<FlowLayout|http://java.sun.com/docs/books/tutorial/uiswing/layout/flow.html>.
-It does not, however, center or wrap components.  These features may be added
-in the future if they are needed.
+Components are placed by specifying the cell they reside in via the row and 
+column number.
+
+  $container->add_component($comp, { row => 1, column => 3 });
+
+Grid is similar to Java's
+L<GridLayout|http://java.sun.com/docs/books/tutorial/uiswing/layout/grid.html>.
 
 =head1 SYNOPSIS
 
-  my $lm = Layout::Manager::Flow->new(anchor => 'north');
+  my $lm = Layout::Manager::Grid->new(rows => 1, columns => 2);
   
-  $lm->add_component($comp1);
-  $lm->add_component($comp2);
+  $lm->add_component($comp1, { row => 1, column => 1 });
+  $lm->add_component($comp2, { row => 1, column => 2 });
 
   $lm->do_layout($container);
 
 =head1 METHODS
 
-=head2 Constructor
+=head2 new (rows => $row, columns => $columns)
 
-=over 4
+Creates a new Layout::Manager::Grid.  Requires C<rows> and C<columns>.
 
-=item I<new>
+=head2 columns
 
-Creates a new Layout::Manager::Flow.
+The number of columns in this Grid.
 
-=back
+=head2 rows
 
-=head2 Instance Methods
+The number of rows in this Grid.
 
-=over 4
-
-=item I<anchor>
-
-The direction this manager is anchored.  Valid values are north, south, east
-and west.
-
-=item I<do_layout>
+=head2 do_layout
 
 Size and position the components in this layout.
-
-=item I<used>
-
-Returns the amount of space used an arrayref in the form of
-[ $width, $height ].
 
 =back
 
@@ -146,13 +134,7 @@ Returns the amount of space used an arrayref in the form of
 
 Cory Watson, C<< <gphat@cpan.org> >>
 
-Infinity Interactive, L<http://www.iinteractive.com>
-
 =head1 COPYRIGHT & LICENSE
-
-Copyright 2008 by Infinity Interactive, Inc.
-
-L<http://www.iinteractive.com>
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
