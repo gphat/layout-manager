@@ -234,10 +234,6 @@ override('do_layout', sub {
         $container->height($container->minimum_height);
     }
 
-    # foreach my $comp (@{ $container->components }) {
-    #     $comp->prepared(1) if defined($comp);
-    # }
-
     $container->prepared(1);
     return 1;
 });
@@ -247,10 +243,10 @@ sub _layout_container {
 
     $comp->do_layout($comp, $self);
     if($comp->minimum_width > $comp->width) {
-        $comp->width = $comp->minimum_width;
+        $comp->width($comp->minimum_width);
     }
     if($comp->minimum_height > $comp->height) {
-        $comp->height = $comp->minimum_height;
+        $comp->height($comp->minimum_height);
     }
 }
 

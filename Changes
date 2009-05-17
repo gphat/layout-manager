@@ -1,5 +1,13 @@
 Revision history for Layout-Manager
 
+0.25
+  - POD fixes
+  - Fix behavior of Compass' nested layout
+  - Set minimum height & width in grid
+
+0.24
+  - Bump dep version of Graphics::Primitive
+
 0.23
   - Don't marked laid out components as prepared
   
