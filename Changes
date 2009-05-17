@@ -4,6 +4,7 @@ Revision history for Layout-Manager
   - POD fixes
   - Fix behavior of Compass' nested layout
   - Set minimum height & width in grid
+  - Change order of Flow layout's super call
 
 0.24
   - Bump dep version of Graphics::Primitive

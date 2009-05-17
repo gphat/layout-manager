@@ -22,8 +22,6 @@ has 'used' => (
 override('do_layout', sub {
     my ($self, $container) = @_;
 
-    super;
-
     my $bbox = $container->inside_bounding_box;
 
     my $cwidth = $bbox->width;
@@ -91,6 +89,7 @@ override('do_layout', sub {
     } else {
         $self->used([$edge, $cheight]);
     }
+    super;
     return 1;
 });
 
