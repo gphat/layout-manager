@@ -6,10 +6,10 @@ author   'Cory G Watson <gphat@cpan.org>';
 
 build_requires 'Test::More';
 
-requires 'Moose' => '0.54';
-requires 'MooseX::AttributeHelpers' => '0.12';
-requires 'Geometry::Primitive' => '0.10';
-requires 'Graphics::Primitive' => '0.42';
+requires 'Moose' => '0.79';
+requires 'MooseX::AttributeHelpers' => '0.17';
+requires 'Geometry::Primitive' => '0.16';
+requires 'Graphics::Primitive' => '0.43';
 
 tests_recursive;
 
