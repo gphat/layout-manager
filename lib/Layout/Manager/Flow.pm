@@ -52,8 +52,8 @@ override('do_layout', sub {
             $lines[$line] = {
                 tallest => 0,
                 widest => 0,
-                height => 0,
-                width => 0,
+                height => $oy,
+                width => $ox,
                 components => []
             };
         }
