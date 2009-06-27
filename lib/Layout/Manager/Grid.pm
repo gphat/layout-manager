@@ -243,11 +243,7 @@ tables.  Rows will become as big as their biggest consituent, as will
 columns.  It is common to add a Grid-managed component to a scene with only
 one of it's dimensions set.
 
-=head1 METHODS
-
-=head2 new (rows => $rows, columns => $columns)
-
-Creates a new Layout::Manager::Grid.  Requires C<rows> and C<columns>.
+=head1 ATTRIBUTES
 
 =head2 columns
 
@@ -257,11 +253,11 @@ The number of columns in this Grid.
 
 The number of rows in this Grid.
 
+=head1 METHODS
+
 =head2 do_layout
 
 Size and position the components in this layout.
-
-=back
 
 =head1 AUTHOR
 
