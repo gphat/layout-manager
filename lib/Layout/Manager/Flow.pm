@@ -33,6 +33,8 @@ override('do_layout', sub {
     my $cwidth = $bbox->width;
     my $cheight = $bbox->height;
 
+    print "$cwidth x $cheight\n";
+
     my $ox = $bbox->origin->x;
     my $oy = $bbox->origin->y;
 
@@ -123,6 +125,8 @@ override('do_layout', sub {
                 $co->y($yused);
 
                 $line++;
+                $lines[$line]->{width} += $comp->width;
+                $lines[$line]->{tallest} += $comp->height;
             } else {
                 $co->x($cwidth - $comp->width - $lines[$line]->{width});
                 $co->y($yused);
@@ -148,6 +152,8 @@ override('do_layout', sub {
                 $co->y($yused);
 
                 $line++;
+                $lines[$line]->{width} += $comp->width;
+                $lines[$line]->{tallest} += $comp->height;
             } else {
                 $co->x($lines[$line]->{width});
                 $co->y($yused);
@@ -169,6 +175,8 @@ override('do_layout', sub {
             }
         }
         $self->used([$fwidth, $fheight]);
+        $container->minimum_width($fwidth);
+        $container->minimum_height($fheight);
     }
     super;
     return 1;
@@ -212,8 +220,8 @@ expand heights.
 
 Flow is similar to Java's
 L<FlowLayout|http://java.sun.com/docs/books/tutorial/uiswing/layout/flow.html>.
-It does not, however, center or wrap components.  These features may be added
-in the future if they are needed.
+It does not, however, center components.  This features may be added in the
+future if they are needed.
 
 =head1 SYNOPSIS
 
@@ -224,49 +232,35 @@ in the future if they are needed.
 
   $lm->do_layout($container);
 
-=head1 METHODS
+=head1 ATTRIBUTES
 
-=head2 Constructor
-
-=over 4
-
-=item I<new>
-
-Creates a new Layout::Manager::Flow.
-
-=back
-
-=head2 Instance Methods
-
-=over 4
-
-=item I<anchor>
+=head2 anchor
 
 The direction this manager is anchored.  Valid values are north, south, east
 and west.
 
-=item I<do_layout>
+=head2 used
+
+Returns the amount of space used an arrayref in the form of C<[ $width, $height ]>.
+
+=head2 wrap
+
+If set to a true value, then component will be 'wrapped' when they do not
+fit.  B<This currently only works for East and West anchored layouts.>
+
+=head1 METHODS
+
+=head2 do_layout
 
 Size and position the components in this layout.
-
-=item I<used>
-
-Returns the amount of space used an arrayref in the form of
-[ $width, $height ].
-
-=back
 
 =head1 AUTHOR
 
 Cory Watson, C<< <gphat@cpan.org> >>
 
-Infinity Interactive, L<http://www.iinteractive.com>
-
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2008 by Infinity Interactive, Inc.
-
-L<http://www.iinteractive.com>
+Copyright 2008 by Cory G Watson
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
