@@ -146,19 +146,13 @@ component, as those components need to be ignored.
 
 =head1 METHODS
 
-=over 4
-
-=item I<do_layout>
+=head2 do_layout
 
 Lays out this manager's components in the specified container.
-
-=back
 
 =head1 AUTHOR
 
 Cory Watson, C<< <gphat@cpan.org> >>
-
-Infinity Interactive, L<http://www.iinteractive.com>
 
 =head1 SEE ALSO
 
@@ -166,9 +160,7 @@ perl(1), L<Graphics::Primitive>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2008 by Infinity Interactive, Inc.
-
-L<http://www.iinteractive.com>
+Copyright 2008 - 2009 Cory G Watson
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

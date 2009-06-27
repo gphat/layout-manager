@@ -210,6 +210,7 @@ are added.
   |  e  |       center       |  a  |
   |  s  |                    |  s  |
   |  t  |                    |  t  |
+  |     |                    |     |
   +-----+--------------------+-----+
   |  x  |      south         |  x  |
   +--------------------------------+
@@ -241,37 +242,17 @@ also just provide the first letter of the word and it will do the same thing.
 
 =head1 METHODS
 
-=head2 Constructor
-
-=over 4
-
-=item I<new>
-
-Creates a new Layout::Manager::Axis.
-
-=back
-
-=head2 Instance Methods
-
-=over 4
-
-=item I<do_layout>
+=head2 do_layout
 
 Size and position the components in this layout.
-
-=back
 
 =head1 AUTHOR
 
 Cory Watson, C<< <gphat@cpan.org> >>
 
-Infinity Interactive, L<http://www.iinteractive.com>
-
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2008 by Infinity Interactive, Inc.
-
-L<http://www.iinteractive.com>
+Copyright 2008 - 2009 Cory G Watson
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
