@@ -33,26 +33,10 @@ override('do_layout', sub {
     my $cwidth = $bbox->width;
     my $cheight = $bbox->height;
 
-    print "$cwidth x $cheight\n";
-
     my $ox = $bbox->origin->x;
     my $oy = $bbox->origin->y;
 
     my $anch = $self->anchor;
-
-    # my $total_width = 0;
-    # my $total_height = 0;
-
-    # my $bump = 0;
-    # if($anch eq 'north') {
-    #     $bump = $oy;
-    # } elsif($anch eq 'south') {
-    #     $bump = $oy;
-    # } elsif($anch eq 'east') {
-    #     $bump = $ox;
-    # } else {
-    #     $bump = $ox;
-    # }
 
     my @lines;
     my $yused = $oy;
@@ -134,7 +118,6 @@ override('do_layout', sub {
             }
         } else {
             # WEST
-
             if(
                 # It doesn't matter if we are supposed to wrap if we have
                 # no width, we'll make this thing as big as it needs to be
