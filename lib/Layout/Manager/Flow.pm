@@ -99,7 +99,8 @@ override('do_layout', sub {
                 # if we are wrapping
                 ($self->wrap) &&
                 # and the current component would overflow...
-                ($lines[$line]->{width} + $comp->width > $cwidth)
+                ($lines[$line]->{width} + $comp->width > $cwidth) &&
+                scalar(@{ $lines[$line]->{components} })
             ) {
                 # We've been asked to wrap and this component is too wide
                 # to fit.  Move down by the height of the tallest component
@@ -125,7 +126,8 @@ override('do_layout', sub {
                 # if we are wrapping
                 ($self->wrap) &&
                 # and the current component would overflow...
-                ($lines[$line]->{width} + $comp->width > $cwidth)
+                ($lines[$line]->{width} + $comp->width > $cwidth) &&
+                scalar(@{ $lines[$line]->{components} })
             ) {
                 # We've been asked to wrap and this component is too wide
                 # to fit.  Move down by the height of the tallest component
@@ -143,6 +145,7 @@ override('do_layout', sub {
                 $lines[$line]->{width} += $comp->width;
             }
         }
+        push(@{ $lines[$line]->{components} }, $comp);
     }
 
 
