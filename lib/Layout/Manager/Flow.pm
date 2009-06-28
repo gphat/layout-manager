@@ -81,16 +81,15 @@ override('do_layout', sub {
             unless($lines[$line]->{width}) {
                 $lines[$line]->{width} = $comp->width;
             }
-
         } elsif($anch eq 'south') {
 
-            # $size = $comp->minimum_height;
-            # 
-            # $co->x($ox);
-            # $co->y($cheight - $edge + $bump - $size);
-            # 
-            # $comp->width($cwidth || $comp->minimum_width);
-            # $comp->height($size);
+            # No wrapping
+            $co->x($ox);
+            $co->y($cheight - $comp->height - $lines[$line]->{height});
+            $lines[$line]->{height} += $comp->height;
+            unless($lines[$line]->{width}) {
+                $lines[$line]->{width} = $comp->width;
+            }
         } elsif($anch eq 'east') {
 
             if(
