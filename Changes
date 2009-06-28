@@ -1,5 +1,10 @@
 Revision history for Layout-Manager
 
+0.28
+  - Adjust Flow's height/width set style
+  - Fix incorrect test values for compass/17
+  - layout sub-components earlier in Compass (not sure about this one)
+
 0.27
   - Fix busted minimum_width if north/south based Flows had no width set.
 

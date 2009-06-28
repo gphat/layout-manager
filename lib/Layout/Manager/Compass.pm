@@ -8,6 +8,8 @@ override('do_layout', sub {
 
     return 0 if $container->prepared && $self->_check_container($container);
 
+    super;
+
     my $bbox = $container->inside_bounding_box;
 
     my $bboxoy = $bbox->origin->y;

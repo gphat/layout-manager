@@ -55,5 +55,5 @@ cmp_ok($text2->height, '==', 93, 'text2 height');
 
 cmp_ok($text3->origin->x, '==', 4, 'text3 origin x');
 cmp_ok($text3->origin->y, '==', 5, 'text3 origin y');
-cmp_ok($text3->width, '==', 113, 'text3 width');
+cmp_ok($text3->width, '==', 88, 'text3 width');
 cmp_ok($text3->height, '==', 93, 'text3 height');
