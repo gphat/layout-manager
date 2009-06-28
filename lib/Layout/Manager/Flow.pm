@@ -49,8 +49,7 @@ override('do_layout', sub {
     my $xused = $ox;
 
     my $line = 0;
-    for(my $i = 0; $i < scalar(@{ $container->components }); $i++) {
-        my $comp = $container->get_component($i);
+    foreach my $comp (@{ $container->components }) {
 
         next unless defined($comp) && $comp->visible;
 
@@ -68,10 +67,13 @@ override('do_layout', sub {
             }
         }
 
+        my $comp_height = $comp->height;
+        my $comp_width = $comp->width;
+
         unless(defined($lines[$line])) {
             $lines[$line] = {
-                tallest => $comp->height,
-                widest => $comp->width,
+                tallest => $comp_height,
+                widest => $comp_width,
                 height => 0,
                 width => 0,
                 components => []
@@ -79,12 +81,12 @@ override('do_layout', sub {
         }
 
         # Keep up with the tallest component we find
-        if($comp->height > $lines[$line]->{tallest}) {
-            $lines[$line]->{tallest} = $comp->height;
+        if($comp_height > $lines[$line]->{tallest}) {
+            $lines[$line]->{tallest} = $comp_height;
         }
         # Keep up with the widest component we find
-        if($comp->width > $lines[$line]->{widest}) {
-            $lines[$line]->{widest} = $comp->width;
+        if($comp_width > $lines[$line]->{widest}) {
+            $lines[$line]->{widest} = $comp_width;
         }
 
         my $co = $comp->origin;
@@ -94,18 +96,18 @@ override('do_layout', sub {
             # No wrapping
             $co->x($ox);
             $co->y($oy + $lines[$line]->{height});
-            $lines[$line]->{height} += $comp->height;
+            $lines[$line]->{height} += $comp_height;
             unless($lines[$line]->{width}) {
-                $lines[$line]->{width} = $comp->width;
+                $lines[$line]->{width} = $comp_width;
             }
         } elsif($anch eq 'south') {
 
             # No wrapping
             $co->x($ox);
-            $co->y($oy + $cheight - $comp->height - $lines[$line]->{height});
-            $lines[$line]->{height} += $comp->height;
+            $co->y($oy + $cheight - $comp_height - $lines[$line]->{height});
+            $lines[$line]->{height} += $comp_height;
             unless($lines[$line]->{width}) {
-                $lines[$line]->{width} = $comp->width;
+                $lines[$line]->{width} = $comp_width;
             }
         } elsif($anch eq 'east') {
 
@@ -116,23 +118,23 @@ override('do_layout', sub {
                 # if we are wrapping
                 ($self->wrap) &&
                 # and the current component would overflow...
-                ($lines[$line]->{width} + $comp->width > $cwidth) &&
+                ($lines[$line]->{width} + $comp_width > $cwidth) &&
                 scalar(@{ $lines[$line]->{components} })
             ) {
                 # We've been asked to wrap and this component is too wide
                 # to fit.  Move down by the height of the tallest component
                 # then reset the tallest variable.
                 $yused += $lines[$line]->{tallest};
-                $co->x($cwidth - $comp->width - $ox);
+                $co->x($cwidth - $comp_width - $ox);
                 $co->y($oy + $yused);
 
                 $line++;
-                $lines[$line]->{width} = $ox + $comp->width;
-                $lines[$line]->{tallest} = $comp->height;
+                $lines[$line]->{width} = $ox + $comp_width;
+                $lines[$line]->{tallest} = $comp_height;
             } else {
-                $co->x($ox + $cwidth - $comp->width - $lines[$line]->{width});
+                $co->x($ox + $cwidth - $comp_width - $lines[$line]->{width});
                 $co->y($yused);
-                $lines[$line]->{width} += $comp->width;
+                $lines[$line]->{width} += $comp_width;
             }
         } else {
 
@@ -144,7 +146,7 @@ override('do_layout', sub {
                 # if we are wrapping
                 ($self->wrap) &&
                 # and the current component would overflow...
-                ($lines[$line]->{width} + $comp->width > $cwidth) &&
+                ($lines[$line]->{width} + $comp_width > $cwidth) &&
                 scalar(@{ $lines[$line]->{components} })
             ) {
                 # We've been asked to wrap and this component is too wide
@@ -155,12 +157,12 @@ override('do_layout', sub {
                 $co->y($yused);
 
                 $line++;
-                $lines[$line]->{width} = $ox + $comp->width;
-                $lines[$line]->{tallest} = $comp->height;
+                $lines[$line]->{width} = $ox + $comp_width;
+                $lines[$line]->{tallest} = $comp_height;
             } else {
                 $co->x($ox + $lines[$line]->{width});
                 $co->y($yused);
-                $lines[$line]->{width} += $comp->width;
+                $lines[$line]->{width} += $comp_width;
             }
         }
         push(@{ $lines[$line]->{components} }, $comp);
