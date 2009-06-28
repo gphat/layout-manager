@@ -74,13 +74,14 @@ override('do_layout', sub {
 
         if($anch eq 'north') {
 
-            # $size = $comp->minimum_height;
-            # 
-            # $co->x($ox);
-            # $co->y($edge + $bump);
-            # 
-            # $comp->width($cwidth || $comp->minimum_width);
-            # $comp->height($size);
+            # No wrapping
+            $co->x($ox);
+            $co->y($lines[$line]->{height});
+            $lines[$line]->{height} += $comp->height;
+            unless($lines[$line]->{width}) {
+                $lines[$line]->{width} = $comp->width;
+            }
+
         } elsif($anch eq 'south') {
 
             # $size = $comp->minimum_height;
@@ -153,6 +154,15 @@ override('do_layout', sub {
     my $fheight = 0;
     if(($anch eq 'north') || ($anch eq 'south')) {
         #$self->used([$cwidth, $edge]);
+        foreach my $l (@lines) {
+            $fheight += $l->{height};
+            if($l->{width} > $fwidth) {
+                $fwidth += $l->{width};
+            }
+        }
+        $self->used([$fwidth, $fheight]);
+        $container->minimum_width($fwidth);
+        $container->minimum_height($fheight);
     } else {
         foreach my $l (@lines) {
             $fheight += $l->{tallest};
