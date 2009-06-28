@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.29
+  - Fix Flow's width and height not taking outside into consideration (argh!)
+
 0.28
   - Adjust Flow's height/width set style
   - Fix incorrect test values for compass/17

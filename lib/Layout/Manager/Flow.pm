@@ -183,8 +183,8 @@ override('do_layout', sub {
     }
     $self->used([$fwidth, $fheight]);
 
-    $container->minimum_width($fwidth);
-    $container->minimum_height($fheight);
+    $container->minimum_width($fwidth + $container->outside_width);
+    $container->minimum_height($fheight + $container->outside_height);
 
     # Size our container, now that everything is done.
     if($container->width < $container->minimum_width) {
