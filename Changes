@@ -1,7 +1,7 @@
 Revision history for Layout-Manager
 
 0.26
-  - Give Flow the ability to wrap it's contents.
+  - Rewrite Flow, adding the ability to wrap it's contents. (east & west only)
   - POD overhaul
 
 0.25
