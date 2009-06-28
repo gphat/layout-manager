@@ -13,6 +13,12 @@ has 'anchor' => (
     default => sub { 'north' }
 );
 
+has 'expand' => (
+    is => 'rw',
+    isa => 'Bool',
+    default => sub { 1 }
+);
+
 has 'used' => (
     is => 'rw',
     isa => 'ArrayRef',
@@ -48,26 +54,37 @@ override('do_layout', sub {
 
         next unless defined($comp) && $comp->visible;
 
+        $comp->width($comp->minimum_width);
+        $comp->height($comp->minimum_height);
+
+        # If we aren't wrapping, expand to fill the whole space
+        if(($anch eq 'north') || ($anch eq 'south')) {
+            unless($self->wrap) {
+                $comp->width($cwidth);
+            }
+        } else {
+            unless($self->wrap) {
+                $comp->height($cheight);
+            }
+        }
+
         unless(defined($lines[$line])) {
             $lines[$line] = {
-                tallest => 0,
-                widest => 0,
-                height => $oy,
-                width => $ox,
+                tallest => $comp->height,
+                widest => $comp->width,
+                height => 0,
+                width => 0,
                 components => []
             };
         }
-
-        $comp->width($comp->minimum_width);
-        $comp->height($comp->minimum_height);
 
         # Keep up with the tallest component we find
         if($comp->height > $lines[$line]->{tallest}) {
             $lines[$line]->{tallest} = $comp->height;
         }
         # Keep up with the widest component we find
-        if($comp->height > $lines[$line]->{widest}) {
-            $lines[$line]->{widest} = $comp->height;
+        if($comp->width > $lines[$line]->{widest}) {
+            $lines[$line]->{widest} = $comp->width;
         }
 
         my $co = $comp->origin;
@@ -76,7 +93,7 @@ override('do_layout', sub {
 
             # No wrapping
             $co->x($ox);
-            $co->y($lines[$line]->{height});
+            $co->y($oy + $lines[$line]->{height});
             $lines[$line]->{height} += $comp->height;
             unless($lines[$line]->{width}) {
                 $lines[$line]->{width} = $comp->width;
@@ -85,7 +102,7 @@ override('do_layout', sub {
 
             # No wrapping
             $co->x($ox);
-            $co->y($cheight - $comp->height - $lines[$line]->{height});
+            $co->y($oy + $cheight - $comp->height - $lines[$line]->{height});
             $lines[$line]->{height} += $comp->height;
             unless($lines[$line]->{width}) {
                 $lines[$line]->{width} = $comp->width;
@@ -107,17 +124,18 @@ override('do_layout', sub {
                 # then reset the tallest variable.
                 $yused += $lines[$line]->{tallest};
                 $co->x($cwidth - $comp->width - $ox);
-                $co->y($yused);
+                $co->y($oy + $yused);
 
                 $line++;
-                $lines[$line]->{width} += $comp->width;
-                $lines[$line]->{tallest} += $comp->height;
+                $lines[$line]->{width} = $ox + $comp->width;
+                $lines[$line]->{tallest} = $comp->height;
             } else {
-                $co->x($cwidth - $comp->width - $lines[$line]->{width});
+                $co->x($ox + $cwidth - $comp->width - $lines[$line]->{width});
                 $co->y($yused);
                 $lines[$line]->{width} += $comp->width;
             }
         } else {
+
             # WEST
             if(
                 # It doesn't matter if we are supposed to wrap if we have
@@ -137,10 +155,10 @@ override('do_layout', sub {
                 $co->y($yused);
 
                 $line++;
-                $lines[$line]->{width} += $comp->width;
-                $lines[$line]->{tallest} += $comp->height;
+                $lines[$line]->{width} = $ox + $comp->width;
+                $lines[$line]->{tallest} = $comp->height;
             } else {
-                $co->x($lines[$line]->{width});
+                $co->x($ox + $lines[$line]->{width});
                 $co->y($yused);
                 $lines[$line]->{width} += $comp->width;
             }
@@ -151,29 +169,24 @@ override('do_layout', sub {
 
     my $fwidth = 0;
     my $fheight = 0;
-    if(($anch eq 'north') || ($anch eq 'south')) {
-        #$self->used([$cwidth, $edge]);
-        foreach my $l (@lines) {
-            $fheight += $l->{height};
-            if($l->{width} > $fwidth) {
-                $fwidth += $l->{width};
-            }
+
+    foreach my $l (@lines) {
+        unless($l->{height}) {
+            $l->{height} = $l->{tallest};
         }
-        $self->used([$fwidth, $fheight]);
-        $container->minimum_width($fwidth);
-        $container->minimum_height($fheight);
-    } else {
-        foreach my $l (@lines) {
-            $fheight += $l->{tallest};
-            if($l->{width} > $fwidth) {
-                $fwidth += $l->{width};
-            }
+        $fheight += $l->{height};
+        if($l->{width} > $fwidth) {
+            $fwidth += $l->{width};
         }
-        $self->used([$fwidth, $fheight]);
-        $container->minimum_width($fwidth);
-        $container->minimum_height($fheight);
     }
+    $self->used([$fwidth, $fheight]);
+
+    # Size our container, now that everything is done.
+    $container->minimum_width($fwidth);
+    $container->minimum_height($fheight);
+
     super;
+
     return 1;
 });
 
