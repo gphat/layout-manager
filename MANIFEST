@@ -50,6 +50,8 @@ t/11-flow/04-north-margin.t
 t/11-flow/05-west-margin.t
 t/11-flow/06-east-margin.t
 t/11-flow/07-south-margin.t
+t/11-flow/08-west-wrap.t
+t/11-flow/09-east-wrap.t
 t/15-axis/01-all.t
 t/20-grid/00-simple.t
 t/20-grid/01-no_height.t

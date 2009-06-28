@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.27
+  - Fix busted minimum_width if north/south based Flows had no width set.
+
 0.26
   - Rewrite Flow, adding the ability to wrap it's contents. (east & west only)
   - POD overhaul

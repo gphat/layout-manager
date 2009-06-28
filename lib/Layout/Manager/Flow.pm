@@ -59,11 +59,11 @@ override('do_layout', sub {
         # If we aren't wrapping, expand to fill the whole space
         if(($anch eq 'north') || ($anch eq 'south')) {
             unless($self->wrap) {
-                $comp->width($cwidth);
+                $comp->width($cwidth) if $cwidth;
             }
         } else {
             unless($self->wrap) {
-                $comp->height($cheight);
+                $comp->height($cheight) if $cheight;
             }
         }
 
