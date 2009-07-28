@@ -72,8 +72,8 @@ override('do_layout', sub {
 
         unless(defined($lines[$line])) {
             $lines[$line] = {
-                tallest => $comp_height,
-                widest => $comp_width,
+                tallest => $comp_height || 0,
+                widest => $comp_width || 0,
                 height => 0,
                 width => 0,
                 components => []
@@ -81,11 +81,11 @@ override('do_layout', sub {
         }
 
         # Keep up with the tallest component we find
-        if($comp_height > $lines[$line]->{tallest}) {
+        if(!($lines[$line]->{tallest}) || $comp_height > $lines[$line]->{tallest}) {
             $lines[$line]->{tallest} = $comp_height;
         }
         # Keep up with the widest component we find
-        if($comp_width > $lines[$line]->{widest}) {
+        if(!($lines[$line]->{widest}) || $comp_width > $lines[$line]->{widest}) {
             $lines[$line]->{widest} = $comp_width;
         }
 
@@ -129,6 +129,7 @@ override('do_layout', sub {
                 $co->y($oy + $yused);
 
                 $line++;
+
                 $lines[$line]->{width} = $ox + $comp_width;
                 $lines[$line]->{tallest} = $comp_height;
             } else {

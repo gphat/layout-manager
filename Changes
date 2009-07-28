@@ -1,5 +1,11 @@
 Revision history for Layout-Manager
 
+0.31
+  - Fix another warning in Flow
+
+0.30
+  - Fix warning in Flow
+
 0.29
   - Fix Flow's width and height not taking outside into consideration (argh!)
 
