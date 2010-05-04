@@ -6,7 +6,7 @@ extends 'Layout::Manager';
 override('do_layout', sub {
     my ($self, $container) = @_;
 
-    return 0 if $container->prepared && $self->_check_container($container);
+    # return 0 if $container->prepared && $self->_check_container($container);
 
     super;
 
@@ -15,8 +15,9 @@ override('do_layout', sub {
     my $bboxoy = $bbox->origin->y;
     my $bboxox = $bbox->origin->x;
 
-    my $coheight = $container->outside_height;
-    my $cowidth = $container->outside_width;
+    my $odim = $container->outside_dimensions;
+    my $coheight = $odim->height;
+    my $cowidth = $odim->width;
     my $cwidth = $bbox->width;
     my $cheight = $bbox->height;
 
@@ -31,9 +32,10 @@ override('do_layout', sub {
     # This loop takes each component and adds it's width and height to the
     # 'edge' on which is positioned.  At the end will know how much width and
     # height we need for each edge.
-    for(my $i = 0; $i < scalar(@{ $container->components }); $i++) {
+    for(my $i = 0; $i < scalar(@{ $container->children }); $i++) {
 
-        my $comp = $container->get_component($i);
+        my $comp = $container->get_child_at($i);
+        my $mindim = $comp->minimum_dimensions;
 
         next unless defined($comp) && $comp->visible;
 
@@ -236,7 +238,6 @@ override('do_layout', sub {
         $container->height($container->minimum_height);
     }
 
-    $container->prepared(1);
     return 1;
 });
 

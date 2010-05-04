@@ -16,15 +16,15 @@ my $foo2 = Graphics::Primitive::Component->new(
     name => 'two', minimum_height => 20, minimum_width => 100
 );
 
-my $cont = Graphics::Primitive::Container->new(
+my $cont = Graphics::Primitive::Component->new(
     width => 100, height => 40
 );
 
 $cont->add_component($foo, 'NORTH');
-cmp_ok($cont->component_count, '==', 1, 'component_count');
+cmp_ok($cont->child_count, '==', 1, 'component_count');
 
 $cont->add_component($foo2, 'north');
-cmp_ok($cont->component_count, '==', 2, 'component_count');
+cmp_ok($cont->child_count, '==', 2, 'component_count');
 
 my $lm = Layout::Manager::Compass->new;
 $lm->do_layout($cont);

@@ -9,22 +9,22 @@ sub do_layout {
 
     die('Need a container') unless defined($container);
 
-    return 0 unless $container->component_count;
+    return 0 unless $container->child_count;
 
-    return 0 if $container->prepared && $self->_check_container($container);
+    # return 0 if $container->prepared && $self->_check_container($container);
 
     # Layout child containers first, since we can't fit them into this one
     # without knowing the sizes.
-    foreach my $comp (@{ $container->components }) {
+    foreach my $comp (@{ $container->children }) {
 
         next unless defined($comp) && $comp->visible;
 
-        if($comp->can('do_layout')) {
+        if($comp->can('do_layout') && $comp->has_layout_manager) {
             $comp->do_layout($comp);
         }
     }
 
-    $container->prepared(1);
+    # $container->prepared(1);
     return 1;
 }
 
