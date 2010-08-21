@@ -227,12 +227,11 @@ L<GridLayout|http://java.sun.com/docs/books/tutorial/uiswing/layout/grid.html>.
 
 =head1 SYNOPSIS
 
-  my $lm = Layout::Manager::Grid->new(rows => 1, columns => 2);
-  
-  $lm->add_component($comp1, { row => 0, column => 1 });
-  $lm->add_component($comp2, { row => 0, column => 2 });
+  $cont->add_component($comp1, { row => 0, column => 1 });
+  $cont->add_component($comp2, { row => 0, column => 2 });
 
-  $lm->do_layout($container);
+  my $lm = Layout::Manager::Grid->new(rows => 1, columns => 2);
+  $lm->do_layout($con);
 
 =head2 DYNAMIC SIZING
 
@@ -265,7 +264,7 @@ Cory Watson, C<< <gphat@cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2009 Cory G Watson
+Copyright 2008 - 2010 Cory G Watson
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

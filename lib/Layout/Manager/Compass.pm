@@ -304,12 +304,11 @@ L<BorderLayout|http://java.sun.com/docs/books/tutorial/uiswing/layout/border.htm
 
 =head1 SYNOPSIS
 
-  my $lm = Layout::Manager::Compass->new;
-  
-  $lm->add_component($comp1, 'north');
-  $lm->add_component($comp2, 'east');
+  $cont->add_component($comp1, 'north');
+  $cont->add_component($comp2, 'east');
 
-  $lm->do_layout($container);
+  my $lm = Layout::Manager::Compass->new;
+  $lm->do_layout($cont);
 
 =head1 POSITIONING
 
@@ -330,7 +329,7 @@ Cory Watson, C<< <gphat@cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2008 - 2009 Cory G Watson
+Copyright 2008 - 2010 Cory G Watson
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
