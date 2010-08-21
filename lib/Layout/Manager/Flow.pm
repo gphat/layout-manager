@@ -243,12 +243,11 @@ future if they are needed.
 
 =head1 SYNOPSIS
 
-  my $lm = Layout::Manager::Flow->new(anchor => 'north');
-  
-  $lm->add_component($comp1);
-  $lm->add_component($comp2);
+  $cont->add_component($comp1);
+  $cont->add_component($comp2);
 
-  $lm->do_layout($container);
+  my $lm = Layout::Manager::Flow->new(anchor => 'north');
+  $lm->do_layout($cont);
 
 =head1 ATTRIBUTES
 
