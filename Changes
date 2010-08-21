@@ -1,5 +1,8 @@
 Revision history for Layout-Manager
 
+0.32
+  - Fix error in docs (RT #60557)
+
 0.31
   - Fix another warning in Flow
 
