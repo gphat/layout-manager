@@ -2,7 +2,7 @@ package Layout::Manager;
 use Moose;
 
 our $AUTHORITY = 'cpan:GPHAT';
-our $VERSION = '0.32';
+our $VERSION = '0.33';
 
 sub do_layout {
     my ($self, $container) = @_;

@@ -1,5 +1,12 @@
 Revision history for Layout-Manager
 
+0.33
+  - Tables will no longer expand vertically for no reason, nor will they
+    unnecessarily squash their contents on re-layout. If the container's height
+    is greater than the sum of it's row's minimums then the remainder will
+    be split equally between all rows. This may cause problems, but I've not
+    uncovered any in my tests so far.
+
 0.32
   - Fix error in docs (RT #60557)
 

@@ -28,62 +28,73 @@ override('do_layout', sub {
 
     my @row_maxes;
     my @col_maxes;
-    unless($cwidth && $cheight) {
-        # If either the width or height is undefined, we'll need to compute it.
-        for(my $i = 0; $i < scalar(@{ $container->components }); $i++) {
-            my $comp = $container->get_component($i);
 
-            # Skip invisible shit
-            next unless defined($comp) && $comp->visible;
+    # If either the width or height is undefined, we'll need to compute it.
+    for(my $i = 0; $i < scalar(@{ $container->components }); $i++) {
+        my $comp = $container->get_component($i);
 
-            my $cons = $container->get_constraint($i);
+        # Skip invisible shit
+        next unless defined($comp) && $comp->visible;
 
-            # Set defaults for width
-            unless(exists($cons->{width})) {
-                $cons->{width} = 1;
+        my $cons = $container->get_constraint($i);
+
+        # Set defaults for width
+        unless(exists($cons->{width})) {
+            $cons->{width} = 1;
+        }
+
+        # Set defaults for height
+        unless(exists($cons->{height})) {
+            $cons->{height} = 1;
+        }
+
+        # Calculate the minumum width and height this component would
+        # consume in a row & column
+        my $mw = $comp->minimum_width / $cons->{width};
+        my $mh = $comp->minimum_height / $cons->{height};
+
+        # Check the minumum height for this component against every row
+        # in which it appears.  The for uses the height to check the
+        # inital row (0) then each (..) row (height - 1).  So row 5 with
+        # a height of 2 will check 5 and 6!  THis same method is used for
+        # columns below.
+        for(0..$cons->{height} - 1) {
+            unless(defined($row_maxes[$cons->{row} + $_])) {
+                # If it hasn't been defined yet, set it
+                $row_maxes[$cons->{row} + $_] = $mh;
+                next;
             }
+            $row_maxes[$cons->{row} + $_] = $mh if ($mh > $row_maxes[$cons->{row} + $_]);
+        }
 
-            # Set defaults for height
-            unless(exists($cons->{height})) {
-                $cons->{height} = 1;
+        # Check the minumum width for this component against every column
+        # in which it appears
+        for(0..$cons->{width} - 1) {
+            unless(defined($col_maxes[$cons->{column} + $_])) {
+                $col_maxes[$cons->{column} + $_] = $mw;
+                next;
             }
-
-            # Calculate the minumum width and height this component would
-            # consume in a row & column
-            my $mw = $comp->minimum_width / $cons->{width};
-            my $mh = $comp->minimum_height / $cons->{height};
-
-            # Check the minumum height for this component against every row
-            # in which it appears.  The for uses the height to check the
-            # inital row (0) then each (..) row (height - 1).  So row 5 with
-            # a height of 2 will check 5 and 6!  THis same method is used for
-            # columns below.
-            for(0..$cons->{height} - 1) {
-                unless(defined($row_maxes[$cons->{row} + $_])) {
-                    # If it hasn't been defined yet, set it
-                    $row_maxes[$cons->{row} + $_] = $mh;
-                    next;
-                }
-                $row_maxes[$cons->{row} + $_] = $mh if ($mh > $row_maxes[$cons->{row} + $_]);
-            }
-
-            # Check the minumum width for this component against every column
-            # in which it appears
-            for(0..$cons->{width} - 1) {
-                unless(defined($col_maxes[$cons->{column} + $_])) {
-                    $col_maxes[$cons->{column} + $_] = $mw;
-                    next;
-                }
-                $col_maxes[$cons->{column} + $_] = $mw if ($mw > $col_maxes[$cons->{column} + $_]);
-            }
+            $col_maxes[$cons->{column} + $_] = $mw if ($mw > $col_maxes[$cons->{column} + $_]);
         }
     }
 
-    if($cheight) {
-        # If the height was set, build a sham "max rows" list using the
-        # height of a row
+    # Find out how big of a height we need based on the heights of our rows.
+    my $heightfromrowmax = 0;
+    for(@row_maxes) { $heightfromrowmax += $_; }
+
+    if($cheight && !scalar(@row_maxes)) {
+        # If the height was set (and there's no rowmaxes), build a sham "max
+        # rows" list using the height of a row
         my $ch = $cheight / $self->rows;
         @row_maxes = map({ $ch  } (0..$self->rows));
+    } elsif($cheight && ($cheight > $heightfromrowmax)) {
+        # If the container height is greater than the sum of the biggest rows,
+        # add an equal amount to each row so we grow to fill it.
+        my $diff = ($cheight - $heightfromrowmax) / $self->rows;
+        
+        for(my $i = 0; $i < $self->rows; $i++) {
+            $row_maxes[$i] += $diff;
+        }
     } else {
         my $ch = 0;
         foreach my $h (@row_maxes) {

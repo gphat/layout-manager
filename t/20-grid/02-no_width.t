@@ -33,22 +33,22 @@ $cont->add_component($foo4, { row => 3, column => 0, width => 2 });
 my $lm = Layout::Manager::Grid->new(rows => 4, columns => 2);
 $lm->do_layout($cont);
 
-cmp_ok($foo->height, '==', 50, 'left top component height');
+cmp_ok($foo->height, '==', 55, 'left top component height');
 cmp_ok($foo->width, '==', 100, 'left top component width');
 cmp_ok($foo->origin->x, '==', 0, 'left top component origin x');
 cmp_ok($foo->origin->y, '==', 0, 'left top component origin y');
 
-cmp_ok($foo2->height, '==', 50, 'right top component height');
+cmp_ok($foo2->height, '==', 55, 'right top component height');
 cmp_ok($foo2->width, '==', 100, 'right top component width');
 cmp_ok($foo2->origin->x, '==', 100, 'right top component origin x');
 cmp_ok($foo2->origin->y, '==', 0, 'right top component origin y');
 
-cmp_ok($foo3->height, '==', 100, 'middle component height');
+cmp_ok($foo3->height, '==', 90, 'middle component height');
 cmp_ok($foo3->width, '==', 100, 'middle component width');
 cmp_ok($foo3->origin->x, '==', 0, 'middle component origin x');
-cmp_ok($foo3->origin->y, '==', 50, 'middle component origin y');
+cmp_ok($foo3->origin->y, '==', 55, 'middle component origin y');
 
-cmp_ok($foo4->height, '==', 50, 'bottom component height');
+cmp_ok($foo4->height, '==', 55, 'bottom component height');
 cmp_ok($foo4->width, '==', 200, 'bottom component width');
 cmp_ok($foo4->origin->x, '==', 0, 'bottom component origin x');
-cmp_ok($foo4->origin->y, '==', 150, 'bottom component origin y');
+cmp_ok($foo4->origin->y, '==', 145, 'bottom component origin y');
