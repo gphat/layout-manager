@@ -9,11 +9,11 @@ BEGIN {
 }
 
 my $foo = Graphics::Primitive::Component->new(
-    name => 'one', minimum_height => 20, minimum_width => 100
+    name => 'one', minimum_height => 20, minimum_width => 50
 );
 
 my $foo2 = Graphics::Primitive::Component->new(
-    name => 'two', minimum_height => 20, minimum_width => 100
+    name => 'two', minimum_height => 20, minimum_width => 50
 );
 
 my $cont = Graphics::Primitive::Container->new(
