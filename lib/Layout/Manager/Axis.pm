@@ -1,8 +1,6 @@
 package Layout::Manager::Axis;
 use Moose;
 
-use MooseX::AttributeHelpers;
-
 extends 'Layout::Manager';
 
 override('do_layout', sub {
