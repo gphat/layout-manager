@@ -179,7 +179,7 @@ override('do_layout', sub {
         }
         $fheight += $l->{height};
         if($l->{width} > $fwidth) {
-            $fwidth += $l->{width};
+            $fwidth = $l->{width};
         }
     }
     $self->used([$fwidth, $fheight]);
