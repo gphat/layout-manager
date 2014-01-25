@@ -5,7 +5,7 @@ extends 'Layout::Manager';
 
 use Moose::Util::TypeConstraints;
 
-enum 'Layout::Manager::Flow::Anchors' => qw(north south east west);
+enum 'Layout::Manager::Flow::Anchors', [qw(north south east west)];
 
 has 'anchor' => (
     is => 'rw',
